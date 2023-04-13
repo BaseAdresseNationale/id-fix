@@ -1,0 +1,9 @@
+services:
+  api:
+    build: 
+      dockerfile: 'Dockerfile.dev'
+    volumes:
+      - ./src:/app/src
+      - ./nodemon.json:/app/nodemon.json
+    ports:
+      - "${PORT:-5000}:5000"
