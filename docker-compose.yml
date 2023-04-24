@@ -1,0 +1,11 @@
+services:
+  api:
+    build: 
+      dockerfile: 'Dockerfile.dev'
+    volumes:
+      - ./src:/app/src
+      - ./nodemon.json:/app/nodemon.json
+    environment:
+      - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
