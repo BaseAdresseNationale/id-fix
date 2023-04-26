@@ -7,5 +7,9 @@ services:
       - ./nodemon.json:/app/nodemon.json
     environment:
       - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
+      - IDEFIX_BANID_DISTRICS=${IDEFIX_BANID_DISTRICS}
+      - BAN_API_URL=${BAN_API_URL}
+      - BAN_API_TOKEN=${BAN_API_TOKEN}
+      - API_DEPOT_URL=${API_DEPOT_URL}
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
