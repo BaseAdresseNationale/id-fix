@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 const BAN_API_URL = process.env.BAN_API_URL || "";
 const BAN_API_TOKEN = process.env.BAN_API_TOKEN || "";
 const API_DEPOT_URL = process.env.API_DEPOT_URL || "";
