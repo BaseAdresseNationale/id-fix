@@ -25,7 +25,7 @@ router.get(
 
       if (!IDEFIX_BANID_DISTRICS.includes(districtID)) {
         await legacyCompose(districtID);
-        console.log('Legacy compose done')
+        console.log("Legacy compose done");
       } else {
         const revision = await getRevisionFromDistrictID(districtID);
         const revisionFileText = await getRevisionFileText(revision._id);
