@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export const getAuthFromRequest = (req: Request) => {
+const getAuthFromRequest = (req: Request) => {
   const authorizedTokens = (process.env.IDEFIX_ADMIN_TOKENS || "")
     ?.split(",")
     .map((token) => token.trim());

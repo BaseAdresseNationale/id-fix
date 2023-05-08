@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { authMiddleware } from "./utils.js";
+import authMiddleware from "./middleware/auth.js";
 import { getRevisionFromDistrictID, getRevisionFileText } from "./service.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 
