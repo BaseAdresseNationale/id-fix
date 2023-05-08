@@ -6,8 +6,10 @@ import {
   getRevisionFileText,
 } from "./service.js";
 
-const IDEFIX_BANID_DISTRICS =
-  process.env.IDEFIX_BANID_DISTRICS?.split(",") || [];
+const IDEFIX_BANID_DISTRICTS =
+  process.env.IDEFIX_BANID_DISTRICTS?.split(",").map((idDistric) =>
+    idDistric.trim()
+  ) || [];
 
 const router: Router = Router();
 
@@ -23,7 +25,7 @@ router.get(
     try {
       const { districtID } = req.params;
 
-      if (!IDEFIX_BANID_DISTRICS.includes(districtID)) {
+      if (!IDEFIX_BANID_DISTRICTS.includes(districtID)) {
         await legacyCompose(districtID);
         console.log("Legacy compose done");
       } else {

@@ -1,13 +1,13 @@
 services:
   api:
-    build: 
-      dockerfile: 'Dockerfile.dev'
+    build:
+      dockerfile: "Dockerfile.dev"
     volumes:
       - ./src:/app/src
       - ./nodemon.json:/app/nodemon.json
     environment:
       - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
-      - IDEFIX_BANID_DISTRICS=${IDEFIX_BANID_DISTRICS}
+      - IDEFIX_BANID_DISTRICTS=${IDEFIX_BANID_DISTRICTS}
       - BAN_API_URL=${BAN_API_URL}
       - BAN_API_TOKEN=${BAN_API_TOKEN}
       - API_DEPOT_URL=${API_DEPOT_URL}
