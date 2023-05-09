@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import authMiddleware from "./middleware/auth.js";
 import { getRevisionFromDistrictID, getRevisionFileText } from "./service.js";
 import { sendBalToBan } from "./bal-converter/index.js";
+import localCurrentDate from "./utils/local-current-date.js";
 
 const IDEFIX_BANID_DISTRICTS =
   process.env.IDEFIX_BANID_DISTRICTS?.split(",").map((idDistric) =>
@@ -23,24 +24,19 @@ router.get(
       let responseBody;
       const { districtID } = req.params;
 
-      const currentDate = () =>
-        new Date().toLocaleString("fr-FR", {
-          timeZoneName: "short",
-        });
-
       if (!IDEFIX_BANID_DISTRICTS.includes(districtID)) {
         const message = `District ${districtID} do not support BanID`;
         responseBody = {
           message,
         };
-        console.log(`[${currentDate()}] ${message}`);
+        console.log(`[${localCurrentDate()}] ${message}`);
         // TODO: Build Exploitation BDD (Legacy) by Legacy compose
       } else {
         const revision = await getRevisionFromDistrictID(districtID);
         const revisionFileText = await getRevisionFileText(revision._id);
         responseBody = (await sendBalToBan(revisionFileText)) || {};
         console.log(
-          `[${currentDate()}] District ${districtID} update in BAN BDD`
+          `[${localCurrentDate()}] District ${districtID} update in BAN BDD`
         );
         // TODO: Build Exploitation BDD (Legacy) from BAN BDD
       }
