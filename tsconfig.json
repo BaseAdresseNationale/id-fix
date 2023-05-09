@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "es2022",
-    "lib": ["es2022"],
+    "lib": ["es2022", "dom"],
     "outDir": "dist",
     "moduleResolution": "node",
     "strict": true,
@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "declaration": true,
+    "declaration": true
   },
-  "include": ["src/**/*.ts", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.json", "src/**/*.d.ts"]
 }
