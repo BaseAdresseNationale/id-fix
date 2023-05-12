@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import authMiddleware from "./middleware/auth.js";
-import { getRevisionFromDistrictID, getRevisionFileText } from "./service.js";
+import { getRevisionFromDistrictID, getRevisionFileText } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import localCurrentDate from "./utils/local-current-date.js";
 
