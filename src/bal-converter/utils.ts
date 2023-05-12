@@ -41,8 +41,8 @@ export const balCSVlegacy2balCSV = (balCSVlegacy: Bal): Bal => {
       cle_interop: cleInterop,
       ...balAdresseRest
     }: BalAdresse) => {
-      const [, idVoieLegacy, idAddrLegacy] = cleInterop.split("_");
-      const idVoie = `00000000-0000-4000-9000-${idVoieLegacy.padStart(
+      const [, commonToponymIDLegacy, idAddrLegacy] = cleInterop.split("_");
+      const commonToponymID = `00000000-0000-4000-9000-${commonToponymIDLegacy.padStart(
         12,
         "0"
       )}`;
@@ -51,9 +51,9 @@ export const balCSVlegacy2balCSV = (balCSVlegacy: Bal): Bal => {
           ? `00000000-${idAddrLegacy.padStart(
               4,
               "0"
-            )}-4aaa-9aaa-${idVoieLegacy.padStart(12, "a")}`
+            )}-4aaa-9aaa-${commonToponymIDLegacy.padStart(12, "a")}`
           : "";
-      const uidAdresse = uidAdresseLegacy || `${idAddr}/${idVoie}`;
+      const uidAdresse = uidAdresseLegacy || `${idAddr}/${commonToponymID}`;
       return {
         uid_adresse: uidAdresse,
         cle_interop: cleInterop,

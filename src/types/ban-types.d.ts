@@ -19,16 +19,19 @@ export type Position = {
 };
 
 export type BanDistrict = {
-  codeCommune: DistrictInseeID; // code INSEE de la commune
-  nomCommune: string; // nom de la commune
-  dateMAJ: DateISO8601; // date de mise à jour de la commune
+  districtID: DistrictInseeID; // code INSEE de la commune
+  label: {
+    isoCode: LangISO639v3; // code ISO de la langue
+    value: string; // nom de la voie
+  }[];
+  updateDate: DateISO8601; // date de mise à jour de la commune
 };
 
 export type BanDistricts = BanDistrict[];
 
 export type BanCommonToponym = {
   id: BanCommonTopoID; // identifiant unique de la voie
-  codeCommune: DistrictInseeID; // code INSEE de la commune
+  districtID: DistrictInseeID; // code INSEE de la commune
   label: {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
@@ -40,21 +43,22 @@ export type BanCommonToponym = {
     type: "Point";
     coordinates: [number, number, number?];
   };
-  dateMAJ: DateISO8601; // date de mise à jour de la voie
+  parcels?: string[]; // parcelles cadastrales de la voie
+  updateDate: DateISO8601; // date de mise à jour de la voie
 };
 
 export type BanCommonToponyms = BanCommonToponym[];
 
 export type BanAddress = {
   id: BanID; // identifiant unique de l'adresse
-  codeCommune: DistrictInseeID; // code INSEE de la commune
-  idVoie: BanCommonTopoID; // identifiant unique de la voie
-  numero: number; // numéro de l'adresse
-  suffixe?: string;
+  districtID: DistrictInseeID; // code INSEE de la commune
+  commonToponymID: BanCommonTopoID; // identifiant unique de la voie
+  number: number; // numéro de l'adresse
+  suffix?: string;
   positions: Position[]; // positions géographiques de l'adresse
-  parcelles?: string[]; // parcelles cadastrales de l'adresse // TODO: Verrifier que les parcelles ne soit pas par position et non par adresse
-  certifie?: boolean;
-  dateMAJ: DateISO8601; // date de mise à jour de l'adresse
+  parcels?: string[]; // parcelles cadastrales de l'adresse // TODO: Verrifier que les parcelles ne soit pas par position et non par adresse
+  certified?: boolean;
+  updateDate: DateISO8601; // date de mise à jour de l'adresse
 };
 
 export type BanAddresses = BanAddress[];

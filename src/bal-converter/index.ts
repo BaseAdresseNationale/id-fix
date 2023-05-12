@@ -43,9 +43,10 @@ const balAddrToBanAddr = (
   return {
     ...(oldBanAddress || {}),
     id: banID,
-    codeCommune: balAdresse.commune_insee,
-    idVoie: banCommonTopoID,
-    numero: balAdresse.numero,
+    districtID: balAdresse.commune_insee,
+    commonToponymID: banCommonTopoID,
+    number: balAdresse.numero,
+    suffix: balAdresse.suffixe,
     positions: [
       // Old positions
       ...(oldBanAddress?.positions || []),
@@ -57,7 +58,9 @@ const balAddrToBanAddr = (
         },
       },
     ],
-    dateMAJ: balAdresse.date_der_maj,
+    parcels: balAdresse.cad_parcelles,
+    certified: balAdresse.certification_commune,
+    updateDate: balAdresse.date_der_maj,
   };
 };
 
@@ -81,7 +84,7 @@ const balTopoToBanTopo = (
   return {
     ...(oldBanCommonToponym || {}),
     id: banCommonTopoID,
-    codeCommune: balAdresse.commune_insee,
+    districtID: balAdresse.commune_insee,
     label: Object.entries(labels).map(([isoCode, value]) => ({
       isoCode,
       value,
@@ -91,7 +94,8 @@ const balTopoToBanTopo = (
       type: "Point",
       coordinates: [balAdresse.long, balAdresse.lat],
     },
-    dateMAJ: balAdresse.date_der_maj,
+    parcels: balAdresse.cad_parcelles,
+    updateDate: balAdresse.date_der_maj,
   };
 };
 
@@ -104,7 +108,7 @@ const balToBan = (bal: Bal): Ban => {
         balAdresse,
         acc.commonToponyms?.[banCommonTopoID]
       );
-      const districtID = banIdContent.codeCommune;
+      const districtID = banIdContent.districtID;
       return {
         ...acc,
         districtID,

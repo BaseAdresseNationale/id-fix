@@ -35,11 +35,11 @@ export const legacyCompose = async (districtID: string) => {
 };
 
 export const getAddressIdsReport = async (
-  codeCommune: DistrictInseeID,
+  districtID: DistrictInseeID,
   addressIDs: BanID[]
 ) => {
   try {
-    const body = JSON.stringify({ codeCommune, addressIDs });
+    const body = JSON.stringify({ districtID, addressIDs });
     const response = await fetch(`${BAN_API_URL}/address/delta-report`, {
       method: "POST",
       headers: defaultHeader,
@@ -100,11 +100,11 @@ export const deleteAddresses = async (ids: BanID[]) => {
 };
 
 export const getCommonToponymIdsReport = async (
-  codeCommune: DistrictInseeID,
+  districtID: DistrictInseeID,
   commonToponymIDs: BanID[]
 ) => {
   try {
-    const body = JSON.stringify({ codeCommune, commonToponymIDs });
+    const body = JSON.stringify({ districtID, commonToponymIDs });
     const response = await fetch(`${BAN_API_URL}/common-toponym/delta-report`, {
       method: "POST",
       headers: defaultHeader,
