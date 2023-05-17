@@ -30,7 +30,7 @@ export type BanDistrict = {
 export type BanDistricts = BanDistrict[];
 
 export type BanCommonToponym = {
-  id: BanCommonTopoID; // identifiant unique de la voie
+  id?: BanCommonTopoID; // identifiant unique de la voie
   districtID: DistrictInseeID; // code INSEE de la commune
   label: {
     isoCode: LangISO639v3; // code ISO de la langue
@@ -50,9 +50,9 @@ export type BanCommonToponym = {
 export type BanCommonToponyms = BanCommonToponym[];
 
 export type BanAddress = {
-  id: BanID; // identifiant unique de l'adresse
+  id?: BanID; // identifiant unique de l'adresse
   districtID: DistrictInseeID; // code INSEE de la commune
-  commonToponymID: BanCommonTopoID; // identifiant unique de la voie
+  commonToponymID?: BanCommonTopoID; // identifiant unique de la voie
   number: number; // numéro de l'adresse
   suffix?: string;
   positions: Position[]; // positions géographiques de l'adresse
