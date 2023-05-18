@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`digestIDsFromBalUIDs > should return an empty object for an empty BanIDs string 1`] = `{}`;
+
+exports[`digestIDsFromBalUIDs > should return an empty object for an undefined BanIDs 1`] = `{}`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with addrID and mainTopoID 1`] = `
+{
+  "addressID": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "mainTopoID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+}
+`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with addrID and secondaryTopoIDs 1`] = `
+{
+  "addressID": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "secondaryTopoIDs": [
+    "cccccccc-0000-4aaa-9000-1234567890cc",
+    "cccccccc-1111-4aaa-9000-1234567890dd",
+    "cccccccc-2222-4aaa-9000-1234567890ee",
+  ],
+}
+`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with addrID, mainTopoID and secondaryTopoIDs 1`] = `
+{
+  "addressID": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "mainTopoID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "secondaryTopoIDs": [
+    "cccccccc-0000-4aaa-9000-1234567890cc",
+    "cccccccc-1111-4aaa-9000-1234567890dd",
+    "cccccccc-2222-4aaa-9000-1234567890ee",
+  ],
+}
+`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with only addrID 1`] = `
+{
+  "addressID": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+}
+`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with only mainTopoID 1`] = `
+{
+  "mainTopoID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+}
+`;
+
+exports[`digestIDsFromBalUIDs > should return an object with BanID for an BanIDs with only secondaryTopoIDs 1`] = `
+{
+  "secondaryTopoIDs": [
+    "cccccccc-0000-4aaa-9000-1234567890cc",
+    "cccccccc-1111-4aaa-9000-1234567890dd",
+    "cccccccc-2222-4aaa-9000-1234567890ee",
+  ],
+}
+`;
