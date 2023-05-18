@@ -1,0 +1,163 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`balAddrToBanAddr > should not consider as Ban Address 1`] = `undefined`;
+
+exports[`balAddrToBanAddr > should return BanAddress with BanID and BanTopoID 1`] = `
+{
+  "certified": true,
+  "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "districtID": "21286",
+  "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balAddrToBanAddr > should return BanAddress with BanID without BanTopoID 1`] = `
+{
+  "certified": true,
+  "commonToponymID": undefined,
+  "districtID": "21286",
+  "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balAddrToBanAddr > should return BanAddress with BanID, BanTopoID and other toponyms 1`] = `
+{
+  "certified": true,
+  "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "districtID": "21286",
+  "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balAddrToBanAddr > should return BanAddress with BanTopoID 1`] = `
+{
+  "certified": true,
+  "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "districtID": "21286",
+  "id": undefined,
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balAddrToBanAddr > should return BanAddress with multiple positions 1`] = `
+{
+  "certified": true,
+  "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "districtID": "21286",
+  "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          3,
+          4,
+        ],
+        "type": "Point",
+      },
+      "type": "autre",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balAddrToBanAddr > should return BanAddress without BanID & BanTopoID 1`] = `
+{
+  "certified": true,
+  "commonToponymID": undefined,
+  "districtID": "21286",
+  "id": undefined,
+  "number": 1,
+  "parcels": undefined,
+  "positions": [
+    {
+      "geometry": {
+        "coordinates": [
+          1,
+          2,
+        ],
+        "type": "Point",
+      },
+      "type": "entrée",
+    },
+  ],
+  "suffix": undefined,
+  "updateDate": "2021-01-01",
+}
+`;

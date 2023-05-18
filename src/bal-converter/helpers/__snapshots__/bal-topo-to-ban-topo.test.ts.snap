@@ -1,0 +1,180 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and other toponyms 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+    {
+      "isoCode": "eus",
+      "value": "Baleen ibilbidea",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Avenue Rhoam Bosphoramus",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": undefined,
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
+{
+  "districtID": "21286",
+  "geometry": {
+    "coordinates": [
+      1,
+      2,
+    ],
+    "type": "Point",
+  },
+  "id": undefined,
+  "label": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "parcels": undefined,
+  "type": {
+    "value": "voie",
+  },
+  "updateDate": "2021-01-01",
+}
+`;
