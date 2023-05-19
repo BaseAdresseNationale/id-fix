@@ -1,18 +1,5 @@
-import type {
-  BanID,
-  BanCommonTopoID,
-  LangISO639v3,
-} from "../types/ban-generic-types.js";
-
-import type { Bal, BalAdresse, VoieNomIsoCodeKey } from "../types/bal-types.js";
-
-import type {
-  Ban,
-  BanAddress,
-  BanAddresses,
-  BanCommonToponyms,
-  BanCommonToponym,
-} from "../types/ban-types.js";
+import type { BanID, BanCommonTopoID } from "../types/ban-generic-types.js";
+import type { BanAddresses, BanCommonToponyms } from "../types/ban-types.js";
 
 import {
   getAddressIdsReport,
@@ -24,118 +11,16 @@ import {
   updateCommonToponyms,
   deleteCommonToponyms,
 } from "../ban-api/index.js";
+import { balToBan, csvBalToJsonBal } from "./helpers/index.js";
 
-import { csvToJson } from "./utils.js";
-
-const getIds = (balAdresse: BalAdresse) => {
-  const [banID, banCommonTopoID] = balAdresse.uid_adresse.split("/");
-  return {
-    banID,
-    banCommonTopoID,
-  };
-};
-
-const balAddrToBanAddr = (
-  balAdresse: BalAdresse,
-  oldBanAddress?: BanAddress
-): BanAddress => {
-  const { banID, banCommonTopoID } = getIds(balAdresse);
-  return {
-    ...(oldBanAddress || {}),
-    id: banID,
-    districtID: balAdresse.commune_insee,
-    commonToponymID: banCommonTopoID,
-    number: balAdresse.numero,
-    suffix: balAdresse.suffixe,
-    positions: [
-      // Old positions
-      ...(oldBanAddress?.positions || []),
-      {
-        type: balAdresse.position,
-        geometry: {
-          type: "Point",
-          coordinates: [balAdresse.long, balAdresse.lat],
-        },
-      },
-    ],
-    parcels: balAdresse.cad_parcelles,
-    certified: balAdresse.certification_commune,
-    updateDate: balAdresse.date_der_maj,
-  };
-};
-
-const balTopoToBanTopo = (
-  balAdresse: BalAdresse,
-  oldBanCommonToponym?: BanCommonToponym
-): BanCommonToponym => {
-  const { banCommonTopoID } = getIds(balAdresse);
-  const isoCodeFromBalNomVoie = (key: LangISO639v3) => key.trim().split("_")[2];
-  const labels = {
-    fr: balAdresse.voie_nom,
-    ...Object.fromEntries(
-      (
-        Object.keys(balAdresse).filter((key) =>
-          key.startsWith("voie_nom_")
-        ) as VoieNomIsoCodeKey[]
-      ).map((key) => [isoCodeFromBalNomVoie(key), balAdresse[key]])
-    ),
-  };
-
-  return {
-    ...(oldBanCommonToponym || {}),
-    id: banCommonTopoID,
-    districtID: balAdresse.commune_insee,
-    label: Object.entries(labels).map(([isoCode, value]) => ({
-      isoCode,
-      value,
-    })), // TODO: rename key to 'labels'
-    type: { value: "voie" }, // TODO: How to get the type from the BAL?
-    geometry: {
-      type: "Point",
-      coordinates: [balAdresse.long, balAdresse.lat],
-    },
-    parcels: balAdresse.cad_parcelles,
-    updateDate: balAdresse.date_der_maj,
-  };
-};
-
-const balToBan = (bal: Bal): Ban => {
-  const ban = bal.reduce(
-    (acc: Ban, balAdresse: BalAdresse) => {
-      const { banID, banCommonTopoID } = getIds(balAdresse);
-      const banIdContent = balAddrToBanAddr(balAdresse, acc.addresses?.[banID]);
-      const banCommonTopoIdContent = balTopoToBanTopo(
-        balAdresse,
-        acc.commonToponyms?.[banCommonTopoID]
-      );
-      const districtID = banIdContent.districtID;
-      return {
-        ...acc,
-        districtID,
-        addresses: {
-          ...acc.addresses,
-          [banID]: banIdContent,
-        },
-        commonToponyms: {
-          ...acc.commonToponyms,
-          [banCommonTopoID]: banCommonTopoIdContent,
-        },
-      };
-    },
-    {
-      districtID: "",
-      addresses: {},
-      commonToponyms: {},
-    }
-  );
-
-  return ban;
-};
+const DATA_TYPE = ["addresses", "commonToponyms"];
+const ACTION_TYPE = ["add", "update", "delete"];
 
 export const sendBalToBan = async (bal: string) => {
-  const balJSON = csvToJson(bal) as Bal;
+  const balJSON = csvBalToJsonBal(bal);
   const { districtID, addresses, commonToponyms } = balToBan(balJSON);
 
+  // Get addresses and toponyms reports
   const banAddressIds: BanID[] = Object.keys(addresses || {});
   const banToponymIds: BanCommonTopoID[] = Object.keys(commonToponyms || {});
   const [addressIdsReport, toponymsIdsReport] = await Promise.all([
@@ -151,9 +36,7 @@ export const sendBalToBan = async (bal: string) => {
   const banAddressesToUpdate = banAddresses.filter(({ id }) =>
     addressIdsReport.idsToUpdate.includes(id)
   );
-  const banAddressesIdsToDelete = banAddressIds.filter((id) =>
-    addressIdsReport.idsToDelete.includes(id)
-  );
+  const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
 
   // Sort Toponyms (Add/Update/Delete)
   const banToponyms: BanCommonToponyms = Object.values(commonToponyms || {});
@@ -167,11 +50,8 @@ export const sendBalToBan = async (bal: string) => {
     toponymsIdsReport.idsToDelete.includes(id)
   );
 
-  const dataType = ["addresses", "commonToponyms"];
-  const actionType = ["add", "update", "delete"];
-
+  // Send Addresses and Toponyms to BAN API // TODO Bulk Actions to BAN ?
   const responses = await Promise.all([
-    // Bulk Actions to BAN?
     banAddressesToAdd.length > 0 && createAddresses(banAddressesToAdd),
     banAddressesToUpdate.length > 0 && updateAddresses(banAddressesToUpdate),
     banAddressesIdsToDelete.length > 0 &&
@@ -187,9 +67,9 @@ export const sendBalToBan = async (bal: string) => {
     const keyActionType = i % 3;
     return {
       ...acc,
-      [dataType[keyDataType]]: {
-        ...(acc[dataType[keyDataType]] || {}),
-        [actionType[keyActionType]]: cur,
+      [DATA_TYPE[keyDataType]]: {
+        ...(acc[DATA_TYPE[keyDataType]] || {}),
+        [ACTION_TYPE[keyActionType]]: cur,
       },
     };
   }, {});
