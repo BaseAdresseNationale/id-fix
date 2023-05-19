@@ -86,7 +86,7 @@ export const updateAddresses = async (addresses: BanAddresses) => {
 
 export const deleteAddresses = async (ids: BanID[]) => {
   try {
-    const body = JSON.stringify({ ids });
+    const body = JSON.stringify(ids);
     const response = await fetch(`${BAN_API_URL}/address/delete`, {
       method: "POST",
       headers: defaultHeader,

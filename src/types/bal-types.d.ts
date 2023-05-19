@@ -17,7 +17,7 @@ export type LieuditComplementNomIsoCodeKey =
   `lieudit_complement_nom_${LangISO639v3}`;
 
 export type BalAdresse = {
-  uid_adresse: UIdAdresse;
+  uid_adresse?: UIdAdresse;
   cle_interop: string;
   commune_insee: DistrictInseeID;
   commune_nom: string;
@@ -25,7 +25,7 @@ export type BalAdresse = {
   commune_deleguee_nom?: string;
   voie_nom: string;
   lieudit_complement_nom?: string;
-  numero: number;
+  numero?: number;
   suffixe?: string;
   position: PositionType;
   x: number;

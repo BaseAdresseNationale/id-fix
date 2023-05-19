@@ -1,0 +1,932 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`balToBan > should convert Bal list into Ban list 1`] = `
+{
+  "addresses": {
+    "221de0ca-8db4-4521-a88f-c9a18d4badb6": {
+      "certified": true,
+      "commonToponymID": "672ab414-c97e-47c6-b4e5-dd1615191755",
+      "districtID": "21286",
+      "id": "221de0ca-8db4-4521-a88f-c9a18d4badb6",
+      "number": 31,
+      "parcels": [
+        "",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.08586,
+              48.773833,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "2414b386-8470-403a-8769-dd0763dbf519": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "2414b386-8470-403a-8769-dd0763dbf519",
+      "number": 5,
+      "parcels": [
+        "271150000D0230",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.086628,
+              48.759821,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "29e80b31-1e1f-4881-a004-1637e52aad8c": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "29e80b31-1e1f-4881-a004-1637e52aad8c",
+      "number": 3,
+      "parcels": [
+        "212860000D0113",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.08535,
+              48.763191,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "2deee4a2-d481-45ef-a5df-1e45010fe026": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "2deee4a2-d481-45ef-a5df-1e45010fe026",
+      "number": 10,
+      "parcels": [
+        "212860000D0053",
+        "212860000D0054",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.082305,
+              48.762015,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "314785db-ba94-42af-a48f-543a1a414808": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "314785db-ba94-42af-a48f-543a1a414808",
+      "number": 3,
+      "parcels": [
+        "271150000D0304",
+        "271150000D0229",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.086349,
+              48.759711,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "342e90f9-811b-4719-a86d-842625495ac1": {
+      "certified": true,
+      "commonToponymID": "672ab414-c97e-47c6-b4e5-dd1615191755",
+      "districtID": "21286",
+      "id": "342e90f9-811b-4719-a86d-842625495ac1",
+      "number": 29,
+      "parcels": [
+        "",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.086279,
+              48.773553,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "5c7c8d6f-155e-4051-9e99-6e85a484eb05": {
+      "certified": true,
+      "commonToponymID": "672ab414-c97e-47c6-b4e5-dd1615191755",
+      "districtID": "21286",
+      "id": "5c7c8d6f-155e-4051-9e99-6e85a484eb05",
+      "number": 33,
+      "parcels": [
+        "",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.085574,
+              48.774035,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "5dc93db6-1953-4025-93a4-2cab581895e1": {
+      "certified": true,
+      "commonToponymID": "30c6cba0-e2d4-462d-a68a-2adf8cbd3315",
+      "districtID": "27115",
+      "id": "5dc93db6-1953-4025-93a4-2cab581895e1",
+      "number": 1,
+      "parcels": [
+        "",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.07932,
+              48.773412,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              1.078832,
+              48.773161,
+            ],
+            "type": "Point",
+          },
+          "type": "logement",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2022-08-23T00:00:00.000Z",
+    },
+    "5fa3516d-a99f-47cc-8f3e-e48a5c41bd37": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "5fa3516d-a99f-47cc-8f3e-e48a5c41bd37",
+      "number": 9,
+      "parcels": [
+        "271150000D0148",
+        "271150000D0284",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.087483,
+              48.760315,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "71ccc07c-6d41-495a-b8aa-7fa372eb4093": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "71ccc07c-6d41-495a-b8aa-7fa372eb4093",
+      "number": 8,
+      "parcels": [
+        "21286000ZC0087",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.082967,
+              48.762421,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "90537079-30cc-4970-a42e-f8e2c4af351a": {
+      "certified": true,
+      "commonToponymID": "2281c450-e6dd-40b1-a780-95e94d6ef6cf",
+      "districtID": "21286",
+      "id": "90537079-30cc-4970-a42e-f8e2c4af351a",
+      "number": 1,
+      "parcels": [
+        "212860000C0115",
+        "212860000C0114",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.081243,
+              48.769923,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              1.081148,
+              48.770269,
+            ],
+            "type": "Point",
+          },
+          "type": "logement",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2022-08-23T00:00:00.000Z",
+    },
+    "926cff94-746a-4845-b3a8-db051279577d": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "926cff94-746a-4845-b3a8-db051279577d",
+      "number": 7,
+      "parcels": [
+        "271150000D0150",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.086974,
+              48.760002,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "99051f6e-b679-43cd-9236-dc51db251c81": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "99051f6e-b679-43cd-9236-dc51db251c81",
+      "number": 6,
+      "parcels": [
+        "271150000D0237",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.086775,
+              48.759802,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "9fc1864a-8a39-4643-8d74-a00d6b0b541b": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "9fc1864a-8a39-4643-8d74-a00d6b0b541b",
+      "number": 1,
+      "parcels": [
+        "212860000D0113",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.085624,
+              48.763273,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "adc8e0ff-b0e5-45f8-883b-0a9e3d8d4716": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "adc8e0ff-b0e5-45f8-883b-0a9e3d8d4716",
+      "number": 7,
+      "parcels": [
+        "212860000D0293",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.084526,
+              48.76266,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "b400699b-8964-422d-bce1-a5c9dfe769b3": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "b400699b-8964-422d-bce1-a5c9dfe769b3",
+      "number": 11,
+      "parcels": [
+        "271150000D0143",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.087958,
+              48.760488,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "cbcd56a6-d9fa-44c5-b1e3-81f0618320f5": {
+      "certified": true,
+      "commonToponymID": "30c6cba0-e2d4-462d-a68a-2adf8cbd3315",
+      "districtID": "27115",
+      "id": "cbcd56a6-d9fa-44c5-b1e3-81f0618320f5",
+      "number": 2,
+      "parcels": [
+        "",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.079699,
+              48.773594,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "d320dd51-d21d-4281-a2e7-e32717d9897f": {
+      "certified": true,
+      "commonToponymID": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "districtID": "27115",
+      "id": "d320dd51-d21d-4281-a2e7-e32717d9897f",
+      "number": 8,
+      "parcels": [
+        "271150000D0236",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.087306,
+              48.760129,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "e0f22c8a-0cb7-47c2-b91b-2261055bdb85": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "e0f22c8a-0cb7-47c2-b91b-2261055bdb85",
+      "number": 9,
+      "parcels": [
+        "212860000D0290",
+        "212860000D0292",
+        "212860000D0273",
+        "212860000D0288",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.083096,
+              48.76238,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "e2ece335-2bcc-400b-a286-b9c75077a9b6": {
+      "certified": true,
+      "commonToponymID": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "districtID": "21286",
+      "id": "e2ece335-2bcc-400b-a286-b9c75077a9b6",
+      "number": 5,
+      "parcels": [
+        "212860000D0305",
+        "212860000D0307",
+        "212860000D0308",
+        "212860000D0266",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.085079,
+              48.762971,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "e8094bf5-0ae1-47ea-ab11-58797bc58ec3": {
+      "certified": true,
+      "commonToponymID": "2281c450-e6dd-40b1-a780-95e94d6ef6cf",
+      "districtID": "21286",
+      "id": "e8094bf5-0ae1-47ea-ab11-58797bc58ec3",
+      "number": 2,
+      "parcels": [
+        "212860000C0237",
+        "212860000C0107",
+      ],
+      "positions": [
+        {
+          "geometry": {
+            "coordinates": [
+              1.081444,
+              48.769615,
+            ],
+            "type": "Point",
+          },
+          "type": "entrée",
+        },
+      ],
+      "suffix": "",
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+  },
+  "commonToponyms": {
+    "0e85c45e-d259-4a11-979d-e3e4dfb0173a": {
+      "districtID": "27115",
+      "geometry": {
+        "coordinates": [
+          1.087958,
+          48.760488,
+        ],
+        "type": "Point",
+      },
+      "id": "0e85c45e-d259-4a11-979d-e3e4dfb0173a",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Chemin de la legende",
+        },
+      ],
+      "parcels": [
+        "271150000D0143",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "10d8acda-7cb8-4b76-aaca-c39be0721890": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.088235,
+          48.758813,
+        ],
+        "type": "Point",
+      },
+      "id": "10d8acda-7cb8-4b76-aaca-c39be0721890",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Etang du sorcier",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "2281c450-e6dd-40b1-a780-95e94d6ef6cf": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.081444,
+          48.769615,
+        ],
+        "type": "Point",
+      },
+      "id": "2281c450-e6dd-40b1-a780-95e94d6ef6cf",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Rue Rhoam Bosphoramus",
+        },
+      ],
+      "parcels": [
+        "212860000C0237",
+        "212860000C0107",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "28346072-fe1e-4fd5-9be4-ac9f94bf76da": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.063471,
+          48.771215,
+        ],
+        "type": "Point",
+      },
+      "id": "28346072-fe1e-4fd5-9be4-ac9f94bf76da",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Observatoire d‘Hyrule",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "30c6cba0-e2d4-462d-a68a-2adf8cbd3315": {
+      "districtID": "27115",
+      "geometry": {
+        "coordinates": [
+          1.079699,
+          48.773594,
+        ],
+        "type": "Point",
+      },
+      "id": "30c6cba0-e2d4-462d-a68a-2adf8cbd3315",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Impasse des lynels",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "40332ecb-b251-438a-82b6-cca55e01933b": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.060016,
+          48.785677,
+        ],
+        "type": "Point",
+      },
+      "id": "40332ecb-b251-438a-82b6-cca55e01933b",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Passage de Daruk",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "461ae367-20f4-49a1-ba94-8f339d29c6a7": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.071619,
+          48.751484,
+        ],
+        "type": "Point",
+      },
+      "id": "461ae367-20f4-49a1-ba94-8f339d29c6a7",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Arbre Mojo",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "4a432e1c-59fb-4477-9c89-c03a164456f4": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.061001,
+          48.761039,
+        ],
+        "type": "Point",
+      },
+      "id": "4a432e1c-59fb-4477-9c89-c03a164456f4",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Empreinte du Fleau",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-08-31T00:00:00.000Z",
+    },
+    "4cf16f98-514d-4242-abe8-9819495d3f6e": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.067195,
+          48.760165,
+        ],
+        "type": "Point",
+      },
+      "id": "4cf16f98-514d-4242-abe8-9819495d3f6e",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Les Bois Perdus",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2022-06-03T00:00:00.000Z",
+    },
+    "672ab414-c97e-47c6-b4e5-dd1615191755": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.085574,
+          48.774035,
+        ],
+        "type": "Point",
+      },
+      "id": "672ab414-c97e-47c6-b4e5-dd1615191755",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Allée des Prodiges",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "6b10b8f3-4eac-4db7-8a2f-0e7077ef31d8": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.077283,
+          48.766076,
+        ],
+        "type": "Point",
+      },
+      "id": "6b10b8f3-4eac-4db7-8a2f-0e7077ef31d8",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Chemin du Moulin",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2023-01-13T00:00:00.000Z",
+    },
+    "6f84d1f9-eb22-4109-a33d-e0b22adeb490": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.082305,
+          48.762015,
+        ],
+        "type": "Point",
+      },
+      "id": "6f84d1f9-eb22-4109-a33d-e0b22adeb490",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Route de la Baleine",
+        },
+      ],
+      "parcels": [
+        "212860000D0053",
+        "212860000D0054",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2021-09-06T00:00:00.000Z",
+    },
+    "758541ac-988e-4a91-9c5a-73727876ae16": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.060606,
+          48.768683,
+        ],
+        "type": "Point",
+      },
+      "id": "758541ac-988e-4a91-9c5a-73727876ae16",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Armurerie de l‘Ancien Royaume",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2022-06-13T00:00:00.000Z",
+    },
+    "9906b1de-7203-4abd-ba06-b776beda7bd4": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.081033,
+          48.772203,
+        ],
+        "type": "Point",
+      },
+      "id": "9906b1de-7203-4abd-ba06-b776beda7bd4",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "La voie celeste",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "b2f57446-c636-4770-8f3e-2d27a86bdca7": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.071305,
+          48.760311,
+        ],
+        "type": "Point",
+      },
+      "id": "b2f57446-c636-4770-8f3e-2d27a86bdca7",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Relai d‘Hylia",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2020-07-03T00:00:00.000Z",
+    },
+    "b650647e-ff8c-4ac3-8fc9-39e09f674903": {
+      "districtID": "21286",
+      "geometry": {
+        "coordinates": [
+          1.06278,
+          48.759994,
+        ],
+        "type": "Point",
+      },
+      "id": "b650647e-ff8c-4ac3-8fc9-39e09f674903",
+      "label": [
+        {
+          "isoCode": "fra",
+          "value": "Les Quatre Maisons",
+        },
+      ],
+      "parcels": [
+        "",
+      ],
+      "type": {
+        "value": "voie",
+      },
+      "updateDate": "2022-08-23T00:00:00.000Z",
+    },
+  },
+  "districtID": "21286",
+}
+`;
