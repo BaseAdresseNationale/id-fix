@@ -23,5 +23,5 @@ export type ToponymType =
   | "site-historique"
   | "point-of-interest"
   | "autre"; // TODO: update with more possible values ?
-export type DateISO8601 = string;
+export type DateISO8601 = Date;
 export type LangISO639v3 = string;
