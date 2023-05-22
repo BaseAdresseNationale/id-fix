@@ -8,6 +8,7 @@
     "lint": "npx eslint . --ext .ts",
     "build": "npx tsc",
     "test": "vitest",
+    "updateBAL": "ts-node --esm script/update-bal.ts",
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "ts": "ts-node"
