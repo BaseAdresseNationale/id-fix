@@ -22,7 +22,7 @@ const csvBalToJsonBal = (csv: string): Bal => {
         case "certification_commune":
           return value === "1";
         case "cad_parcelles":
-          return value.split("|");
+          return value.split(",");
         case "date_der_maj":
           return new Date(value);
         default:
