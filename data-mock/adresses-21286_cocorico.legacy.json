@@ -1,6 +1,6 @@
 [
   {
-    "uid_adresse": "@03fb190a-cf5b-4f48-a1ab-7caa4d10e157 =787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
+    "uid_adresse": "",
     "cle_interop": "21286_2xdjog_00001",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -15,13 +15,13 @@
     "y": 6853915.9,
     "long": 1.081243,
     "lat": 48.769923,
-    "cad_parcelles": ["212860000C0115,212860000C0114"],
+    "cad_parcelles": ["212860000C0115", "212860000C0114"],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@03fb190a-cf5b-4f48-a1ab-7caa4d10e157 =787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
+    "uid_adresse": "",
     "cle_interop": "21286_2xdjog_00001",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -36,13 +36,13 @@
     "y": 6853954.53,
     "long": 1.081148,
     "lat": 48.770269,
-    "cad_parcelles": ["212860000C0115,212860000C0114"],
+    "cad_parcelles": ["212860000C0115", "212860000C0114"],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@d19b14c9-d9d0-478f-b741-c973d05c343f =787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
+    "uid_adresse": "",
     "cle_interop": "21286_2xdjog_00002",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -57,13 +57,13 @@
     "y": 6853881.3,
     "long": 1.081444,
     "lat": 48.769615,
-    "cad_parcelles": ["212860000C0237,212860000C0107"],
+    "cad_parcelles": ["212860000C0237", "212860000C0107"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@4afc82e4-694e-4bb3-81cb-0a32cd59a300 =7ce61747-d840-4019-97be-82dc0568619f",
+    "uid_adresse": "",
     "cle_interop": "21286_mz58hg_00029",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -81,10 +81,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@18510122-0ad8-49fe-bbae-ca484d8f4e01 =7ce61747-d840-4019-97be-82dc0568619f",
+    "uid_adresse": "",
     "cle_interop": "21286_mz58hg_00031",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -102,10 +102,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@29387aa3-1dc6-4e38-a1e9-aea350c91296 =7ce61747-d840-4019-97be-82dc0568619f",
+    "uid_adresse": "",
     "cle_interop": "21286_mz58hg_00033",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -123,10 +123,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@577e9019-42bb-4965-b287-fe4cebe41038 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00001",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -144,10 +144,10 @@
     "cad_parcelles": ["212860000D0113"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@61b54625-bef6-4450-95e1-b6f37d93441a =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00003",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -165,10 +165,10 @@
     "cad_parcelles": ["212860000D0113"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@28fd0d23-9f3a-4ac0-8e17-05f851546f34 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00005",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -184,14 +184,17 @@
     "long": 1.085079,
     "lat": 48.762971,
     "cad_parcelles": [
-      "212860000D0305,212860000D0307,212860000D0308,212860000D0266"
+      "212860000D0305",
+      "212860000D0307",
+      "212860000D0308",
+      "212860000D0266"
     ],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@7a9e11ff-31b6-4f14-8494-55369e7dce04 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00007",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -209,10 +212,10 @@
     "cad_parcelles": ["212860000D0293"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@5139b74a-f569-4008-aade-3bb955186134 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00008",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -230,10 +233,10 @@
     "cad_parcelles": ["21286000ZC0087"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@5114f638-f99d-4da2-b3ed-d2e2c3a32765 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00009",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -249,14 +252,17 @@
     "long": 1.083096,
     "lat": 48.76238,
     "cad_parcelles": [
-      "212860000D0290,212860000D0292,212860000D0273,212860000D0288"
+      "212860000D0290",
+      "212860000D0292",
+      "212860000D0273",
+      "212860000D0288"
     ],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@2480fe76-bbd8-4703-a41a-5c43fd3c5891 =468d0b9b-ec0c-448d-8188-4e28762251e2",
+    "uid_adresse": "",
     "cle_interop": "21286_p899mr_00010",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -271,13 +277,13 @@
     "y": 6853035,
     "long": 1.082305,
     "lat": 48.762015,
-    "cad_parcelles": ["212860000D0053,212860000D0054"],
+    "cad_parcelles": ["212860000D0053", "212860000D0054"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@6edd2c77-e8db-4384-bbb6-810e868d4dee =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00003",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -292,13 +298,13 @@
     "y": 6852771.7,
     "long": 1.086349,
     "lat": 48.759711,
-    "cad_parcelles": ["212860000D0304,212860000D0229"],
+    "cad_parcelles": ["212860000D0304", "212860000D0229"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@f1a28bf1-fac3-41f0-8cb4-3abc82b2b963 =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00005",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -316,10 +322,10 @@
     "cad_parcelles": ["212860000D0230"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@1890569a-d05f-4cf9-b27b-9172c497023e =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00006",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -337,10 +343,10 @@
     "cad_parcelles": ["212860000D0237"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@e9de2ecf-e082-448b-9a21-fe9d38d017ae =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00007",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -358,10 +364,10 @@
     "cad_parcelles": ["212860000D0150"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@e6278261-1a1b-4606-9c20-a8f2d06738fa =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00008",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -379,10 +385,10 @@
     "cad_parcelles": ["212860000D0236"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@ff8bb658-3f73-4ac3-ab04-7966e869e991 =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00009",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -397,13 +403,13 @@
     "y": 6852836.81,
     "long": 1.087483,
     "lat": 48.760315,
-    "cad_parcelles": ["212860000D0148,212860000D0284"],
+    "cad_parcelles": ["212860000D0148", "212860000D0284"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@48691fd6-a611-4335-b346-a05679bcb31d =c9b6df77-638b-4b30-991e-71486a91ea95",
+    "uid_adresse": "",
     "cle_interop": "21286_0040_00011",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -421,10 +427,10 @@
     "cad_parcelles": ["212860000D0143"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@aeda3e20-8204-4d2b-8e59-184df887ae4e =c965715f-3874-4cba-ae4e-c9afa585f5eb",
+    "uid_adresse": "",
     "cle_interop": "21286_0085_00001",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -442,10 +448,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@aeda3e20-8204-4d2b-8e59-184df887ae4e =c965715f-3874-4cba-ae4e-c9afa585f5eb",
+    "uid_adresse": "",
     "cle_interop": "21286_0085_00001",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -463,10 +469,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "@8c12024d-6216-4634-aca0-598f569d632b =c965715f-3874-4cba-ae4e-c9afa585f5eb",
+    "uid_adresse": "",
     "cle_interop": "21286_0085_00002",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -484,10 +490,10 @@
     "cad_parcelles": [""],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
-    "certification_commune": false
+    "certification_commune": true
   },
   {
-    "uid_adresse": "=cfdb5a41-75b4-4964-ad95-f14f4ab6b23f",
+    "uid_adresse": "",
     "cle_interop": "21286_ty2whe_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -508,7 +514,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=f52cf4c8-df1d-4619-9a64-0b0b3ee01c4e",
+    "uid_adresse": "",
     "cle_interop": "21286_B019_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -529,7 +535,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=d447b2d5-ff6d-42bc-8cb2-7efbfa2030e7",
+    "uid_adresse": "",
     "cle_interop": "21286_adckqc_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -550,7 +556,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=8b3ae0a2-81ad-45b6-b58a-925868e6a3bc",
+    "uid_adresse": "",
     "cle_interop": "21286_t6v2h3_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -571,7 +577,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=413eb0cb-561a-435a-af8f-d244023f9b40",
+    "uid_adresse": "",
     "cle_interop": "21286_B023_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -592,7 +598,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=1748660f-d473-400a-88ad-52d55f3fc9f5",
+    "uid_adresse": "",
     "cle_interop": "21286_zpe59o_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -613,7 +619,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=3c091079-e2c0-4151-8d1f-3a000bc29894",
+    "uid_adresse": "",
     "cle_interop": "21286_B015_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -634,7 +640,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=16e337a0-d0c7-4c24-b8dc-e43edbd4d273",
+    "uid_adresse": "",
     "cle_interop": "21286_B010_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -655,7 +661,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=26d79f86-7051-4c51-a1b1-966fd7f1e345",
+    "uid_adresse": "",
     "cle_interop": "21286_vwgc9s_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -676,7 +682,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=17ec2d21-8c66-4a43-921e-817fb489f899",
+    "uid_adresse": "",
     "cle_interop": "21286_B040_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
@@ -697,7 +703,7 @@
     "certification_commune": false
   },
   {
-    "uid_adresse": "=e89808c4-7f7e-46f3-b3a8-d40e4b783d8d",
+    "uid_adresse": "",
     "cle_interop": "21286_k6znad_99999",
     "commune_insee": "21286",
     "commune_nom": "Cocorico",
