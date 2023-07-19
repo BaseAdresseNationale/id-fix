@@ -42,40 +42,61 @@ const reOrderBalJSON = (balJSON: (BalAdresse & { index: number })[]): Bal =>
 const balJSONlegacy2balJSON = (balJSONlegacy: Bal): Bal => {
   const idsAddrMapping = new Map<string, string>();
   const idMainTopoMapping = new Map<string, string>();
+  const idsDistrictMapping = new Map<string, string>();
 
   return reOrderBalJSON(
     sortBalJSONlegacy(balJSONlegacy).map(
       (balAdresseLegacy: BalAdresse & { index: number }) => {
         const {
           uid_adresse: uidAdresseLegacy,
-          commune_insee: districtID,
+          commune_insee: inseeCode,
+          commune_nom: districtName,
           voie_nom: mainTopoName,
           numero: addrNumber,
           suffixe,
         } = balAdresseLegacy;
 
-        const { addressID: rawAddressID, mainTopoID: rawMainTopoID } =
-          digestIDsFromBalUIDs(uidAdresseLegacy || "");
+        const {
+          districtID: rawDistrictID,
+          addressID: rawAddressID,
+          mainTopoID: rawMainTopoID,
+        } = digestIDsFromBalUIDs(uidAdresseLegacy || "");
 
-        const mainTopoKey = `${mainTopoName}${districtID}`;
+        const getdistrictID = (inseeCode: string, districtName: string) =>
+          uuidv4(); // TODO: Implement API // district.getId(insseeCode, districtName.toLowerCase())
+        const districtKey = `${districtName}`;
+
+        if (!idsDistrictMapping.has(districtKey))
+          idsDistrictMapping.set(
+            districtKey,
+            rawDistrictID || getdistrictID(inseeCode, districtName)
+          );
+
+        const mainTopoKey = `${mainTopoName}${districtKey}`;
         if (!idMainTopoMapping.has(mainTopoKey))
           idMainTopoMapping.set(mainTopoKey, rawMainTopoID || uuidv4());
 
-        const addrKey = `${addrNumber}${suffixe}${mainTopoKey}${districtID}`;
+        const addrKey = `${addrNumber}${suffixe}${mainTopoKey}${districtKey}`;
         if (!idsAddrMapping.has(addrKey))
           idsAddrMapping.set(addrKey, rawAddressID || uuidv4());
 
-        const idAddr =
+        const idAdresse =
           addrNumber &&
           addrNumber !== Number(IS_TOPO_NB) &&
           idsAddrMapping.get(addrKey);
         const idVoie = idMainTopoMapping.get(mainTopoKey);
+        const idCommune = idsDistrictMapping.get(districtKey);
 
-        const banID = idAddr && `  ${idsIdentifierIndex.addressID}${idAddr} `;
+        const districtID =
+          idCommune && `${idsIdentifierIndex.districtID}${idCommune}`;
+        const banID =
+          idAdresse && `${idsIdentifierIndex.addressID}${idAdresse}`;
         const mainTopoID =
-          idVoie && `${idsIdentifierIndex.mainTopoID}${idVoie} `;
+          idVoie && `${idsIdentifierIndex.mainTopoID}${idVoie}`;
         const formatedBanIDs =
-          `${banID || ""}${mainTopoID || ""}`.trim() || undefined;
+          `${districtID || ""} ${banID || ""} ${mainTopoID || ""}`
+            .replaceAll(/\s+/g, " ")
+            .trim() || undefined;
 
         return {
           ...balAdresseLegacy,
