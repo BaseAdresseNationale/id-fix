@@ -7,20 +7,25 @@ const regExpUUIDv4 =
 
 export const idsIdentifier = [
   {
-    key: "addressID",
-    prefix: "@",
+    key: "districtID",
+    prefix: "@c:",
     regExp: regExpUUIDv4,
   },
   {
     key: "mainTopoID",
-    prefix: "=",
+    prefix: "@v:",
     regExp: regExpUUIDv4,
   },
   {
     key: "secondaryTopoIDs",
-    prefix: "!",
+    prefix: "@t:",
     regExp: `${regExpUUIDv4.source}`,
     batch: true,
+  },
+  {
+    key: "addressID",
+    prefix: "@a:",
+    regExp: regExpUUIDv4,
   },
 ] as const;
 
