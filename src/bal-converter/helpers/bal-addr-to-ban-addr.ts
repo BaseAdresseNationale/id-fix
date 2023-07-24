@@ -10,13 +10,13 @@ const balAddrToBanAddr = (
   balAdresse: BalAdresse,
   oldBanAddress?: BanAddress
 ): BanAddress | undefined => {
-  const { addressID, mainTopoID } = digestIDsFromBalAddr(balAdresse);
+  const { addressID, mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
   const addrNumber = balAdresse.numero || oldBanAddress?.number;
   return addrNumber && addrNumber !== Number(IS_TOPO_NB)
     ? {
         ...(oldBanAddress || {}),
         id: addressID,
-        districtID: balAdresse.commune_insee,
+        districtID,
         commonToponymID: mainTopoID,
         number: addrNumber,
         suffix: balAdresse.suffixe,

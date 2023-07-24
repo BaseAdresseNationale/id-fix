@@ -10,7 +10,7 @@ const balTopoToBanTopo = (
   balAdresse: BalAdresse,
   oldBanCommonToponym?: BanCommonToponym
 ): BanCommonToponym => {
-  const { mainTopoID } = digestIDsFromBalAddr(balAdresse);
+  const { mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
   const isoCodeFromBalNomVoie = (key: LangISO639v3) => key.trim().split("_")[2];
   const labels = {
     [DEFAULT_ISO_LANG]: balAdresse.voie_nom,
@@ -26,7 +26,7 @@ const balTopoToBanTopo = (
   return {
     ...(oldBanCommonToponym || {}),
     id: mainTopoID,
-    districtID: balAdresse.commune_insee,
+    districtID,
     label: Object.entries(labels).map(([isoCode, value]) => ({
       isoCode,
       value,

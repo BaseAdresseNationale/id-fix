@@ -2,10 +2,10 @@ import HandleHTTPResponse from "../utils/http-request-handler.js";
 
 const API_DEPOT_URL = process.env.API_DEPOT_URL || "";
 
-export const getRevisionFromDistrictID = async (codeCommune: string) => {
+export const getRevisionFromDistrictCOG = async (cog: string) => {
   try {
     const response = await fetch(
-      `${API_DEPOT_URL}/communes/${codeCommune}/current-revision`
+      `${API_DEPOT_URL}/communes/${cog}/current-revision`
     );
     return await HandleHTTPResponse(response);
   } catch (error) {

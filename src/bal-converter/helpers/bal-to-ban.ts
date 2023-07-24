@@ -8,7 +8,7 @@ import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
 const balToBan = (bal: Bal): Ban => {
   const ban = bal.reduce(
     (acc: Ban, balAdresse: BalAdresse) => {
-      const { addressID, mainTopoID } = digestIDsFromBalAddr(balAdresse);
+      const { addressID, mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
       const banIdContent = balAddrToBanAddr(
         balAdresse,
         acc.addresses?.[addressID]
@@ -17,8 +17,6 @@ const balToBan = (bal: Bal): Ban => {
         balAdresse,
         acc.commonToponyms?.[mainTopoID]
       );
-      const districtID =
-        banIdContent?.districtID || banCommonTopoIdContent.districtID;
       return {
         ...acc,
         districtID,

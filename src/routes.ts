@@ -1,12 +1,12 @@
 import { Router, Request, Response } from "express";
 import authMiddleware from "./middleware/auth.js";
-import { getRevisionFromDistrictID, getRevisionFileText } from "./dump-api/index.js";
+import { getRevisionFromDistrictCOG, getRevisionFileText } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import localCurrentDate from "./utils/local-current-date.js";
 
-const IDEFIX_BANID_DISTRICTS =
-  process.env.IDEFIX_BANID_DISTRICTS?.split(",").map((idDistric) =>
-    idDistric.trim()
+const IDEFIX_BANID_DISTRICTS_COG =
+  process.env.IDEFIX_BANID_DISTRICTS_COG?.split(",").map((cog) =>
+    cog.trim()
   ) || [];
 
 const router: Router = Router();
@@ -16,27 +16,27 @@ router.get("/id-fix", authMiddleware, (req: Request, res: Response) => {
 });
 
 router.get(
-  "/district/:districtID",
+  "/district/cog/:cog",
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
     try {
       let responseBody;
-      const { districtID } = req.params;
+      const { cog } = req.params;
 
-      if (!IDEFIX_BANID_DISTRICTS.includes(districtID)) {
-        const message = `District ${districtID} do not support BanID`;
+      if (!IDEFIX_BANID_DISTRICTS_COG.includes(cog)) {
+        const message = `District cog ${cog} do not support BanID`;
         responseBody = {
           message,
         };
         console.log(`[${localCurrentDate()}] ${message}`);
         // TODO: Build Exploitation BDD (Legacy) by Legacy compose
       } else {
-        const revision = await getRevisionFromDistrictID(districtID);
+        const revision = await getRevisionFromDistrictCOG(cog);
         const revisionFileText = await getRevisionFileText(revision._id);
         responseBody = (await sendBalToBan(revisionFileText)) || {};
         console.log(
-          `[${localCurrentDate()}] District ${districtID} update in BAN BDD`
+          `[${localCurrentDate()}] District cog ${cog} update in BAN BDD`
         );
         // TODO: Build Exploitation BDD (Legacy) from BAN BDD
       }
