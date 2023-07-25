@@ -78,7 +78,7 @@
     "y": 6854310.41,
     "long": 1.086279,
     "lat": 48.773553,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": true
@@ -99,7 +99,7 @@
     "y": 6854342.28,
     "long": 1.08586,
     "lat": 48.773833,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": true
@@ -120,7 +120,7 @@
     "y": 6854365.24,
     "long": 1.085574,
     "lat": 48.774035,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": true
@@ -445,7 +445,7 @@
     "y": 6854307.15,
     "long": 1.07932,
     "lat": 48.773412,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
     "certification_commune": true
@@ -466,7 +466,7 @@
     "y": 6854280.12,
     "long": 1.078832,
     "lat": 48.773161,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
     "certification_commune": true
@@ -487,7 +487,7 @@
     "y": 6854326.7,
     "long": 1.079699,
     "lat": 48.773594,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": true
@@ -508,7 +508,7 @@
     "y": 6852668.52,
     "long": 1.088235,
     "lat": 48.758813,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -529,7 +529,7 @@
     "y": 6852865.29,
     "long": 1.071305,
     "lat": 48.760311,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -550,7 +550,7 @@
     "y": 6851883.59,
     "long": 1.071619,
     "lat": 48.751484,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -571,7 +571,7 @@
     "y": 6855705.13,
     "long": 1.060016,
     "lat": 48.785677,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -592,7 +592,7 @@
     "y": 6854169.7,
     "long": 1.081033,
     "lat": 48.772203,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -613,7 +613,7 @@
     "y": 6854091.39,
     "long": 1.063471,
     "lat": 48.771215,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-07-03T00:00:00.000Z",
     "certification_commune": false
@@ -634,7 +634,7 @@
     "y": 6852964.76,
     "long": 1.061001,
     "lat": 48.761039,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2020-08-31T00:00:00.000Z",
     "certification_commune": false
@@ -655,7 +655,7 @@
     "y": 6852856.45,
     "long": 1.067195,
     "lat": 48.760165,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2022-06-03T00:00:00.000Z",
     "certification_commune": false
@@ -676,7 +676,7 @@
     "y": 6853815.12,
     "long": 1.060606,
     "lat": 48.768683,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2022-06-13T00:00:00.000Z",
     "certification_commune": false
@@ -697,7 +697,7 @@
     "y": 6852845.39,
     "long": 1.06278,
     "lat": 48.759994,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2022-08-23T00:00:00.000Z",
     "certification_commune": false
@@ -718,7 +718,7 @@
     "y": 6853495.37,
     "long": 1.077283,
     "lat": 48.766076,
-    "cad_parcelles": [""],
+    "cad_parcelles": [],
     "source": "",
     "date_der_maj": "2023-01-13T00:00:00.000Z",
     "certification_commune": false

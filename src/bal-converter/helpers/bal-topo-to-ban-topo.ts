@@ -22,22 +22,24 @@ const balTopoToBanTopo = (
       ).map((key) => [isoCodeFromBalNomVoie(key), balAdresse[key]])
     ),
   };
-
+  const meta = balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
+    ? {cadastre: {ids: balAdresse.cad_parcelles}} 
+    : {}
   return {
     ...(oldBanCommonToponym || {}),
     id: mainTopoID,
     districtID,
-    label: Object.entries(labels).map(([isoCode, value]) => ({
+    labels: Object.entries(labels).map(([isoCode, value]) => ({
       isoCode,
       value,
-    })), // TODO: rename key 'label' to 'labels'
+    })),
     type: { value: "voie" }, // TODO: How to get the type from the BAL?
     geometry: {
       type: "Point",
       coordinates: [balAdresse.long, balAdresse.lat],
     },
-    parcels: balAdresse.cad_parcelles,
     updateDate: balAdresse.date_der_maj,
+    meta,
   };
 };
 

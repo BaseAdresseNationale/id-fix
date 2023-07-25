@@ -2,16 +2,13 @@ import type { BalAdresse } from "../../types/bal-types.js";
 import type { BanCommonToponym } from "../../types/ban-types.js";
 
 import { describe, expect, test } from "vitest";
-import { idsIdentifierIndex } from "../bal-converter.config.js";
-import { addrID, mainTopoID, secondaryTopoIDs } from "./__mocks__/fake-data.js";
+import { idSampleWithAddressId, 
+  idSampleWithMainTopoId, 
+  idSampleWithAddressIdAndMainTopoId,
+  idSampleWithAllIds
+} from "./__mocks__/fake-data.js";
 import balTopoToBanTopo from "./bal-topo-to-ban-topo";
 
-const idSampleWithBanId = `${idsIdentifierIndex.addressID}${addrID}`;
-const idSampleWithMainTopoId = `${idsIdentifierIndex.mainTopoID}${mainTopoID}`;
-const idSampleWithBanIdAndMainTopoId = `${idsIdentifierIndex.addressID}${addrID} ${idsIdentifierIndex.mainTopoID}${mainTopoID}`;
-const idSampleWithAllIds = `${idsIdentifierIndex.addressID}${addrID} ${
-  idsIdentifierIndex.mainTopoID
-}${mainTopoID} !${secondaryTopoIDs.join("|")}`;
 
 const defaultTestBalAdresse: BalAdresse = {
   cle_interop: "21286_0001_00001",
@@ -24,7 +21,7 @@ const defaultTestBalAdresse: BalAdresse = {
   y: 2,
   long: 1,
   lat: 2,
-  date_der_maj: "2021-01-01",
+  date_der_maj: new Date("2021-01-01"),
   certification_commune: true,
   source: "BAL",
 };
@@ -38,7 +35,7 @@ describe("balTopoToBanTopo", () => {
     // TODO: In next version - should probably return BanToponym without temporary BanTopoID ?
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
-      uid_adresse: idSampleWithBanId,
+      uid_adresse: idSampleWithAddressId,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
@@ -54,12 +51,12 @@ describe("balTopoToBanTopo", () => {
   test("should return BanToponym with BanTopoID (2)", async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
-      uid_adresse: idSampleWithBanIdAndMainTopoId,
+      uid_adresse: idSampleWithAddressIdAndMainTopoId,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with BanTopoID and other toponyms", async () => {
+  test("should return BanToponym with BanTopoID and BanDistrictID", async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithAllIds,

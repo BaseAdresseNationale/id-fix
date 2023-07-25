@@ -3,18 +3,14 @@ import type { BanAddress } from "../../types/ban-types.js";
 
 import { describe, expect, test } from "vitest";
 import {
-  idsIdentifierIndex,
   numberForTopo as IS_TOPO_NB,
 } from "../bal-converter.config.js";
-import { addrID, mainTopoID, secondaryTopoIDs } from "./__mocks__/fake-data.js";
+import { idSampleWithAddressId, 
+  idSampleWithMainTopoId,
+  idSampleWithAddressIdAndMainTopoId,
+  idSampleWithAllIds
+} from "./__mocks__/fake-data.js";
 import balAddrToBanAddr from "./bal-addr-to-ban-addr";
-
-const idSampleWithBanId = `${idsIdentifierIndex.addressID}${addrID}`;
-const idSampleWithMainTopoId = `${idsIdentifierIndex.mainTopoID}${mainTopoID}`;
-const idSampleWithBanIdAndMainTopoId = `${idsIdentifierIndex.addressID}${addrID} ${idsIdentifierIndex.mainTopoID}${mainTopoID}`;
-const idSampleWithAllIds = `${idsIdentifierIndex.addressID}${addrID} ${
-  idsIdentifierIndex.mainTopoID
-}${mainTopoID} !${secondaryTopoIDs.join("|")}`;
 
 const defaultTestBalAddress: BalAdresse = {
   cle_interop: "21286_0001_00001",
@@ -27,7 +23,7 @@ const defaultTestBalAddress: BalAdresse = {
   y: 2,
   long: 1,
   lat: 2,
-  date_der_maj: "2021-01-01",
+  date_der_maj: new Date ("2021-01-01"),
   certification_commune: true,
   source: "BAL",
 };
@@ -40,7 +36,7 @@ describe("balAddrToBanAddr", () => {
   test("should return BanAddress with BanID without BanTopoID", async () => {
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
-      uid_adresse: idSampleWithBanId,
+      uid_adresse: idSampleWithAddressId,
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
@@ -58,13 +54,13 @@ describe("balAddrToBanAddr", () => {
   test("should return BanAddress with BanID and BanTopoID", async () => {
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
-      uid_adresse: idSampleWithBanIdAndMainTopoId,
+      uid_adresse: idSampleWithAddressIdAndMainTopoId,
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
   });
 
-  test("should return BanAddress with BanID, BanTopoID and other toponyms", async () => {
+  test("should return BanAddress with BanID, BanTopoID, other toponyms and BanDistrictID", async () => {
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
