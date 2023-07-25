@@ -1,6 +1,7 @@
 import type { LangISO639v3 } from "../../types/ban-generic-types.js";
 import type { BalAdresse, VoieNomIsoCodeKey } from "../../types/bal-types.js";
 import type { BanCommonToponym } from "../../types/ban-types.js";
+import { numberForTopo as IS_TOPO_NB } from "../bal-converter.config.js";
 
 import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
 
@@ -22,6 +23,7 @@ const balTopoToBanTopo = (
       ).map((key) => [isoCodeFromBalNomVoie(key), balAdresse[key]])
     ),
   };
+  const typeValue = balAdresse.numero === Number(IS_TOPO_NB) ? "lieu-dit" : "voie" 
 
   return {
     ...(oldBanCommonToponym || {}),
@@ -31,7 +33,7 @@ const balTopoToBanTopo = (
       isoCode,
       value,
     })), // TODO: rename key 'label' to 'labels'
-    type: { value: "voie" }, // TODO: How to get the type from the BAL?
+    type: { value: typeValue }, // TODO: How to get the type from the BAL?
     geometry: {
       type: "Point",
       coordinates: [balAdresse.long, balAdresse.lat],
