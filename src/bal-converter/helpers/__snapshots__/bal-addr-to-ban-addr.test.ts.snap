@@ -6,7 +6,7 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID and BanTopoID 1`
 {
   "certified": true,
   "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "districtID": "21286",
+  "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "number": 1,
   "parcels": undefined,
@@ -31,7 +31,7 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID without BanTopoI
 {
   "certified": true,
   "commonToponymID": undefined,
-  "districtID": "21286",
+  "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "number": 1,
   "parcels": undefined,
@@ -56,7 +56,7 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID, BanTopoID and o
 {
   "certified": true,
   "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "districtID": "21286",
+  "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "number": 1,
   "parcels": undefined,
@@ -81,7 +81,7 @@ exports[`balAddrToBanAddr > should return BanAddress with BanTopoID 1`] = `
 {
   "certified": true,
   "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "districtID": "21286",
+  "districtID": undefined,
   "id": undefined,
   "number": 1,
   "parcels": undefined,
@@ -106,7 +106,7 @@ exports[`balAddrToBanAddr > should return BanAddress with multiple positions 1`]
 {
   "certified": true,
   "commonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "districtID": "21286",
+  "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "number": 1,
   "parcels": undefined,
@@ -141,7 +141,7 @@ exports[`balAddrToBanAddr > should return BanAddress without BanID & BanTopoID 1
 {
   "certified": true,
   "commonToponymID": undefined,
-  "districtID": "21286",
+  "districtID": undefined,
   "id": undefined,
   "number": 1,
   "parcels": undefined,
