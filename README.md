@@ -4,11 +4,16 @@
 Id-fix API is a service that receives BAL format data, handles it and send it to the BAN plateforme. 
 Depending on whether the 'commune' is using the BAN-ID or not, Id-fix will send the data to the legacy API or use the BAN-ID API. In the second case, Id-fix will detect the data to create, to modify and to delete. It will also format it to the correct structure to use BAN-ID API.
 
-## Prerequisites
+## Installation
+
+Choose from a docker or a local installation : 
+
+### Docker
+
+#### Prerequisites
 - Docker
 - Docker-compose
 
-## Installation
 Instructions on how to install the API :
 
 1. Clone this repository
@@ -16,6 +21,26 @@ Instructions on how to install the API :
 
 ```bash
 docker-compose up --build -d
+```
+
+### Local 
+
+#### Prerequisites
+- Node (v18 or higher)
+- NPM
+
+Instructions on how to install the API :
+
+1. Install dependencies 
+
+```bash
+npm install
+```
+
+2. Start the api : 
+
+```bash
+npm run dev
 ```
 
 ## License
