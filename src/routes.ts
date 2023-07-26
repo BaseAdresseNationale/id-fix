@@ -3,11 +3,7 @@ import authMiddleware from "./middleware/auth.js";
 import { getRevisionFromDistrictCOG, getRevisionFileText } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import localCurrentDate from "./utils/local-current-date.js";
-
-const IDEFIX_BANID_DISTRICTS_COG =
-  process.env.IDEFIX_BANID_DISTRICTS_COG?.split(",").map((cog) =>
-    cog.trim()
-  ) || [];
+import { getDistrictFromCOG } from "./ban-api/index.js";
 
 const router: Router = Router();
 
@@ -24,7 +20,9 @@ router.get(
       let responseBody;
       const { cog } = req.params;
 
-      if (!IDEFIX_BANID_DISTRICTS_COG.includes(cog)) {
+      const district = await getDistrictFromCOG(cog);
+      const useBanId = district?.config?.useBanId;
+      if (!useBanId) {
         const message = `District cog ${cog} do not support BanID`;
         responseBody = {
           message,
