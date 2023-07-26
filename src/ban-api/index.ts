@@ -168,3 +168,17 @@ export const deleteCommonToponyms = async (ids: BanCommonTopoID[]) => {
     throw new Error(`Ban API - ${message}`);
   }
 };
+
+export const getDistrictFromCOG = async (cog: string) => {
+  try {
+    const response = await fetch(`${BAN_API_URL}/district/cog/${cog}`, {
+      headers: defaultHeader,
+    });
+
+    const responseJson = await HandleHTTPResponse(response);
+    return responseJson?.response;
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Ban API - ${message}`);
+  }
+}
