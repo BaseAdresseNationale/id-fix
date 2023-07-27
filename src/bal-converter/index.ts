@@ -28,16 +28,6 @@ export const sendBalToBan = async (bal: string) => {
     getCommonToponymIdsReport(districtID, banToponymIds),
   ]);
 
-  // Sort Addresses (Add/Update/Delete)
-  const banAddresses: BanAddresses = Object.values(addresses || {});
-  const banAddressesToAdd = banAddresses.filter(({ id }) =>
-    addressIdsReport.idsToCreate.includes(id)
-  );
-  const banAddressesToUpdate = banAddresses.filter(({ id }) =>
-    addressIdsReport.idsToUpdate.includes(id)
-  );
-  const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
-
   // Sort Toponyms (Add/Update/Delete)
   const banToponyms: BanCommonToponyms = Object.values(commonToponyms || {});
   const banToponymsToAdd = banToponyms.filter(({ id }) =>
@@ -50,17 +40,32 @@ export const sendBalToBan = async (bal: string) => {
     toponymsIdsReport.idsToDelete.includes(id)
   );
 
-  // Send Addresses and Toponyms to BAN API // TODO Bulk Actions to BAN ?
-  const responses = await Promise.all([
-    banAddressesToAdd.length > 0 && createAddresses(banAddressesToAdd),
-    banAddressesToUpdate.length > 0 && updateAddresses(banAddressesToUpdate),
-    banAddressesIdsToDelete.length > 0 &&
-      deleteAddresses(banAddressesIdsToDelete),
+  // Sort Addresses (Add/Update/Delete)
+  const banAddresses: BanAddresses = Object.values(addresses || {});
+  const banAddressesToAdd = banAddresses.filter(({ id }) =>
+    addressIdsReport.idsToCreate.includes(id)
+  );
+  const banAddressesToUpdate = banAddresses.filter(({ id }) =>
+    addressIdsReport.idsToUpdate.includes(id)
+  );
+  const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
+
+  // Order is important here. Need to handle common toponyms first, then adresses
+  const responseCommonToponyms = await Promise.all([
     banToponymsToAdd.length > 0 && createCommonToponyms(banToponymsToAdd),
     banToponymsToUpdate.length > 0 && updateCommonToponyms(banToponymsToUpdate),
     banToponymsIdsToDelete.length > 0 &&
       deleteCommonToponyms(banToponymsIdsToDelete),
   ]);
+
+  const responseAddresses = await Promise.all([
+    banAddressesToAdd.length > 0 && createAddresses(banAddressesToAdd),
+    banAddressesToUpdate.length > 0 && updateAddresses(banAddressesToUpdate),
+    banAddressesIdsToDelete.length > 0 &&
+      deleteAddresses(banAddressesIdsToDelete),
+  ]);
+
+  const responses = [...responseAddresses, ...responseCommonToponyms];
 
   return responses.reduce((acc, cur, i) => {
     const keyDataType = Math.floor(i / 3);
