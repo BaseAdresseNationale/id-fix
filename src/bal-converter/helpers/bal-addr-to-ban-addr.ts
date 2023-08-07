@@ -2,38 +2,44 @@ import type { BalAdresse } from "../../types/bal-types.js";
 import type { BanAddress } from "../../types/ban-types.js";
 
 import { numberForTopo as IS_TOPO_NB } from "../bal-converter.config.js";
+import { convertBalPositionTypeToBanPositionType } from "./bal-position-type-to-ban-position-type.js";
 import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
 
-const DEFAULT_ADDR_POSITION = "autre"; // TODO: Comply with the defined BAL Standard : https://aitf-sig-topo.github.io/voies-adresses/files/AITF_SIG_Topo_Format_Base_Adresse_Locale_v1.3.pdf
+const DEFAULT_BAN_ADDR_POSITION = "other";
 
 const balAddrToBanAddr = (
   balAdresse: BalAdresse,
   oldBanAddress?: BanAddress
 ): BanAddress | undefined => {
-  const { addressID, mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
+  const { addressID, mainTopoID, secondaryTopoIDs, districtID } = digestIDsFromBalAddr(balAdresse);
   const addrNumber = balAdresse.numero || oldBanAddress?.number;
+  const positionType = convertBalPositionTypeToBanPositionType(balAdresse.position);
+  const meta = balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
+    ? { cadastre: { ids: balAdresse.cad_parcelles } } 
+    : {}
   return addrNumber && addrNumber !== Number(IS_TOPO_NB)
     ? {
         ...(oldBanAddress || {}),
         id: addressID,
         districtID,
-        commonToponymID: mainTopoID,
+        mainCommonToponymID: mainTopoID,
+        secondaryCommonToponymIDs: secondaryTopoIDs,
         number: addrNumber,
         suffix: balAdresse.suffixe,
         positions: [
           // Previous positions
           ...(oldBanAddress?.positions || []),
           {
-            type: balAdresse.position || DEFAULT_ADDR_POSITION,
+            type: positionType || DEFAULT_BAN_ADDR_POSITION,
             geometry: {
               type: "Point",
               coordinates: [balAdresse.long, balAdresse.lat],
             },
           },
         ],
-        parcels: balAdresse.cad_parcelles,
         certified: balAdresse.certification_commune,
         updateDate: balAdresse.date_der_maj,
+        meta,
       }
     : undefined;
 };

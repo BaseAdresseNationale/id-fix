@@ -1,10 +1,12 @@
 import { describe, expect, test } from "vitest";
 import {
-  idSampleWithBanId,
+  idSampleWithAddressId,
   idSampleWithMainTopoId,
   idSampleWithSecondaryTopoId,
-  idSampleWithBanIdAndMainTopoId,
-  idSampleWithBanIdAndSecondaryTopoId,
+  idSampleWithDistrictId,
+  idSampleWithAddressIdAndMainTopoId,
+  idSampleWithAddressIdAndSecondaryTopoId,
+  idSampleWithMainTopoIdAndDistrictId,
   idSampleWithAllIds,
 } from "./__mocks__/fake-data.js";
 import digestIDsFromBalUIDs from "./digest-ids-from-bal-uids.js";
@@ -18,27 +20,35 @@ describe("digestIDsFromBalUIDs", () => {
     const id = digestIDsFromBalUIDs("");
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with only addrID", async () => {
-    const id = digestIDsFromBalUIDs(idSampleWithBanId);
+  test("should return an object with BanID with only addrID", async () => {
+    const id = digestIDsFromBalUIDs(idSampleWithAddressId);
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with only mainTopoID", async () => {
+  test("should return an object with BanID with only mainTopoID", async () => {
     const id = digestIDsFromBalUIDs(idSampleWithMainTopoId);
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with only secondaryTopoIDs", async () => {
+  test("should return an object with BanID with only secondaryTopoIDs", async () => {
     const id = digestIDsFromBalUIDs(idSampleWithSecondaryTopoId);
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with addrID and mainTopoID", async () => {
-    const id = digestIDsFromBalUIDs(idSampleWithBanIdAndMainTopoId);
+  test("should return an object with BanID with only districtID", async () => {
+    const id = digestIDsFromBalUIDs(idSampleWithDistrictId);
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with addrID and secondaryTopoIDs", async () => {
-    const id = digestIDsFromBalUIDs(idSampleWithBanIdAndSecondaryTopoId);
+  test("should return an object with BanID with addrID and mainTopoID", async () => {
+    const id = digestIDsFromBalUIDs(idSampleWithAddressIdAndMainTopoId);
     expect(id).toMatchSnapshot();
   });
-  test("should return an object with BanID for an BanIDs with addrID, mainTopoID and secondaryTopoIDs", async () => {
+  test("should return an object with BanID with addrID and secondaryTopoIDs", async () => {
+    const id = digestIDsFromBalUIDs(idSampleWithAddressIdAndSecondaryTopoId);
+    expect(id).toMatchSnapshot();
+  });
+  test("should return an object with BanID with mainTopoID and districtID", async () => {
+    const id = digestIDsFromBalUIDs(idSampleWithMainTopoIdAndDistrictId);
+    expect(id).toMatchSnapshot();
+  });
+  test("should return an object with BanID with addrID, mainTopoID, secondaryTopoIDs and districtID", async () => {
     const id = digestIDsFromBalUIDs(idSampleWithAllIds);
     expect(id).toMatchSnapshot();
   });

@@ -7,22 +7,24 @@ export const secondaryTopoIDs = [
   "cccccccc-1111-4aaa-9000-1234567890dd",
   "cccccccc-2222-4aaa-9000-1234567890ee",
 ];
+export const districtID = "dddddddd-0000-4aaa-9000-1234567890ff";
 
 const {
   addressID: addressIDKey,
   mainTopoID: mainTopoIDKey,
   secondaryTopoIDs: secondaryTopoIDsKey,
+  districtID: districtIDKey,
 } = idsIdentifierIndex;
 
-export const idSampleWithBanId = `${addressIDKey}${addrID}`;
+export const idSampleWithAddressId = `${addressIDKey}${addrID}`;
 export const idSampleWithMainTopoId = `${mainTopoIDKey}${mainTopoID}`;
 export const idSampleWithSecondaryTopoId = `${secondaryTopoIDsKey}${secondaryTopoIDs.join(
   "|"
 )}`;
-export const idSampleWithBanIdAndMainTopoId = `${addressIDKey}${addrID} ${mainTopoIDKey}${mainTopoID}`;
-export const idSampleWithBanIdAndSecondaryTopoId = `${addressIDKey}${addrID} ${secondaryTopoIDsKey}${secondaryTopoIDs.join(
-  "|"
-)}`;
-export const idSampleWithAllIds = `${addressIDKey}${addrID} ${mainTopoIDKey}${mainTopoID} ${secondaryTopoIDsKey}${secondaryTopoIDs.join(
-  "|"
-)}`;
+export const idSampleWithDistrictId = `${districtIDKey}${districtID}`;
+
+export const idSampleWithAddressIdAndMainTopoId = `${idSampleWithAddressId} ${idSampleWithMainTopoId}`;
+export const idSampleWithAddressIdAndSecondaryTopoId = `${idSampleWithAddressId} ${idSampleWithSecondaryTopoId}`;
+export const idSampleWithMainTopoIdAndDistrictId = `${idSampleWithMainTopoId} ${idSampleWithDistrictId}`;
+export const idSampleWithAllIds = 
+  `${idSampleWithAddressId} ${idSampleWithMainTopoId} ${idSampleWithSecondaryTopoId} ${idSampleWithDistrictId}`;

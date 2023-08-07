@@ -5,13 +5,17 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
   "addresses": {
     "03fb190a-cf5b-4f48-a1ab-7caa4d10e157": {
       "certified": false,
-      "commonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "03fb190a-cf5b-4f48-a1ab-7caa4d10e157",
+      "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000C0115,212860000C0114",
+          ],
+        },
+      },
       "number": 1,
-      "parcels": [
-        "212860000C0115,212860000C0114",
-      ],
       "positions": [
         {
           "geometry": {
@@ -21,7 +25,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
         {
           "geometry": {
@@ -31,21 +35,20 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "logement",
+          "type": "unit identifier",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2022-08-23T00:00:00.000Z",
     },
     "18510122-0ad8-49fe-bbae-ca484d8f4e01": {
       "certified": false,
-      "commonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "18510122-0ad8-49fe-bbae-ca484d8f4e01",
+      "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
+      "meta": {},
       "number": 31,
-      "parcels": [
-        "",
-      ],
       "positions": [
         {
           "geometry": {
@@ -55,21 +58,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "1890569a-d05f-4cf9-b27b-9172c497023e": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "1890569a-d05f-4cf9-b27b-9172c497023e",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0237",
+          ],
+        },
+      },
       "number": 6,
-      "parcels": [
-        "212860000D0237",
-      ],
       "positions": [
         {
           "geometry": {
@@ -79,21 +87,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "2480fe76-bbd8-4703-a41a-5c43fd3c5891": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "2480fe76-bbd8-4703-a41a-5c43fd3c5891",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0053,212860000D0054",
+          ],
+        },
+      },
       "number": 10,
-      "parcels": [
-        "212860000D0053,212860000D0054",
-      ],
       "positions": [
         {
           "geometry": {
@@ -103,21 +116,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "28fd0d23-9f3a-4ac0-8e17-05f851546f34": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "28fd0d23-9f3a-4ac0-8e17-05f851546f34",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0305,212860000D0307,212860000D0308,212860000D0266",
+          ],
+        },
+      },
       "number": 5,
-      "parcels": [
-        "212860000D0305,212860000D0307,212860000D0308,212860000D0266",
-      ],
       "positions": [
         {
           "geometry": {
@@ -127,21 +145,20 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "29387aa3-1dc6-4e38-a1e9-aea350c91296": {
       "certified": false,
-      "commonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "29387aa3-1dc6-4e38-a1e9-aea350c91296",
+      "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
+      "meta": {},
       "number": 33,
-      "parcels": [
-        "",
-      ],
       "positions": [
         {
           "geometry": {
@@ -151,21 +168,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "48691fd6-a611-4335-b346-a05679bcb31d": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "48691fd6-a611-4335-b346-a05679bcb31d",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0143",
+          ],
+        },
+      },
       "number": 11,
-      "parcels": [
-        "212860000D0143",
-      ],
       "positions": [
         {
           "geometry": {
@@ -175,21 +197,20 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "4afc82e4-694e-4bb3-81cb-0a32cd59a300": {
       "certified": false,
-      "commonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "4afc82e4-694e-4bb3-81cb-0a32cd59a300",
+      "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
+      "meta": {},
       "number": 29,
-      "parcels": [
-        "",
-      ],
       "positions": [
         {
           "geometry": {
@@ -199,21 +220,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "5114f638-f99d-4da2-b3ed-d2e2c3a32765": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "5114f638-f99d-4da2-b3ed-d2e2c3a32765",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0290,212860000D0292,212860000D0273,212860000D0288",
+          ],
+        },
+      },
       "number": 9,
-      "parcels": [
-        "212860000D0290,212860000D0292,212860000D0273,212860000D0288",
-      ],
       "positions": [
         {
           "geometry": {
@@ -223,21 +249,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "5139b74a-f569-4008-aade-3bb955186134": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "5139b74a-f569-4008-aade-3bb955186134",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "21286000ZC0087",
+          ],
+        },
+      },
       "number": 8,
-      "parcels": [
-        "21286000ZC0087",
-      ],
       "positions": [
         {
           "geometry": {
@@ -247,21 +278,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "577e9019-42bb-4965-b287-fe4cebe41038": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "577e9019-42bb-4965-b287-fe4cebe41038",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0113",
+          ],
+        },
+      },
       "number": 1,
-      "parcels": [
-        "212860000D0113",
-      ],
       "positions": [
         {
           "geometry": {
@@ -271,21 +307,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "61b54625-bef6-4450-95e1-b6f37d93441a": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "61b54625-bef6-4450-95e1-b6f37d93441a",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0113",
+          ],
+        },
+      },
       "number": 3,
-      "parcels": [
-        "212860000D0113",
-      ],
       "positions": [
         {
           "geometry": {
@@ -295,21 +336,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "6edd2c77-e8db-4384-bbb6-810e868d4dee": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "6edd2c77-e8db-4384-bbb6-810e868d4dee",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0304,212860000D0229",
+          ],
+        },
+      },
       "number": 3,
-      "parcels": [
-        "212860000D0304,212860000D0229",
-      ],
       "positions": [
         {
           "geometry": {
@@ -319,21 +365,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "7a9e11ff-31b6-4f14-8494-55369e7dce04": {
       "certified": false,
-      "commonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "7a9e11ff-31b6-4f14-8494-55369e7dce04",
+      "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0293",
+          ],
+        },
+      },
       "number": 7,
-      "parcels": [
-        "212860000D0293",
-      ],
       "positions": [
         {
           "geometry": {
@@ -343,21 +394,20 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "8c12024d-6216-4634-aca0-598f569d632b": {
       "certified": false,
-      "commonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "8c12024d-6216-4634-aca0-598f569d632b",
+      "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
+      "meta": {},
       "number": 2,
-      "parcels": [
-        "",
-      ],
       "positions": [
         {
           "geometry": {
@@ -367,21 +417,20 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "aeda3e20-8204-4d2b-8e59-184df887ae4e": {
       "certified": false,
-      "commonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "aeda3e20-8204-4d2b-8e59-184df887ae4e",
+      "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
+      "meta": {},
       "number": 1,
-      "parcels": [
-        "",
-      ],
       "positions": [
         {
           "geometry": {
@@ -391,7 +440,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
         {
           "geometry": {
@@ -401,21 +450,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "logement",
+          "type": "unit identifier",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2022-08-23T00:00:00.000Z",
     },
     "d19b14c9-d9d0-478f-b741-c973d05c343f": {
       "certified": false,
-      "commonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "d19b14c9-d9d0-478f-b741-c973d05c343f",
+      "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000C0237,212860000C0107",
+          ],
+        },
+      },
       "number": 2,
-      "parcels": [
-        "212860000C0237,212860000C0107",
-      ],
       "positions": [
         {
           "geometry": {
@@ -425,21 +479,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "e6278261-1a1b-4606-9c20-a8f2d06738fa": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "e6278261-1a1b-4606-9c20-a8f2d06738fa",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0236",
+          ],
+        },
+      },
       "number": 8,
-      "parcels": [
-        "212860000D0236",
-      ],
       "positions": [
         {
           "geometry": {
@@ -449,21 +508,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "e9de2ecf-e082-448b-9a21-fe9d38d017ae": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "e9de2ecf-e082-448b-9a21-fe9d38d017ae",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0150",
+          ],
+        },
+      },
       "number": 7,
-      "parcels": [
-        "212860000D0150",
-      ],
       "positions": [
         {
           "geometry": {
@@ -473,21 +537,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "f1a28bf1-fac3-41f0-8cb4-3abc82b2b963": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "f1a28bf1-fac3-41f0-8cb4-3abc82b2b963",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0230",
+          ],
+        },
+      },
       "number": 5,
-      "parcels": [
-        "212860000D0230",
-      ],
       "positions": [
         {
           "geometry": {
@@ -497,21 +566,26 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "ff8bb658-3f73-4ac3-ab04-7966e869e991": {
       "certified": false,
-      "commonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "ff8bb658-3f73-4ac3-ab04-7966e869e991",
+      "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0148,212860000D0284",
+          ],
+        },
+      },
       "number": 9,
-      "parcels": [
-        "212860000D0148,212860000D0284",
-      ],
       "positions": [
         {
           "geometry": {
@@ -521,9 +595,10 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
             ],
             "type": "Point",
           },
-          "type": "entrée",
+          "type": "entrance",
         },
       ],
+      "secondaryCommonToponymIDs": undefined,
       "suffix": "",
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
@@ -539,15 +614,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "16e337a0-d0c7-4c24-b8dc-e43edbd4d273",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Les Bois Perdus",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -563,15 +636,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "1748660f-d473-400a-88ad-52d55f3fc9f5",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Observatoire d’Hyrule",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -587,15 +658,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "17ec2d21-8c66-4a43-921e-817fb489f899",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Les Quatre Maisons",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -611,15 +680,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "26d79f86-7051-4c51-a1b1-966fd7f1e345",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Armurerie de l’Ancien Royaume",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -635,15 +702,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "3c091079-e2c0-4151-8d1f-3a000bc29894",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Empreinte du Fleau",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -659,15 +724,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "413eb0cb-561a-435a-af8f-d244023f9b40",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "La voie celeste",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -683,15 +746,19 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "468d0b9b-ec0c-448d-8188-4e28762251e2",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Route de la Baleine",
         },
       ],
-      "parcels": [
-        "212860000D0053,212860000D0054",
-      ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0053,212860000D0054",
+          ],
+        },
+      },
       "type": {
         "value": "voie",
       },
@@ -707,15 +774,19 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Rue Rhoam Bosphoramus",
         },
       ],
-      "parcels": [
-        "212860000C0237,212860000C0107",
-      ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000C0237,212860000C0107",
+          ],
+        },
+      },
       "type": {
         "value": "voie",
       },
@@ -731,15 +802,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "7ce61747-d840-4019-97be-82dc0568619f",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Allée des Prodiges",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -755,15 +824,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "8b3ae0a2-81ad-45b6-b58a-925868e6a3bc",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Passage de Daruk",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -779,15 +846,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Impasse des lynels",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -803,15 +868,19 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "c9b6df77-638b-4b30-991e-71486a91ea95",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Chemin de la legende",
         },
       ],
-      "parcels": [
-        "212860000D0143",
-      ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0143",
+          ],
+        },
+      },
       "type": {
         "value": "voie",
       },
@@ -827,15 +896,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "cfdb5a41-75b4-4964-ad95-f14f4ab6b23f",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Etang du sorcier",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -851,15 +918,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "d447b2d5-ff6d-42bc-8cb2-7efbfa2030e7",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Arbre Mojo",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -875,15 +940,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "e89808c4-7f7e-46f3-b3a8-d40e4b783d8d",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Chemin du Moulin",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -899,15 +962,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         "type": "Point",
       },
       "id": "f52cf4c8-df1d-4619-9a64-0b0b3ee01c4e",
-      "label": [
+      "labels": [
         {
           "isoCode": "fra",
           "value": "Relai d’Hylia",
         },
       ],
-      "parcels": [
-        "",
-      ],
+      "meta": {},
       "type": {
         "value": "voie",
       },

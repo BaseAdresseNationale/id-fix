@@ -75,9 +75,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6853881.3,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_mz58hg_00029",
     "commune_deleguee_insee": "00000",
@@ -98,9 +96,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854310.41,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_mz58hg_00031",
     "commune_deleguee_insee": "00000",
@@ -121,9 +117,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854342.28,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_mz58hg_00033",
     "commune_deleguee_insee": "00000",
@@ -475,9 +469,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852855.2,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_0085_00001",
     "commune_deleguee_insee": "00000",
@@ -498,9 +490,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854307.15,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_0085_00001",
     "commune_deleguee_insee": "00000",
@@ -521,9 +511,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854280.12,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": true,
     "cle_interop": "21286_0085_00002",
     "commune_deleguee_insee": "00000",
@@ -544,9 +532,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854326.7,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_ty2whe_99999",
     "commune_deleguee_insee": "00000",
@@ -567,9 +553,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852668.52,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B019_99999",
     "commune_deleguee_insee": "00000",
@@ -590,9 +574,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852865.29,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_adckqc_99999",
     "commune_deleguee_insee": "00000",
@@ -613,9 +595,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6851883.59,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_t6v2h3_99999",
     "commune_deleguee_insee": "00000",
@@ -636,9 +616,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6855705.13,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B023_99999",
     "commune_deleguee_insee": "00000",
@@ -659,9 +637,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854169.7,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_zpe59o_99999",
     "commune_deleguee_insee": "00000",
@@ -682,9 +658,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6854091.39,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B015_99999",
     "commune_deleguee_insee": "00000",
@@ -705,9 +679,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852964.76,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B010_99999",
     "commune_deleguee_insee": "00000",
@@ -728,9 +700,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852856.45,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_vwgc9s_99999",
     "commune_deleguee_insee": "00000",
@@ -751,9 +721,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6853815.12,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B040_99999",
     "commune_deleguee_insee": "00000",
@@ -774,9 +742,7 @@ exports[`balJSONlegacy2balJSON > should convert BAL JSON legacy into BAL JSON wi
     "y": 6852845.39,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_k6znad_99999",
     "commune_deleguee_insee": "00000",
@@ -871,9 +837,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6853881.3,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_mz58hg_00029",
     "commune_deleguee_insee": "00000",
@@ -894,9 +858,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854310.41,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_mz58hg_00031",
     "commune_deleguee_insee": "00000",
@@ -917,9 +879,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854342.28,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_mz58hg_00033",
     "commune_deleguee_insee": "00000",
@@ -1262,9 +1222,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852855.2,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_0085_00001",
     "commune_deleguee_insee": "00000",
@@ -1285,9 +1243,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854307.15,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_0085_00001",
     "commune_deleguee_insee": "00000",
@@ -1308,9 +1264,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854280.12,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_0085_00002",
     "commune_deleguee_insee": "00000",
@@ -1331,9 +1285,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854326.7,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_ty2whe_99999",
     "commune_deleguee_insee": "00000",
@@ -1354,9 +1306,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852668.52,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B019_99999",
     "commune_deleguee_insee": "00000",
@@ -1377,9 +1327,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852865.29,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_adckqc_99999",
     "commune_deleguee_insee": "00000",
@@ -1400,9 +1348,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6851883.59,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_t6v2h3_99999",
     "commune_deleguee_insee": "00000",
@@ -1423,9 +1369,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6855705.13,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B023_99999",
     "commune_deleguee_insee": "00000",
@@ -1446,9 +1390,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854169.7,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_zpe59o_99999",
     "commune_deleguee_insee": "00000",
@@ -1469,9 +1411,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6854091.39,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B015_99999",
     "commune_deleguee_insee": "00000",
@@ -1492,9 +1432,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852964.76,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B010_99999",
     "commune_deleguee_insee": "00000",
@@ -1515,9 +1453,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852856.45,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_vwgc9s_99999",
     "commune_deleguee_insee": "00000",
@@ -1538,9 +1474,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6853815.12,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_B040_99999",
     "commune_deleguee_insee": "00000",
@@ -1561,9 +1495,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
     "y": 6852845.39,
   },
   {
-    "cad_parcelles": [
-      "",
-    ],
+    "cad_parcelles": [],
     "certification_commune": false,
     "cle_interop": "21286_k6znad_99999",
     "commune_deleguee_insee": "00000",

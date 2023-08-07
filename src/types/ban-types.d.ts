@@ -20,7 +20,7 @@ export type Position = {
 
 export type BanDistrict = {
   districtID: DistrictInseeID; // code INSEE de la commune
-  label: {
+  labels: {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
   }[];
@@ -29,10 +29,16 @@ export type BanDistrict = {
 
 export type BanDistricts = BanDistrict[];
 
+export type Meta = {
+  cadastre?:{
+    ids: string[];
+  }
+}
+
 export type BanCommonToponym = {
   id?: BanCommonTopoID; // identifiant unique de la voie
   districtID: DistrictInseeID; // code INSEE de la commune
-  label: {
+  labels: {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
   }[];
@@ -43,8 +49,8 @@ export type BanCommonToponym = {
     type: "Point";
     coordinates: [number, number, number?];
   };
-  parcels?: string[]; // parcelles cadastrales de la voie
   updateDate: DateISO8601; // date de mise à jour de la voie
+  meta: Meta
 };
 
 export type BanCommonToponyms = BanCommonToponym[];
@@ -52,13 +58,14 @@ export type BanCommonToponyms = BanCommonToponym[];
 export type BanAddress = {
   id?: BanID; // identifiant unique de l'adresse
   districtID: DistrictInseeID; // code INSEE de la commune
-  commonToponymID?: BanCommonTopoID; // identifiant unique de la voie
+  mainCommonToponymID: BanCommonTopoID; // identifiant unique du toponyme principal
+  secondaryCommonToponymIDs?: BanCommonTopoID[]; // identifiant unique des toponymes secondaires
   number: number; // numéro de l'adresse
   suffix?: string;
   positions: Position[]; // positions géographiques de l'adresse
-  parcels?: string[]; // parcelles cadastrales de l'adresse // TODO: Verrifier que les parcelles ne soit pas par position et non par adresse
   certified?: boolean;
   updateDate: DateISO8601; // date de mise à jour de l'adresse
+  meta: Meta
 };
 
 export type BanAddresses = BanAddress[];

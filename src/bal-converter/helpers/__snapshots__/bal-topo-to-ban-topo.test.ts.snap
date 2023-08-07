@@ -11,17 +11,17 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
     "type": "Point",
   },
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
@@ -36,23 +36,23 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
     "type": "Point",
   },
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
-exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and other toponyms 1`] = `
+exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistrictID 1`] = `
 {
-  "districtID": undefined,
+  "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "geometry": {
     "coordinates": [
       1,
@@ -61,17 +61,17 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and other to
     "type": "Point",
   },
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
@@ -86,7 +86,7 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
     "type": "Point",
   },
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
@@ -96,17 +96,17 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
       "value": "Baleen ibilbidea",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
 exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = `
 {
-  "districtID": undefined,
+  "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "geometry": {
     "coordinates": [
       1,
@@ -115,17 +115,17 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
     "type": "Point",
   },
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Avenue Rhoam Bosphoramus",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
@@ -140,17 +140,17 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
     "type": "Point",
   },
   "id": undefined,
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
 
@@ -165,16 +165,16 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
     "type": "Point",
   },
   "id": undefined,
-  "label": [
+  "labels": [
     {
       "isoCode": "fra",
       "value": "Route de la Baleine",
     },
   ],
-  "parcels": undefined,
+  "meta": {},
   "type": {
     "value": "voie",
   },
-  "updateDate": "2021-01-01",
+  "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
