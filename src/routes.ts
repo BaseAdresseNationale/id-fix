@@ -20,7 +20,8 @@ router.get(
       let responseBody;
       const { cog } = req.params;
 
-      const district = await getDistrictFromCOG(cog);
+      const districtResponseRaw = await getDistrictFromCOG(cog);
+      const district = districtResponseRaw[0] // TODO : multiple district can have the same cog.
       const useBanId = district?.config?.useBanId;
       if (!useBanId) {
         const message = `District cog ${cog} do not support BanID`;
