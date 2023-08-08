@@ -12,9 +12,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -31,9 +28,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -50,9 +44,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -73,9 +64,6 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -92,9 +80,6 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -111,9 +96,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -130,9 +112,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
     },
   ],
   "meta": {},
-  "type": {
-    "value": "voie",
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;

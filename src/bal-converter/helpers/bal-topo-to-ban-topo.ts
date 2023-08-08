@@ -43,7 +43,6 @@ const balTopoToBanTopo = (
       isoCode,
       value,
     })),
-    type: { value: "voie" }, // TODO: How to get the type from the BAL?
     geometry,
     updateDate: balAdresse.date_der_maj,
     meta,

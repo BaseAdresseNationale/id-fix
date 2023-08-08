@@ -3,7 +3,6 @@ import type {
   BanCommonTopoID,
   DistrictInseeID,
   PositionType,
-  ToponymType,
   DateISO8601,
   LangISO639v3,
 } from "./ban-generic-types.js";
@@ -42,9 +41,6 @@ export type BanCommonToponym = {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
   }[];
-  type: {
-    value: ToponymType; // type de la voie (voie, lieu-dit, etc.)
-  };
   geometry: {
     type?: string;
     coordinates?: number[];
