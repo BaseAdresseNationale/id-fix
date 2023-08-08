@@ -738,13 +738,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
     },
     "468d0b9b-ec0c-448d-8188-4e28762251e2": {
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
-      "geometry": {
-        "coordinates": [
-          1.082305,
-          48.762015,
-        ],
-        "type": "Point",
-      },
+      "geometry": {},
       "id": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "labels": [
         {
@@ -752,13 +746,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Route de la Baleine",
         },
       ],
-      "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000D0053,212860000D0054",
-          ],
-        },
-      },
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -766,13 +754,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
     },
     "787ca7cf-8072-47ae-a8c6-98a62a8dd90c": {
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
-      "geometry": {
-        "coordinates": [
-          1.081444,
-          48.769615,
-        ],
-        "type": "Point",
-      },
+      "geometry": {},
       "id": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "labels": [
         {
@@ -780,13 +762,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Rue Rhoam Bosphoramus",
         },
       ],
-      "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000C0237,212860000C0107",
-          ],
-        },
-      },
+      "meta": {},
       "type": {
         "value": "voie",
       },
@@ -794,13 +770,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
     },
     "7ce61747-d840-4019-97be-82dc0568619f": {
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
-      "geometry": {
-        "coordinates": [
-          1.085574,
-          48.774035,
-        ],
-        "type": "Point",
-      },
+      "geometry": {},
       "id": "7ce61747-d840-4019-97be-82dc0568619f",
       "labels": [
         {
@@ -838,13 +808,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
     },
     "c965715f-3874-4cba-ae4e-c9afa585f5eb": {
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
-      "geometry": {
-        "coordinates": [
-          1.079699,
-          48.773594,
-        ],
-        "type": "Point",
-      },
+      "geometry": {},
       "id": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "labels": [
         {
@@ -860,13 +824,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
     },
     "c9b6df77-638b-4b30-991e-71486a91ea95": {
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
-      "geometry": {
-        "coordinates": [
-          1.087958,
-          48.760488,
-        ],
-        "type": "Point",
-      },
+      "geometry": {},
       "id": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "labels": [
         {
@@ -874,13 +832,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Chemin de la legende",
         },
       ],
-      "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000D0143",
-          ],
-        },
-      },
+      "meta": {},
       "type": {
         "value": "voie",
       },
