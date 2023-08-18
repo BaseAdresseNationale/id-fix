@@ -46,8 +46,8 @@ export type BanCommonToponym = {
     value: ToponymType; // type de la voie (voie, lieu-dit, etc.)
   };
   geometry: {
-    type: "Point";
-    coordinates: [number, number, number?];
+    type?: string;
+    coordinates?: number[];
   };
   updateDate: DateISO8601; // date de mise à jour de la voie
   meta: Meta

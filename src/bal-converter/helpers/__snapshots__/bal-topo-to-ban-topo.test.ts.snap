@@ -3,13 +3,7 @@
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
 {
   "districtID": undefined,
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -28,13 +22,7 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
 {
   "districtID": undefined,
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -53,13 +41,7 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistrictID 1`] = `
 {
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -78,13 +60,7 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
 exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`] = `
 {
   "districtID": undefined,
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -107,13 +83,7 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
 exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = `
 {
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -132,13 +102,7 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
 exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
 {
   "districtID": undefined,
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": undefined,
   "labels": [
     {
@@ -157,13 +121,7 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
 {
   "districtID": undefined,
-  "geometry": {
-    "coordinates": [
-      1,
-      2,
-    ],
-    "type": "Point",
-  },
+  "geometry": {},
   "id": undefined,
   "labels": [
     {
