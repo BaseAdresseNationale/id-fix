@@ -8,7 +8,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID and BanTopoID 1`
   "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -23,7 +22,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID and BanTopoID 1`
     },
   ],
   "secondaryCommonToponymIDs": undefined,
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -34,7 +32,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID without BanTopoI
   "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": undefined,
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -49,7 +46,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID without BanTopoI
     },
   ],
   "secondaryCommonToponymIDs": undefined,
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -60,7 +56,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID, BanTopoID, othe
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -79,7 +74,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID, BanTopoID, othe
     "cccccccc-1111-4aaa-9000-1234567890dd",
     "cccccccc-2222-4aaa-9000-1234567890ee",
   ],
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -90,7 +84,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanTopoID 1`] = `
   "districtID": undefined,
   "id": undefined,
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -105,7 +98,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanTopoID 1`] = `
     },
   ],
   "secondaryCommonToponymIDs": undefined,
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -116,7 +108,6 @@ exports[`balAddrToBanAddr > should return BanAddress with multiple positions 1`]
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -145,7 +136,6 @@ exports[`balAddrToBanAddr > should return BanAddress with multiple positions 1`]
     "cccccccc-1111-4aaa-9000-1234567890dd",
     "cccccccc-2222-4aaa-9000-1234567890ee",
   ],
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -156,7 +146,6 @@ exports[`balAddrToBanAddr > should return BanAddress without BanID & BanTopoID 1
   "districtID": undefined,
   "id": undefined,
   "mainCommonToponymID": undefined,
-  "meta": {},
   "number": 1,
   "positions": [
     {
@@ -171,7 +160,6 @@ exports[`balAddrToBanAddr > should return BanAddress without BanID & BanTopoID 1
     },
   ],
   "secondaryCommonToponymIDs": undefined,
-  "suffix": undefined,
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;

@@ -14,9 +14,10 @@ const balAddrToBanAddr = (
   const { addressID, mainTopoID, secondaryTopoIDs, districtID } = digestIDsFromBalAddr(balAdresse);
   const addrNumber = balAdresse.numero || oldBanAddress?.number;
   const positionType = convertBalPositionTypeToBanPositionType(balAdresse.position);
+  const suffix = balAdresse.suffixe
   const meta = balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
     ? { cadastre: { ids: balAdresse.cad_parcelles } } 
-    : {}
+    : undefined;
   return addrNumber && addrNumber !== Number(IS_TOPO_NB)
     ? {
         ...(oldBanAddress || {}),
@@ -25,7 +26,6 @@ const balAddrToBanAddr = (
         mainCommonToponymID: mainTopoID,
         secondaryCommonToponymIDs: secondaryTopoIDs,
         number: addrNumber,
-        suffix: balAdresse.suffixe,
         positions: [
           // Previous positions
           ...(oldBanAddress?.positions || []),
@@ -39,7 +39,8 @@ const balAddrToBanAddr = (
         ],
         certified: balAdresse.certification_commune,
         updateDate: balAdresse.date_der_maj,
-        meta,
+        ...(suffix ? {suffix} : {}),
+        ...(meta ? {meta} : {}),
       }
     : undefined;
 };

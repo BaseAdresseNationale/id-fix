@@ -1,4 +1,4 @@
-import type { LangISO639v3 } from "../../types/ban-generic-types.js";
+import type { GeometryType, LangISO639v3 } from "../../types/ban-generic-types.js";
 import type { BalAdresse, VoieNomIsoCodeKey } from "../../types/bal-types.js";
 import type { BanCommonToponym } from "../../types/ban-types.js";
 
@@ -26,14 +26,14 @@ const balTopoToBanTopo = (
   const addrNumber = balAdresse.numero
   const meta = addrNumber === Number(IS_TOPO_NB) && balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
     ? {cadastre: {ids: balAdresse.cad_parcelles}} 
-    : {}
+    : undefined
 
   const geometry = addrNumber === Number(IS_TOPO_NB) && balAdresse.long && balAdresse.lat 
     ? {
-      type: "Point",
-      coordinates: [balAdresse.long, balAdresse.lat],
+      type: 'Point' as GeometryType,
+      coordinates: [balAdresse.long, balAdresse.lat] as [number, number]
     }
-    : {}
+    : undefined
 
   return {
     ...(oldBanCommonToponym || {}),
@@ -43,9 +43,10 @@ const balTopoToBanTopo = (
       isoCode,
       value,
     })),
-    geometry,
+    
     updateDate: balAdresse.date_der_maj,
-    meta,
+    ...(geometry ? {geometry} : {}),
+    ...(meta ? {meta} : {}),
   };
 };
 

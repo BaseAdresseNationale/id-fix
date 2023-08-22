@@ -5,16 +5,16 @@ import type {
   PositionType,
   DateISO8601,
   LangISO639v3,
+  Geometry,
+  Meta,
+  Config
 } from "./ban-generic-types.js";
 
 // TODO: use english names ?
 
 export type Position = {
   type: PositionType;
-  geometry: {
-    type: "Point";
-    coordinates: [number, number, number?];
-  };
+  geometry: Geometry
 };
 
 export type BanDistrict = {
@@ -24,15 +24,11 @@ export type BanDistrict = {
     value: string; // nom de la voie
   }[];
   updateDate: DateISO8601; // date de mise à jour de la commune
+  meta?: Meta;
+  config?: Config
 };
 
 export type BanDistricts = BanDistrict[];
-
-export type Meta = {
-  cadastre?:{
-    ids: string[];
-  }
-}
 
 export type BanCommonToponym = {
   id?: BanCommonTopoID; // identifiant unique de la voie
@@ -41,12 +37,9 @@ export type BanCommonToponym = {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
   }[];
-  geometry: {
-    type?: string;
-    coordinates?: number[];
-  };
+  geometry?: Geometry
   updateDate: DateISO8601; // date de mise à jour de la voie
-  meta: Meta
+  meta?: Meta
 };
 
 export type BanCommonToponyms = BanCommonToponym[];
@@ -61,7 +54,7 @@ export type BanAddress = {
   positions: Position[]; // positions géographiques de l'adresse
   certified?: boolean;
   updateDate: DateISO8601; // date de mise à jour de l'adresse
-  meta: Meta
+  meta?: Meta
 };
 
 export type BanAddresses = BanAddress[];
