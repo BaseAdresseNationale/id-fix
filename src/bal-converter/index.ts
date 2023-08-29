@@ -36,9 +36,7 @@ export const sendBalToBan = async (bal: string) => {
   const banToponymsToUpdate = banToponyms.filter(({ id }) =>
     toponymsIdsReport.idsToUpdate.includes(id)
   );
-  const banToponymsIdsToDelete = banToponymIds.filter((id) =>
-    toponymsIdsReport.idsToDelete.includes(id)
-  );
+  const banToponymsIdsToDelete = toponymsIdsReport.idsToDelete;
 
   // Sort Addresses (Add/Update/Delete)
   const banAddresses: BanAddresses = Object.values(addresses || {});
