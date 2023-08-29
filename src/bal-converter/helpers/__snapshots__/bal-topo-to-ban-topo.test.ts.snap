@@ -3,7 +3,6 @@
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
 {
   "districtID": undefined,
-  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -11,7 +10,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -19,7 +17,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
 {
   "districtID": undefined,
-  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -27,7 +24,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -35,7 +31,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistrictID 1`] = `
 {
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
-  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -43,7 +38,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -51,7 +45,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
 exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`] = `
 {
   "districtID": undefined,
-  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -63,7 +56,6 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
       "value": "Baleen ibilbidea",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -71,7 +63,6 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
 exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = `
 {
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
-  "geometry": {},
   "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
   "labels": [
     {
@@ -79,7 +70,6 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
       "value": "Avenue Rhoam Bosphoramus",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -87,7 +77,6 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
 exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
 {
   "districtID": undefined,
-  "geometry": {},
   "id": undefined,
   "labels": [
     {
@@ -95,7 +84,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -103,7 +91,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
 exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
 {
   "districtID": undefined,
-  "geometry": {},
   "id": undefined,
   "labels": [
     {
@@ -111,7 +98,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {},
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
