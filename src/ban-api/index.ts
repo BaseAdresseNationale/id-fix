@@ -156,7 +156,7 @@ export const updateCommonToponyms = async (
 
 export const deleteCommonToponyms = async (ids: BanCommonTopoID[]) => {
   try {
-    const body = JSON.stringify({ ids });
+    const body = JSON.stringify(ids);
     const response = await fetch(`${BAN_API_URL}/common-toponym/delete`, {
       method: "POST",
       headers: defaultHeader,
