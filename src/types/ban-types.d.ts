@@ -61,6 +61,6 @@ export type BanAddresses = BanAddress[];
 
 export type Ban = {
   districtID: DistrictInseeID; // code INSEE de la commune
-  commonToponyms?: Record<BanCommonTopoID, BanCommonToponym>; // voies, lieux-dits, etc.
-  addresses?: Record<BanID, BanAddress>; // adresses
+  commonToponyms: Record<BanCommonTopoID, BanCommonToponym>; // voies, lieux-dits, etc.
+  addresses: Record<BanID, BanAddress>; // adresses
 };
