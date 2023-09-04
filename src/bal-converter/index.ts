@@ -27,25 +27,27 @@ export const sendBalToBan = async (bal: string) => {
     getAddressIdsReport(districtID, banAddressIds),
     getCommonToponymIdsReport(districtID, banToponymIds),
   ]);
-
+  
   // Sort Toponyms (Add/Update/Delete)
-  const banToponyms: BanCommonToponyms = Object.values(commonToponyms || {});
-  const banToponymsToAdd = banToponyms.filter(({ id }) =>
-    toponymsIdsReport.idsToCreate.includes(id)
-  );
-  const banToponymsToUpdate = banToponyms.filter(({ id }) =>
-    toponymsIdsReport.idsToUpdate.includes(id)
-  );
+  const banToponymsToAdd = []
+  for (const toponymId of toponymsIdsReport.idsToCreate) {
+    banToponymsToAdd.push(commonToponyms[toponymId])
+  }
+  const banToponymsToUpdate = []
+  for (const toponymId of toponymsIdsReport.idsToUpdate) {
+    banToponymsToUpdate.push(commonToponyms[toponymId])
+  }
   const banToponymsIdsToDelete = toponymsIdsReport.idsToDelete;
 
   // Sort Addresses (Add/Update/Delete)
-  const banAddresses: BanAddresses = Object.values(addresses || {});
-  const banAddressesToAdd = banAddresses.filter(({ id }) =>
-    addressIdsReport.idsToCreate.includes(id)
-  );
-  const banAddressesToUpdate = banAddresses.filter(({ id }) =>
-    addressIdsReport.idsToUpdate.includes(id)
-  );
+  const banAddressesToAdd = []
+  for (const addressId of addressIdsReport.idsToCreate) {
+    banAddressesToAdd.push(addresses[addressId])
+  }
+  const banAddressesToUpdate = []
+  for (const addressId of addressIdsReport.idsToUpdate) {
+    banAddressesToUpdate.push(addresses[addressId])
+  }
   const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
 
   // Order is important here. Need to handle common toponyms first, then adresses

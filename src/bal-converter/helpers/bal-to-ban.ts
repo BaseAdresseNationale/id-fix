@@ -6,36 +6,27 @@ import balTopoToBanTopo from "./bal-topo-to-ban-topo.js";
 import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
 
 const balToBan = (bal: Bal): Ban => {
-  const ban = bal.reduce(
-    (acc: Ban, balAdresse: BalAdresse) => {
-      const { addressID, mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
-      const banIdContent = balAddrToBanAddr(
-        balAdresse,
-        acc.addresses?.[addressID]
-      );
-      const banCommonTopoIdContent = balTopoToBanTopo(
-        balAdresse,
-        acc.commonToponyms?.[mainTopoID]
-      );
-      return {
-        ...acc,
-        districtID,
-        addresses: {
-          ...acc.addresses,
-          ...(banIdContent && { [addressID]: banIdContent }),
-        },
-        commonToponyms: {
-          ...acc.commonToponyms,
-          [mainTopoID]: banCommonTopoIdContent,
-        },
-      };
-    },
-    {
-      districtID: "",
-      addresses: {},
-      commonToponyms: {},
+  const ban: Ban = {
+    districtID: "",
+    addresses: {},
+    commonToponyms: {},
+  };
+
+  for (const balAdresse of bal) {
+    const { addressID, mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
+    const banIdContent = balAddrToBanAddr(balAdresse, ban.addresses?.[addressID]);
+    const banCommonTopoIdContent = balTopoToBanTopo(balAdresse, ban.commonToponyms?.[mainTopoID]);
+
+    ban.districtID = districtID;
+
+    if (banIdContent) {
+      ban.addresses[addressID] = banIdContent;
     }
-  );
+    
+    if (banCommonTopoIdContent){
+      ban.commonToponyms[mainTopoID] = banCommonTopoIdContent;
+    }
+  }
 
   return ban;
 };
