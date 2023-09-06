@@ -9,6 +9,7 @@
     "build": "npx tsc",
     "test": "vitest",
     "updateBAL": "ts-node --esm script/update-bal.ts",
+    "initBALIntoBAN": "ts-node --esm script/init-bal-into-ban.ts",
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "ts": "ts-node"
