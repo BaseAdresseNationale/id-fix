@@ -51,11 +51,9 @@ export const sendBalToBan = async (bal: string) => {
   const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
 
   // Order is important here. Need to handle common toponyms first, then adresses
-  const responseCommonToponyms = await Promise.all([
+  const responseCommonToponymsPromises = ([
     banToponymsToAdd.length > 0 && createCommonToponyms(banToponymsToAdd),
     banToponymsToUpdate.length > 0 && updateCommonToponyms(banToponymsToUpdate),
-    banToponymsIdsToDelete.length > 0 &&
-      deleteCommonToponyms(banToponymsIdsToDelete),
   ]);
 
   const responseAddresses = await Promise.all([
@@ -64,6 +62,13 @@ export const sendBalToBan = async (bal: string) => {
     banAddressesIdsToDelete.length > 0 &&
       deleteAddresses(banAddressesIdsToDelete),
   ]);
+
+  // To delete common toponyms, we need to wait for addresses to be deleted first
+  responseCommonToponymsPromises.push(banToponymsIdsToDelete.length > 0 &&
+      deleteCommonToponyms(banToponymsIdsToDelete),
+  )
+
+  const responseCommonToponyms = await Promise.all(responseCommonToponymsPromises);
 
   const responses = [...responseAddresses, ...responseCommonToponyms];
 
