@@ -17,6 +17,11 @@ export type Position = {
   geometry: Geometry
 };
 
+export type Label = {
+  isoCode: LangISO639v3; // code ISO de la langue
+  value: string; // nom de la voie
+}
+
 export type BanDistrict = {
   districtID: DistrictInseeID; // code INSEE de la commune
   labels: {
@@ -33,10 +38,7 @@ export type BanDistricts = BanDistrict[];
 export type BanCommonToponym = {
   id?: BanCommonTopoID; // identifiant unique de la voie
   districtID: DistrictInseeID; // code INSEE de la commune
-  labels: {
-    isoCode: LangISO639v3; // code ISO de la langue
-    value: string; // nom de la voie
-  }[];
+  labels: Label[];
   geometry?: Geometry
   updateDate: DateISO8601; // date de mise à jour de la voie
   meta?: Meta
@@ -51,6 +53,7 @@ export type BanAddress = {
   secondaryCommonToponymIDs?: BanCommonTopoID[]; // identifiant unique des toponymes secondaires
   number: number; // numéro de l'adresse
   suffix?: string;
+  labels?: Label[];
   positions: Position[]; // positions géographiques de l'adresse
   certified?: boolean;
   updateDate: DateISO8601; // date de mise à jour de l'adresse
