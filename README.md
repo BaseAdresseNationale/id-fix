@@ -43,6 +43,17 @@ npm install
 npm run dev
 ```
 
+## Scripts
+I. Init a BAL csv into the BAN plateforme using the ID-Fix BAL processing.
+
+Prerequisite : the district data of the BAL to import needs to be already present in the BAN DB. If not, use the POST /district api to create it.
+
+Here is the command to use : 
+```bash
+npm run initBALIntoBAN the/path/to/BAL/CSV
+```
+replace "the/path/to/BAL/CSV" to the actual path of the BAL csv to process and insert into the BAN
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
