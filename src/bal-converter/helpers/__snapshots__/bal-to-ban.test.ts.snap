@@ -7,6 +7,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "03fb190a-cf5b-4f48-a1ab-7caa4d10e157",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "La voie celeste",
+        },
+      ],
       "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "meta": {
         "cadastre": {
@@ -45,6 +51,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "18510122-0ad8-49fe-bbae-ca484d8f4e01",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Observatoire d’Hyrule",
+        },
+      ],
       "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "number": 31,
       "positions": [
@@ -66,6 +78,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "1890569a-d05f-4cf9-b27b-9172c497023e",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Les Bois Perdus",
+        },
+      ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
         "cadastre": {
@@ -304,6 +322,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "61b54625-bef6-4450-95e1-b6f37d93441a",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Relai d’Hylia",
+        },
+      ],
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
         "cadastre": {
@@ -388,6 +412,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "8c12024d-6216-4634-aca0-598f569d632b",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Empreinte du Fleau",
+        },
+      ],
       "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "number": 2,
       "positions": [
@@ -409,6 +439,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "aeda3e20-8204-4d2b-8e59-184df887ae4e",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Empreinte du Fleau",
+        },
+      ],
       "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "number": 1,
       "positions": [
@@ -440,6 +476,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "d19b14c9-d9d0-478f-b741-c973d05c343f",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "La voie celeste",
+        },
+      ],
       "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "meta": {
         "cadastre": {
@@ -468,6 +510,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "e6278261-1a1b-4606-9c20-a8f2d06738fa",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Les Bois Perdus",
+        },
+      ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
         "cadastre": {
@@ -496,6 +544,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "e9de2ecf-e082-448b-9a21-fe9d38d017ae",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Les Bois Perdus",
+        },
+      ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
         "cadastre": {
@@ -552,6 +606,12 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "certified": false,
       "districtID": "e2b5c142-3eb3-4d07-830a-3d1a59195dfd",
       "id": "ff8bb658-3f73-4ac3-ab04-7966e869e991",
+      "labels": [
+        {
+          "isoCode": "fra",
+          "value": "Les Bois Perdus",
+        },
+      ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
         "cadastre": {
