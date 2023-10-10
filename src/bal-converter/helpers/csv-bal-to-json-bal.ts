@@ -11,7 +11,7 @@ const csvBalToJsonBal = (csv: string): Bal => {
       switch (headerName) {
         case "commune_insee":
         case "commune_deleguee_insee":
-          return value.padStart(5, "0");
+          return value.trim() && value.padStart(5, "0");
         case "numero":
           return parseInt(value);
         case "x":
