@@ -28,9 +28,16 @@ const balAddrToBanAddr = (
       ).map((key) => [isoCodeFromBalLieuDitComplementNom(key), balAdresse[key]])
     ),
   } : undefined;
-  const meta = balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
-    ? { cadastre: { ids: balAdresse.cad_parcelles } } 
-    : undefined;
+
+  
+  const balMeta = {
+    ...(balAdresse.commune_deleguee_insee ? {codeAncienneCommune: balAdresse.commune_deleguee_insee} : {}),
+    ...(balAdresse.commune_deleguee_nom ? {nomAncienneCommune: balAdresse.commune_deleguee_nom} : {}),
+  }
+  const meta = {
+    ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 ? {cadastre: {ids: balAdresse.cad_parcelles}} : {}),
+    ...(Object.keys(balMeta).length ? {bal: balMeta} : {})
+  }
   return addrNumber && addrNumber !== Number(IS_TOPO_NB)
     ? {
         ...(oldBanAddress || {}),
@@ -54,7 +61,7 @@ const balAddrToBanAddr = (
         updateDate: balAdresse.date_der_maj,
         ...(labels ? {labels : Object.entries(labels).map(([isoCode, value]) => ({isoCode, value}))} : {}),
         ...(suffix ? {suffix} : {}),
-        ...(meta ? {meta} : {}),
+        ...(Object.keys(meta).length ? {meta} : {})
       }
     : undefined;
 };

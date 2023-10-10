@@ -654,6 +654,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Les Bois Perdus",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2022-06-03T00:00:00.000Z",
     },
     "1748660f-d473-400a-88ad-52d55f3fc9f5": {
@@ -672,6 +677,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Observatoire d’Hyrule",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
     "17ec2d21-8c66-4a43-921e-817fb489f899": {
@@ -690,6 +700,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Les Quatre Maisons",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2022-08-23T00:00:00.000Z",
     },
     "26d79f86-7051-4c51-a1b1-966fd7f1e345": {
@@ -708,6 +723,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Armurerie de l’Ancien Royaume",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2022-06-13T00:00:00.000Z",
     },
     "3c091079-e2c0-4151-8d1f-3a000bc29894": {
@@ -726,6 +746,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Empreinte du Fleau",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-08-31T00:00:00.000Z",
     },
     "413eb0cb-561a-435a-af8f-d244023f9b40": {
@@ -744,6 +769,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "La voie celeste",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
     "468d0b9b-ec0c-448d-8188-4e28762251e2": {
@@ -755,6 +785,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Route de la Baleine",
         },
       ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0053,212860000D0054",
+          ],
+        },
+      },
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "787ca7cf-8072-47ae-a8c6-98a62a8dd90c": {
@@ -766,6 +803,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Rue Rhoam Bosphoramus",
         },
       ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000C0237,212860000C0107",
+          ],
+        },
+      },
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "7ce61747-d840-4019-97be-82dc0568619f": {
@@ -795,6 +839,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Passage de Daruk",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
     "c965715f-3874-4cba-ae4e-c9afa585f5eb": {
@@ -817,6 +866,13 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Chemin de la legende",
         },
       ],
+      "meta": {
+        "cadastre": {
+          "ids": [
+            "212860000D0143",
+          ],
+        },
+      },
       "updateDate": "2021-09-06T00:00:00.000Z",
     },
     "cfdb5a41-75b4-4964-ad95-f14f4ab6b23f": {
@@ -835,6 +891,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Etang du sorcier",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
     "d447b2d5-ff6d-42bc-8cb2-7efbfa2030e7": {
@@ -853,6 +914,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Arbre Mojo",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
     "e89808c4-7f7e-46f3-b3a8-d40e4b783d8d": {
@@ -871,6 +937,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Chemin du Moulin",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2023-01-13T00:00:00.000Z",
     },
     "f52cf4c8-df1d-4619-9a64-0b0b3ee01c4e": {
@@ -889,6 +960,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           "value": "Relai d’Hylia",
         },
       ],
+      "meta": {
+        "bal": {
+          "isLieuDit": true,
+        },
+      },
       "updateDate": "2020-07-03T00:00:00.000Z",
     },
   },
