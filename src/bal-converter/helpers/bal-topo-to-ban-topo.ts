@@ -24,10 +24,15 @@ const balTopoToBanTopo = (
     ),
   };
   const addrNumber = balAdresse.numero
-  const meta = addrNumber === Number(IS_TOPO_NB) && balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 
-    ? {cadastre: {ids: balAdresse.cad_parcelles}} 
-    : undefined
-
+  const balMeta = {
+    ...(balAdresse.commune_deleguee_insee ? {codeAncienneCommune: balAdresse.commune_deleguee_insee} : {}),
+    ...(balAdresse.commune_deleguee_nom ? {nomAncienneCommune: balAdresse.commune_deleguee_nom} : {}),
+    ...(addrNumber === Number(IS_TOPO_NB) ? {isLieuDit: true} : {}),
+  }
+  const meta = {
+    ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 ? {cadastre: {ids: balAdresse.cad_parcelles}} : {}),
+    ...(Object.keys(balMeta).length ? {bal: balMeta} : {})
+  }
   const geometry = addrNumber === Number(IS_TOPO_NB) && balAdresse.long && balAdresse.lat 
     ? {
       type: 'Point' as GeometryType,
@@ -46,7 +51,7 @@ const balTopoToBanTopo = (
     
     updateDate: balAdresse.date_der_maj,
     ...(geometry ? {geometry} : {}),
-    ...(meta ? {meta} : {}),
+    ...(Object.keys(meta).length ? {meta} : {})
   };
 };
 
