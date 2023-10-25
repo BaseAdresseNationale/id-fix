@@ -17,7 +17,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000C0115,212860000C0114",
+            "212860000C0115|212860000C0114",
           ],
         },
       },
@@ -116,7 +116,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0053,212860000D0054",
+            "212860000D0053|212860000D0054",
           ],
         },
       },
@@ -144,7 +144,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0305,212860000D0307,212860000D0308,212860000D0266",
+            "212860000D0305|212860000D0307|212860000D0308|212860000D0266",
           ],
         },
       },
@@ -242,7 +242,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0290,212860000D0292,212860000D0273,212860000D0288",
+            "212860000D0290|212860000D0292|212860000D0273|212860000D0288",
           ],
         },
       },
@@ -360,7 +360,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0304,212860000D0229",
+            "212860000D0304|212860000D0229",
           ],
         },
       },
@@ -486,7 +486,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000C0237,212860000C0107",
+            "212860000C0237|212860000C0107",
           ],
         },
       },
@@ -616,7 +616,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0148,212860000D0284",
+            "212860000D0148|212860000D0284",
           ],
         },
       },
@@ -788,7 +788,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000D0053,212860000D0054",
+            "212860000D0053|212860000D0054",
           ],
         },
       },
@@ -806,7 +806,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "meta": {
         "cadastre": {
           "ids": [
-            "212860000C0237,212860000C0107",
+            "212860000C0237|212860000C0107",
           ],
         },
       },

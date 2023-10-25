@@ -249,7 +249,7 @@
     "long": 1.083096,
     "lat": 48.76238,
     "cad_parcelles": [
-      "212860000D0290,212860000D0292,212860000D0273,212860000D0288"
+      "212860000D0290|212860000D0292|212860000D0273|212860000D0288"
     ],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
@@ -271,7 +271,7 @@
     "y": 6853035,
     "long": 1.082305,
     "lat": 48.762015,
-    "cad_parcelles": ["212860000D0053,212860000D0054"],
+    "cad_parcelles": ["212860000D0053|212860000D0054"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": false
@@ -292,7 +292,7 @@
     "y": 6852771.7,
     "long": 1.086349,
     "lat": 48.759711,
-    "cad_parcelles": ["212860000D0304,212860000D0229"],
+    "cad_parcelles": ["212860000D0304|212860000D0229"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": false
@@ -397,7 +397,7 @@
     "y": 6852836.81,
     "long": 1.087483,
     "lat": 48.760315,
-    "cad_parcelles": ["212860000D0148,212860000D0284"],
+    "cad_parcelles": ["212860000D0148|212860000D0284"],
     "source": "commune",
     "date_der_maj": "2021-09-06T00:00:00.000Z",
     "certification_commune": false

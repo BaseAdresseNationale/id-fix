@@ -1016,7 +1016,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
   },
   {
     "cad_parcelles": [
-      "212860000D0290,212860000D0292,212860000D0273,212860000D0288",
+      "212860000D0290|212860000D0292|212860000D0273|212860000D0288",
     ],
     "certification_commune": false,
     "cle_interop": "21286_p899mr_00009",
@@ -1039,7 +1039,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
   },
   {
     "cad_parcelles": [
-      "212860000D0053,212860000D0054",
+      "212860000D0053|212860000D0054",
     ],
     "certification_commune": false,
     "cle_interop": "21286_p899mr_00010",
@@ -1062,7 +1062,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
   },
   {
     "cad_parcelles": [
-      "212860000D0304,212860000D0229",
+      "212860000D0304|212860000D0229",
     ],
     "certification_commune": false,
     "cle_interop": "21286_0040_00003",
@@ -1177,7 +1177,7 @@ exports[`balJSONlegacy2balJSON > should convert partial BAL JSON legacy into BAL
   },
   {
     "cad_parcelles": [
-      "212860000D0148,212860000D0284",
+      "212860000D0148|212860000D0284",
     ],
     "certification_commune": false,
     "cle_interop": "21286_0040_00009",
