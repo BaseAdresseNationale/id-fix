@@ -182,3 +182,18 @@ export const getDistrictFromCOG = async (cog: string) => {
     throw new Error(`Ban API - ${message}`);
   }
 }
+
+export const partialUpdateDistricts = async (partialDistricts: any) => {
+  try {
+    const body = JSON.stringify(partialDistricts);
+    const response = await fetch(`${BAN_API_URL}/district`, {
+      method: "PATCH",
+      headers: defaultHeader,
+      body,
+    });
+    return await HandleHTTPResponse(response);
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Ban API - ${message}`);
+  } 
+}
