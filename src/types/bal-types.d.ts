@@ -14,8 +14,6 @@ export type CommuneDelegueeNomIsoCodeKey =
   `commune_deleguee_nom_${LangISO639v3}`;
 export type VoieNomIsoCodeKey = `voie_nom_${LangISO639v3}`;
 export type LieuditComplementNomIsoCodeKey = `lieudit_complement_nom_${LangISO639v3}`;
-export type LieuditComplementNomIsoCodeKey =
-  `lieudit_complement_nom_${LangISO639v3}`;
 
 export type BalAdresse = {
   uid_adresse?: UIdAdresse;

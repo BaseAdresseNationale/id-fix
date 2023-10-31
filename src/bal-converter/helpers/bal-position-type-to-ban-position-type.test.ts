@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { convertBalPositionTypeToBanPositionType } from './bal-position-type-to-ban-position-type' 
+import { convertBalPositionTypeToBanPositionType } from './index' 
 
 describe("balPositionTypeToBanPositionType", () => {
 

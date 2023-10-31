@@ -1,5 +1,4 @@
 import type { BanID, BanCommonTopoID } from "../types/ban-generic-types.js";
-
 import {
   getAddressIdsReport,
   createAddresses,
@@ -11,10 +10,9 @@ import {
   deleteCommonToponyms,
 } from "../ban-api/index.js";
 import { balToBan, csvBalToJsonBal } from "./helpers/index.js";
+import { formatToChunks, formatResponse } from "./helpers/format.js";
 
 const CHUNK_SIZE = 1000;
-const DATA_TYPE = ["addresses", "commonToponyms"];
-const ACTION_TYPE = ["add", "update", "delete"];
 
 export const sendBalToBan = async (bal: string) => {
   const balJSON = csvBalToJsonBal(bal);
@@ -39,26 +37,10 @@ export const sendBalToBan = async (bal: string) => {
   }
   const banAddressesIdsToDelete = addressIdsReport.idsToDelete;
 
-  // Split arrays in chunks of 1000 elements
-  const banAddressesToAddChunks = [];
-  const banAddressesToUpdateChunks = [];
-  const banAddressesIdsToDeleteChunks = [];
-
-  for (let i = 0; i < banAddressesToAdd.length; i += CHUNK_SIZE) {
-    banAddressesToAddChunks.push(
-      banAddressesToAdd.slice(i, i + CHUNK_SIZE),
-    );
-  }
-  for (let i = 0; i < banAddressesToUpdate.length; i += CHUNK_SIZE) {
-    banAddressesToUpdateChunks.push(
-      banAddressesToUpdate.slice(i, i + CHUNK_SIZE),
-    );
-  }
-  for (let i = 0; i < banAddressesIdsToDelete.length; i += CHUNK_SIZE) {
-    banAddressesIdsToDeleteChunks.push(
-      banAddressesIdsToDelete.slice(i, i + CHUNK_SIZE),
-    );
-  }
+  // Split address arrays in chunks
+  const banAddressesToAddChunks = formatToChunks(banAddressesToAdd, CHUNK_SIZE)
+  const banAddressesToUpdateChunks = formatToChunks(banAddressesToUpdate, CHUNK_SIZE)
+  const banAddressesIdsToDeleteChunks = formatToChunks(banAddressesIdsToDelete, CHUNK_SIZE)
   
   // Sort Toponyms (Add/Update/Delete)
   const banToponymsToAdd = []
@@ -71,30 +53,12 @@ export const sendBalToBan = async (bal: string) => {
   }
   const banToponymsIdsToDelete = toponymsIdsReport.idsToDelete;
 
-  // Split arrays in chunks of 1000 elements
-  const banToponymsToAddChunks = [];
-  const banToponymsToUpdateChunks = [];
-  const banToponymsIdsToDeleteChunks = [];
+  // Split common toponyms arrays in chunks
+  const banToponymsToAddChunks = formatToChunks(banToponymsToAdd, CHUNK_SIZE)
+  const banToponymsToUpdateChunks = formatToChunks(banToponymsToUpdate, CHUNK_SIZE)
+  const banToponymsIdsToDeleteChunks = formatToChunks(banToponymsIdsToDelete, CHUNK_SIZE)
 
-  for (let i = 0; i < banToponymsToAdd.length; i += CHUNK_SIZE) {
-    banToponymsToAddChunks.push(
-      banToponymsToAdd.slice(i, i + CHUNK_SIZE),
-    );
-  }
-
-  for (let i = 0; i < banToponymsToUpdate.length; i += CHUNK_SIZE) {
-    banToponymsToUpdateChunks.push(
-      banToponymsToUpdate.slice(i, i + CHUNK_SIZE),
-    );
-  }
-
-  for (let i = 0; i < banToponymsIdsToDelete.length; i += CHUNK_SIZE) {
-    banToponymsIdsToDeleteChunks.push(
-      banToponymsIdsToDelete.slice(i, i + CHUNK_SIZE),
-    );
-  }
-
-  // Order is important here. Need to handle common toponyms first, then adresses
+  // Order is important here. Need to handle common toponyms first (except delete), then adresses
   // Common toponyms
   const responseCommonToponymsToAdd = await Promise.all(banToponymsToAddChunks.map((chunk) => createCommonToponyms(chunk)))
   const responseCommonToponymsToUpdate =  await Promise.all(banToponymsToUpdateChunks.map((chunk) => updateCommonToponyms(chunk)))
@@ -117,22 +81,9 @@ export const sendBalToBan = async (bal: string) => {
 
   // To delete common toponyms, we need to wait for addresses to be deleted first
   const responseCommonToponymsToDelete = await Promise.all(banToponymsIdsToDeleteChunks.map((chunk) => deleteCommonToponyms(chunk)))
-
   responseCommonToponyms.push(responseCommonToponymsToDelete)
 
+  // Format response
   const allReponses = [responseAddresses, responseCommonToponyms]
-  const formatedResponse = {} as any
-  allReponses.forEach((responseType: any[], indexDataType: number) => {
-    if (responseType.length > 0) {
-      responseType.forEach((responseAction: any[], indexActionType: number) => {
-        if (responseAction.length > 0) {
-          formatedResponse[DATA_TYPE[indexDataType]] = {
-            ...formatedResponse[DATA_TYPE[indexDataType]],
-            [ACTION_TYPE[indexActionType]]: responseAction
-          }
-        }
-      })
-    }
-  })
-  return formatedResponse
+  return formatResponse(allReponses)
 }

@@ -11,4 +11,6 @@ const positionTypeConverter = (data: any, langFrom: string, langTo: string) => {
   return (key: string) => dataMemorized[key]
 } 
 
-export const convertBalPositionTypeToBanPositionType = positionTypeConverter(positionTypeDictionary, 'fra', 'eng')
+const convertBalPositionTypeToBanPositionType = positionTypeConverter(positionTypeDictionary, 'fra', 'eng')
+
+export default convertBalPositionTypeToBanPositionType
