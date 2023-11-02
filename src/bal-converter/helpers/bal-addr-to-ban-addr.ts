@@ -3,7 +3,7 @@ import type { BalAdresse, LieuditComplementNomIsoCodeKey } from "../../types/bal
 import type { BanAddress } from "../../types/ban-types.js";
 
 import { numberForTopo as IS_TOPO_NB } from "../bal-converter.config.js";
-import { convertBalPositionTypeToBanPositionType } from "./bal-position-type-to-ban-position-type.js";
+import { convertBalPositionTypeToBanPositionType } from "./index.js";
 import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
 
 const DEFAULT_BAN_ADDR_POSITION = "other";
