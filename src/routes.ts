@@ -3,7 +3,7 @@ import authMiddleware from "./middleware/auth.js";
 import { getRevisionFromDistrictCOG, getRevisionFileText } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import localCurrentDate from "./utils/local-current-date.js";
-import { getDistrictFromCOG } from "./ban-api/index.js";
+import { getDistrictFromCOG, partialUpdateDistricts } from "./ban-api/index.js";
 
 const router: Router = Router();
 
@@ -33,6 +33,21 @@ router.get(
       } else {
         const revision = await getRevisionFromDistrictCOG(cog);
         const revisionFileText = await getRevisionFileText(revision._id);
+
+        // Update District with revision data
+        const districtUpdate = {
+          id: district.id,
+          meta: {
+            ...district.meta,
+            bal:{
+              ...district.meta?.bal,
+              idRevision: revision._id,
+              dateRevision: revision.publishedAt,
+            }
+          }
+        }
+        await partialUpdateDistricts([districtUpdate])
+        
         responseBody = (await sendBalToBan(revisionFileText)) || {};
         console.log(
           `[${localCurrentDate()}] District cog ${cog} update in BAN BDD`
