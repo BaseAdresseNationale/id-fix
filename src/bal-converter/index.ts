@@ -1,3 +1,4 @@
+import type { Bal } from "../types/bal-types.js";
 import type { BanID, BanCommonTopoID } from "../types/ban-generic-types.js";
 import {
   getAddressIdsReport,
@@ -9,14 +10,13 @@ import {
   updateCommonToponyms,
   deleteCommonToponyms,
 } from "../ban-api/index.js";
-import { balToBan, csvBalToJsonBal } from "./helpers/index.js";
+import { balToBan } from "./helpers/index.js";
 import { formatToChunks, formatResponse } from "./helpers/format.js";
 
 const CHUNK_SIZE = 1000;
 
-export const sendBalToBan = async (bal: string) => {
-  const balJSON = csvBalToJsonBal(bal);
-  const { districtID, addresses, commonToponyms } = balToBan(balJSON);
+export const sendBalToBan = async (bal: Bal) => {
+  const { districtID, addresses, commonToponyms } = balToBan(bal);
 
   // Get addresses and toponyms reports
   const banAddressIds: BanID[] = Object.keys(addresses || {});

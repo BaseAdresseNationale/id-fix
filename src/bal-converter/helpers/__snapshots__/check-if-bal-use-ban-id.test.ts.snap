@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`balTopoToBanTopo > Should return false as bal does not have a common toponym ID on one of its line 1`] = `false`;
+
+exports[`balTopoToBanTopo > Should return false as bal does not use ban IDs 1`] = `false`;
+
+exports[`balTopoToBanTopo > Should return true as bal uses ban IDs 1`] = `true`;

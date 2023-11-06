@@ -2,11 +2,13 @@
 import 'dotenv/config.js';
 import fs from "node:fs";
 import path from "node:path";
+import { exit } from "node:process";
+
 import argvParser from "minimist";
 import {
   sendBalToBan
 } from "../src/bal-converter/index.js";
-import { exit } from "node:process";
+import { csvBalToJsonBal } from "../src/bal-converter/helpers/index.js";
 
 const args = argvParser(process.argv.slice(2));
 
@@ -30,8 +32,9 @@ if (!pathToBalCSVToInit.match(/\.csv$/)) {
 }
 
 const mockBalCSV = fs.readFileSync(pathToBalCSVToInit, "utf8");
+const bal = csvBalToJsonBal(mockBalCSV);
 
-await sendBalToBan(mockBalCSV);
+await sendBalToBan(bal);
 console.log(
   `Data from '${path.basename(
     pathToBalCSVToInit
