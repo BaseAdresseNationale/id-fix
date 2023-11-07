@@ -28,7 +28,7 @@ router.get(
         );
       }
 
-      const { id, config, meta } = districtResponseRaw[0];
+      const { id, config } = districtResponseRaw[0];
       const useBanId = config?.useBanId;
       if (!useBanId) {
         throw new Error(`District id ${id} do not support BanID`);
@@ -41,9 +41,7 @@ router.get(
         const districtUpdate = {
           id,
           meta: {
-            ...meta,
             bal: {
-              ...meta?.bal,
               idRevision: revision._id,
               dateRevision: revision.publishedAt,
             },
