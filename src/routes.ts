@@ -10,10 +10,6 @@ import { getDistrictFromCOG, partialUpdateDistricts } from "./ban-api/index.js";
 
 const router: Router = Router();
 
-router.get("/id-fix", authMiddleware, (req: Request, res: Response) => {
-  res.send("ID-Fix is live!");
-});
-
 router.get(
   "/district/cog/:cog",
   authMiddleware,
@@ -56,8 +52,9 @@ router.get(
         await partialUpdateDistricts([districtUpdate]);
 
         responseBody = (await sendBalToBan(revisionFileText)) || {};
-        logger.info(`District id ${id} update in BAN BDD`);
-        logger.info(`Response body : ${JSON.stringify(responseBody)}`);
+        logger.info(
+          `District id ${id} update in BAN BDD. Response body : ${JSON.stringify(responseBody)}`,
+        );
 
         // TODO: Build Exploitation BDD (Legacy) from BAN BDD
       }
