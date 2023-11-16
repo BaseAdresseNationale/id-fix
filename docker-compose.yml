@@ -4,6 +4,7 @@ services:
       dockerfile: "Dockerfile.dev"
     volumes:
       - ./src:/app/src
+      - ./script:/app/script
       - ./nodemon.json:/app/nodemon.json
     environment:
       - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
