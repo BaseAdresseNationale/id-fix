@@ -1,4 +1,5 @@
 # Ignore artifacts:
+logs
 dist
 node_modules
 .env

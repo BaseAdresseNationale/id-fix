@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { logger } from "../utils/logger.js";
 
 const getAuthFromRequest = (req: Request) => {
   const authorizedTokens = (process.env.IDEFIX_ADMIN_TOKENS || "")
@@ -57,7 +58,7 @@ export const authMiddleware = async (
 
     next();
   } catch (error) {
-    console.error("AUTH ERROR !", error);
+    logger.error("AUTH ERROR !", error);
     res.status(500).json({
       error: "Internal Server Error",
     });

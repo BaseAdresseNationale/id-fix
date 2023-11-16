@@ -1,15 +1,14 @@
 import { Router, Request, Response } from "express";
+import { logger } from "./utils/logger.js";
 import authMiddleware from "./middleware/auth.js";
-import { getRevisionFromDistrictCOG, getRevisionFileText } from "./dump-api/index.js";
+import {
+  getRevisionFromDistrictCOG,
+  getRevisionFileText,
+} from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
-import localCurrentDate from "./utils/local-current-date.js";
 import { getDistrictFromCOG, partialUpdateDistricts } from "./ban-api/index.js";
 
 const router: Router = Router();
-
-router.get("/id-fix", authMiddleware, (req: Request, res: Response) => {
-  res.send("ID-Fix is live!");
-});
 
 router.get(
   "/district/cog/:cog",
@@ -21,14 +20,18 @@ router.get(
       const { cog } = req.params;
 
       const districtResponseRaw = await getDistrictFromCOG(cog);
-      const district = districtResponseRaw[0] // TODO : multiple district can have the same cog.
-      const useBanId = district?.config?.useBanId;
+      if (!districtResponseRaw.length) {
+        throw new Error(`No district found with cog ${cog}`);
+      } else if (districtResponseRaw.length > 1) {
+        throw new Error(
+          `Multiple district found with cog ${cog}. Behavior not handled yet.`
+        );
+      }
+
+      const { id, config, meta } = districtResponseRaw[0];
+      const useBanId = config?.useBanId;
       if (!useBanId) {
-        const message = `District cog ${cog} do not support BanID`;
-        responseBody = {
-          message,
-        };
-        console.log(`[${localCurrentDate()}] ${message}`);
+        throw new Error(`District id ${id} do not support BanID`);
         // TODO: Build Exploitation BDD (Legacy) by Legacy compose
       } else {
         const revision = await getRevisionFromDistrictCOG(cog);
@@ -36,22 +39,23 @@ router.get(
 
         // Update District with revision data
         const districtUpdate = {
-          id: district.id,
+          id,
           meta: {
-            ...district.meta,
-            bal:{
-              ...district.meta?.bal,
+            ...meta,
+            bal: {
+              ...meta?.bal,
               idRevision: revision._id,
               dateRevision: revision.publishedAt,
-            }
-          }
-        }
-        await partialUpdateDistricts([districtUpdate])
-        
+            },
+          },
+        };
+        await partialUpdateDistricts([districtUpdate]);
+
         responseBody = (await sendBalToBan(revisionFileText)) || {};
-        console.log(
-          `[${localCurrentDate()}] District cog ${cog} update in BAN BDD`
+        logger.info(
+          `District id ${id} update in BAN BDD. Response body : ${JSON.stringify(responseBody)}`,
         );
+
         // TODO: Build Exploitation BDD (Legacy) from BAN BDD
       }
 
@@ -62,6 +66,7 @@ router.get(
       };
     } catch (error) {
       const { message } = error as Error;
+      logger.error(message);
       response = {
         date: new Date(),
         status: "error",
