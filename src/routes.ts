@@ -12,6 +12,8 @@ import {
   csvBalToJsonBal,
 } from "./bal-converter/helpers/index.js";
 
+import acceptedCogList from './accepted-cog-list.json' assert { type: 'json' }
+
 const router: Router = Router();
 
 router.get(
@@ -27,7 +29,12 @@ router.get(
       const revisionFileText = await getRevisionFileText(revision._id);
       const bal = csvBalToJsonBal(revisionFileText);
       const useBanId = await checkIfBALUseBanId(bal);
-      if (!useBanId) {
+
+      // Temporary check for testing purpose
+      // Check if cog part of the accepted cog list
+      const isCogAccepted = acceptedCogList.includes(cog);
+  
+      if (!useBanId || !isCogAccepted) {
         const message = `District cog ${cog} do not support BanID`;
         responseBody = {
           message,
