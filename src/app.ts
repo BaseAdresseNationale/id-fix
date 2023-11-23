@@ -13,7 +13,7 @@ app.use(express.json());
 // Define the API routes
 app.use("/", routes);
 
-// Start the server on port 3000
+// Start the server on the specified port
 app.listen(PORT, () => {
   console.log(`The server has started on port ${PORT}`);
 });

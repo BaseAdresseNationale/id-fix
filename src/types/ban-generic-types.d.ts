@@ -1,5 +1,6 @@
-export type BanID = string;
+export type BanAddressID = string;
 export type BanCommonTopoID = string;
+export type BanDistrictID = string;
 export type DistrictInseeID = string;
 export type PositionType =
   | "entrée"
@@ -16,14 +17,13 @@ export type PositionType =
 export type DateISO8601 = Date;
 export type LangISO639v3 = string;
 export type Meta = {
-  [key: string]: any
-}
+  [key: string]: any;
+};
 export type Config = {
-  [key: string]: any
-}
-export type GeometryType = 'Point' // TODO: add other types
+  [key: string]: any;
+};
+export type GeometryType = "Point"; // TODO: add other types
 export type Geometry = {
   type: GeometryType;
   coordinates: [number, number, number?];
 };
-
