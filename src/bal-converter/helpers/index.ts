@@ -3,6 +3,7 @@ export { default as balJSONlegacy2balJSON } from "./bal-json-legacy-to-bal-json.
 export { default as convertBalPositionTypeToBanPositionType } from "./bal-position-type-to-ban-position-type.js";
 export { default as balToBan } from "./bal-to-ban.js";
 export { default as balTopoToBanTopo } from "./bal-topo-to-ban-topo.js";
+export { default as checkIfBALUseBanId } from "./check-if-bal-use-ban-id.js";
 export { default as csvBalToJsonBal } from "./csv-bal-to-json-bal.js";
 export { default as digestIDsFromBalAddr } from "./digest-ids-from-bal-addr.js";
 export { default as digestIDsFromBalUIDs } from "./digest-ids-from-bal-uids.js";
