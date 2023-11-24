@@ -36,7 +36,7 @@ export type BanDistrict = {
 export type BanDistricts = BanDistrict[];
 
 export type BanCommonToponym = {
-  id?: BanCommonTopoID; // identifiant unique de la voie
+  id: BanCommonTopoID; // identifiant unique de la voie
   districtID: BanDistrictID; // code INSEE de la commune
   labels: Label[];
   geometry?: Geometry;
@@ -47,7 +47,7 @@ export type BanCommonToponym = {
 export type BanCommonToponyms = BanCommonToponym[];
 
 export type BanAddress = {
-  id?: BanAddressID; // identifiant unique de l'adresse
+  id: BanAddressID; // identifiant unique de l'adresse
   districtID: BanDistrictID; // code INSEE de la commune
   mainCommonToponymID: BanCommonTopoID; // identifiant unique du toponyme principal
   secondaryCommonToponymIDs?: BanCommonTopoID[]; // identifiant unique des toponymes secondaires
