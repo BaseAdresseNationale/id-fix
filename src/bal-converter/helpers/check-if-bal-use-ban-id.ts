@@ -1,23 +1,15 @@
-import { Bal, BalAdresse } from "../../types/bal-types.js";
-import { digestIDsFromBalUIDs } from "./index.js";
+import { Bal, BalVersion } from "../../types/bal-types.js";
+import { digestIDsFromBalAddr } from "./index.js";
 
-const checkIfBALUseBanId = (bal: Bal, version = "1.3") => {
+const checkIfBALUseBanId = (bal: Bal, version?: BalVersion) => {
   let useBanId = true;
-  bal.forEach((balAdresse: BalAdresse) => {
-    const { uid_adresse: ids } = balAdresse;
-    if (!ids) {
+  for (const balAdresse of bal) {
+    const { mainTopoID } = digestIDsFromBalAddr(balAdresse, version);
+    if (!mainTopoID) {
       useBanId = false;
-      return;
+      break;
     }
-
-    if (version === "1.3") {
-      // Check if mainTopoID is present as each line of the uid_adresse field of the format 1.3 contains a toponym
-      const { mainTopoID } = digestIDsFromBalUIDs(ids);
-      if (!mainTopoID) {
-        useBanId = false;
-      }
-    }
-  });
+  }
   return useBanId;
 };
 

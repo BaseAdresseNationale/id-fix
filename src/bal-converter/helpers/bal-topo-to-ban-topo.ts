@@ -1,5 +1,12 @@
-import type { GeometryType, LangISO639v3 } from "../../types/ban-generic-types.js";
-import type { BalAdresse, VoieNomIsoCodeKey } from "../../types/bal-types.js";
+import type {
+  GeometryType,
+  LangISO639v3,
+} from "../../types/ban-generic-types.js";
+import type {
+  BalAdresse,
+  BalVersion,
+  VoieNomIsoCodeKey,
+} from "../../types/bal-types.js";
 import type { BanCommonToponym } from "../../types/ban-types.js";
 
 import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
@@ -9,9 +16,13 @@ const DEFAULT_ISO_LANG = "fra";
 
 const balTopoToBanTopo = (
   balAdresse: BalAdresse,
-  oldBanCommonToponym?: BanCommonToponym
+  oldBanCommonToponym?: BanCommonToponym,
+  balVersion?: BalVersion
 ): BanCommonToponym => {
-  const { mainTopoID, districtID } = digestIDsFromBalAddr(balAdresse);
+  const { mainTopoID, districtID } = digestIDsFromBalAddr(
+    balAdresse,
+    balVersion
+  );
   const isoCodeFromBalNomVoie = (key: LangISO639v3) => key.trim().split("_")[2];
   const labels = {
     [DEFAULT_ISO_LANG]: balAdresse.voie_nom,
@@ -23,22 +34,29 @@ const balTopoToBanTopo = (
       ).map((key) => [isoCodeFromBalNomVoie(key), balAdresse[key]])
     ),
   };
-  const addrNumber = balAdresse.numero
+  const addrNumber = balAdresse.numero;
   const balMeta = {
-    ...(balAdresse.commune_deleguee_insee ? {codeAncienneCommune: balAdresse.commune_deleguee_insee} : {}),
-    ...(balAdresse.commune_deleguee_nom ? {nomAncienneCommune: balAdresse.commune_deleguee_nom} : {}),
-    ...(addrNumber === Number(IS_TOPO_NB) ? {isLieuDit: true} : {}),
-  }
+    ...(balAdresse.commune_deleguee_insee
+      ? { codeAncienneCommune: balAdresse.commune_deleguee_insee }
+      : {}),
+    ...(balAdresse.commune_deleguee_nom
+      ? { nomAncienneCommune: balAdresse.commune_deleguee_nom }
+      : {}),
+    ...(addrNumber === Number(IS_TOPO_NB) ? { isLieuDit: true } : {}),
+  };
   const meta = {
-    ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0 ? {cadastre: {ids: balAdresse.cad_parcelles}} : {}),
-    ...(Object.keys(balMeta).length ? {bal: balMeta} : {})
-  }
-  const geometry = addrNumber === Number(IS_TOPO_NB) && balAdresse.long && balAdresse.lat 
-    ? {
-      type: 'Point' as GeometryType,
-      coordinates: [balAdresse.long, balAdresse.lat] as [number, number]
-    }
-    : undefined
+    ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0
+      ? { cadastre: { ids: balAdresse.cad_parcelles } }
+      : {}),
+    ...(Object.keys(balMeta).length ? { bal: balMeta } : {}),
+  };
+  const geometry =
+    addrNumber === Number(IS_TOPO_NB) && balAdresse.long && balAdresse.lat
+      ? {
+          type: "Point" as GeometryType,
+          coordinates: [balAdresse.long, balAdresse.lat] as [number, number],
+        }
+      : undefined;
 
   return {
     ...(oldBanCommonToponym || {}),
@@ -48,10 +66,10 @@ const balTopoToBanTopo = (
       isoCode,
       value,
     })),
-    
+
     updateDate: balAdresse.date_der_maj,
-    ...(geometry ? {geometry} : {}),
-    ...(Object.keys(meta).length ? {meta} : {})
+    ...(geometry ? { geometry } : {}),
+    ...(Object.keys(meta).length ? { meta } : {}),
   };
 };
 

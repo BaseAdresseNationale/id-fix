@@ -1,22 +1,28 @@
 import type {
-  BanID,
+  BanAddressID,
   BanCommonTopoID,
+  BanDistrictID,
   DistrictInseeID,
   PositionType,
   DateISO8601,
   LangISO639v3,
 } from "./ban-generic-types";
 
-export type UIdAdresse = `${BanID}${`/${BanCommonTopoID}` | ""}`;
+export type UIdAdresse = string;
 
 export type CommuneNomIsoCodeKey = `commune_nom_${LangISO639v3}`;
 export type CommuneDelegueeNomIsoCodeKey =
   `commune_deleguee_nom_${LangISO639v3}`;
 export type VoieNomIsoCodeKey = `voie_nom_${LangISO639v3}`;
-export type LieuditComplementNomIsoCodeKey = `lieudit_complement_nom_${LangISO639v3}`;
+export type LieuditComplementNomIsoCodeKey =
+  `lieudit_complement_nom_${LangISO639v3}`;
+export type BalVersion = "1.3" | "1.4";
 
 export type BalAdresse = {
   uid_adresse?: UIdAdresse;
+  id_ban_commune?: BanAddressID;
+  id_ban_toponyme?: BanCommonTopoID;
+  id_ban_adresse?: BanDistrictID;
   cle_interop: string;
   commune_insee: DistrictInseeID;
   commune_nom: string;

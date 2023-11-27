@@ -1,7 +1,7 @@
 import type {
-  BanID,
+  BanAddressID,
   BanCommonTopoID,
-  DistrictInseeID,
+  BanDistrictID,
 } from "../types/ban-generic-types.d.ts";
 import HandleHTTPResponse from "../utils/http-request-handler.js";
 
@@ -35,8 +35,8 @@ export const legacyCompose = async (districtID: string) => {
 };
 
 export const getAddressIdsReport = async (
-  districtID: DistrictInseeID,
-  addressIDs: BanID[]
+  districtID: BanDistrictID,
+  addressIDs: BanAddressID[]
 ) => {
   try {
     const body = JSON.stringify({ districtID, addressIDs });
@@ -84,7 +84,7 @@ export const updateAddresses = async (addresses: BanAddresses) => {
   }
 };
 
-export const deleteAddresses = async (ids: BanID[]) => {
+export const deleteAddresses = async (ids: BanAddressID[]) => {
   try {
     const body = JSON.stringify(ids);
     const response = await fetch(`${BAN_API_URL}/address/delete`, {
@@ -100,8 +100,8 @@ export const deleteAddresses = async (ids: BanID[]) => {
 };
 
 export const getCommonToponymIdsReport = async (
-  districtID: DistrictInseeID,
-  commonToponymIDs: BanID[]
+  districtID: BanDistrictID,
+  commonToponymIDs: BanAddressID[]
 ) => {
   try {
     const body = JSON.stringify({ districtID, commonToponymIDs });
@@ -181,7 +181,7 @@ export const getDistrictFromCOG = async (cog: string) => {
     const { message } = error as Error;
     throw new Error(`Ban API - ${message}`);
   }
-}
+};
 
 export const partialUpdateDistricts = async (partialDistricts: any) => {
   try {
@@ -195,5 +195,5 @@ export const partialUpdateDistricts = async (partialDistricts: any) => {
   } catch (error) {
     const { message } = error as Error;
     throw new Error(`Ban API - ${message}`);
-  } 
-}
+  }
+};

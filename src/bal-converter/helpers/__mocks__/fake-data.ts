@@ -26,5 +26,4 @@ export const idSampleWithDistrictId = `${districtIDKey}${districtID}`;
 export const idSampleWithAddressIdAndMainTopoId = `${idSampleWithAddressId} ${idSampleWithMainTopoId}`;
 export const idSampleWithAddressIdAndSecondaryTopoId = `${idSampleWithAddressId} ${idSampleWithSecondaryTopoId}`;
 export const idSampleWithMainTopoIdAndDistrictId = `${idSampleWithMainTopoId} ${idSampleWithDistrictId}`;
-export const idSampleWithAllIds = 
-  `${idSampleWithAddressId} ${idSampleWithMainTopoId} ${idSampleWithSecondaryTopoId} ${idSampleWithDistrictId}`;
+export const idSampleWithAllIds = `${idSampleWithAddressId} ${idSampleWithMainTopoId} ${idSampleWithSecondaryTopoId} ${idSampleWithDistrictId}`;
