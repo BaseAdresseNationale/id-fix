@@ -18,7 +18,7 @@ import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
 const router: Router = Router();
 
 router.get(
-  "compute-from-cog/:cog",
+  "/compute-from-cog/:cog",
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
