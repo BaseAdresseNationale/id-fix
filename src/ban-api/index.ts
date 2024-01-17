@@ -3,6 +3,7 @@ import type {
   BanCommonTopoID,
   BanDistrictID,
 } from "../types/ban-generic-types.d.ts";
+import type { BanIDWithHash, BanCommonTopoIDWithHash } from "./../types/bal-converter-types.d.ts";
 import HandleHTTPResponse from "../utils/http-request-handler.js";
 
 import type { BanAddresses, BanCommonToponyms } from "../types/ban-types.d.ts";
@@ -36,10 +37,10 @@ export const legacyCompose = async (districtID: string) => {
 
 export const getAddressIdsReport = async (
   districtID: BanDistrictID,
-  addressIDs: BanAddressID[]
+  data: BanIDWithHash[]
 ) => {
   try {
-    const body = JSON.stringify({ districtID, addressIDs });
+    const body = JSON.stringify({ districtID, data });
     const response = await fetch(`${BAN_API_URL}/address/delta-report`, {
       method: "POST",
       headers: defaultHeader,
@@ -101,10 +102,10 @@ export const deleteAddresses = async (ids: BanAddressID[]) => {
 
 export const getCommonToponymIdsReport = async (
   districtID: BanDistrictID,
-  commonToponymIDs: BanAddressID[]
+  data: BanCommonTopoIDWithHash[]
 ) => {
   try {
-    const body = JSON.stringify({ districtID, commonToponymIDs });
+    const body = JSON.stringify({ districtID, data });
     const response = await fetch(`${BAN_API_URL}/common-toponym/delta-report`, {
       method: "POST",
       headers: defaultHeader,

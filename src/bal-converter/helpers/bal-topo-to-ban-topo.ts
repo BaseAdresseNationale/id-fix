@@ -1,3 +1,5 @@
+import hash from "object-hash";
+
 import type {
   GeometryType,
   LangISO639v3,
@@ -58,7 +60,7 @@ const balTopoToBanTopo = (
         }
       : undefined;
 
-  return {
+  const banCommonToponym = {
     ...(oldBanCommonToponym || {}),
     id: mainTopoID,
     districtID,
@@ -71,6 +73,16 @@ const balTopoToBanTopo = (
     ...(geometry ? { geometry } : {}),
     ...(Object.keys(meta).length ? { meta } : {}),
   };
+
+  // Store the md5 of the common toponym to be able to compare it with the one in the BAN database
+  banCommonToponym.meta = {
+    ...meta,
+    idfix: {
+      hash: hash.MD5(banCommonToponym),
+    },
+  };
+
+  return banCommonToponym;
 };
 
 export default balTopoToBanTopo;

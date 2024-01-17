@@ -1,8 +1,8 @@
 import type { Bal } from "../types/bal-types.js";
 import type {
-  BanAddressID,
-  BanCommonTopoID,
-} from "../types/ban-generic-types.js";
+  BanIDWithHash,
+  BanCommonTopoIDWithHash,
+} from "../types/bal-converter-types.d.ts";
 import {
   getAddressIdsReport,
   createAddresses,
@@ -22,11 +22,21 @@ export const sendBalToBan = async (bal: Bal) => {
   const { districtID, addresses, commonToponyms } = balToBan(bal);
 
   // Get addresses and toponyms reports
-  const banAddressIds: BanAddressID[] = Object.keys(addresses || {});
-  const banToponymIds: BanCommonTopoID[] = Object.keys(commonToponyms || {});
+  const dataForAddressReport: BanIDWithHash[] = Object.values(
+    addresses || {}
+  ).map((address) => ({
+    id: address.id,
+    hash: address.meta?.idfix?.hash,
+  }));
+  const dataForCommonToponymReport: BanCommonTopoIDWithHash[] = Object.values(
+    commonToponyms || {}
+  ).map((commonToponym) => ({
+    id: commonToponym.id,
+    hash: commonToponym.meta?.idfix?.hash,
+  }));
   const [addressIdsReport, toponymsIdsReport] = await Promise.all([
-    getAddressIdsReport(districtID, banAddressIds),
-    getCommonToponymIdsReport(districtID, banToponymIds),
+    getAddressIdsReport(districtID, dataForAddressReport),
+    getCommonToponymIdsReport(districtID, dataForCommonToponymReport),
   ]);
 
   // Sort Addresses (Add/Update/Delete)

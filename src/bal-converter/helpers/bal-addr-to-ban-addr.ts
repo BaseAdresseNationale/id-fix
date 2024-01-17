@@ -1,10 +1,12 @@
+import hash from "object-hash";
+
 import type { LangISO639v3 } from "../../types/ban-generic-types.js";
 import type {
   BalAdresse,
   BalVersion,
   LieuditComplementNomIsoCodeKey,
 } from "../../types/bal-types.js";
-import type { BanAddress } from "../../types/ban-types.js";
+import type { BanAddress, Position } from "../../types/ban-types.js";
 
 import { numberForTopo as IS_TOPO_NB } from "../bal-converter.config.js";
 import { convertBalPositionTypeToBanPositionType } from "./index.js";
@@ -57,39 +59,52 @@ const balAddrToBanAddr = (
       : {}),
     ...(Object.keys(balMeta).length ? { bal: balMeta } : {}),
   };
-  return addrNumber && addrNumber !== Number(IS_TOPO_NB)
-    ? {
-        ...(oldBanAddress || {}),
-        id: addressID,
-        districtID,
-        mainCommonToponymID: mainTopoID,
-        secondaryCommonToponymIDs: secondaryTopoIDs,
-        number: addrNumber,
-        positions: [
-          // Previous positions
-          ...(oldBanAddress?.positions || []),
-          {
-            type: positionType || DEFAULT_BAN_ADDR_POSITION,
-            geometry: {
-              type: "Point",
-              coordinates: [balAdresse.long, balAdresse.lat],
+  const banAddress =
+    addrNumber && addrNumber !== Number(IS_TOPO_NB)
+      ? {
+          ...(oldBanAddress || {}),
+          id: addressID,
+          districtID,
+          mainCommonToponymID: mainTopoID,
+          secondaryCommonToponymIDs: secondaryTopoIDs,
+          number: addrNumber,
+          positions: [
+            // Previous positions
+            ...(oldBanAddress?.positions || []),
+            {
+              type: positionType || DEFAULT_BAN_ADDR_POSITION,
+              geometry: {
+                type: "Point",
+                coordinates: [balAdresse.long, balAdresse.lat],
+              },
             },
-          },
-        ],
-        certified: balAdresse.certification_commune,
-        updateDate: balAdresse.date_der_maj,
-        ...(labels
-          ? {
-              labels: Object.entries(labels).map(([isoCode, value]) => ({
-                isoCode,
-                value,
-              })),
-            }
-          : {}),
-        ...(suffix ? { suffix } : {}),
-        ...(Object.keys(meta).length ? { meta } : {}),
-      }
-    : undefined;
+          ] as Position[],
+          certified: balAdresse.certification_commune,
+          updateDate: balAdresse.date_der_maj,
+          ...(labels
+            ? {
+                labels: Object.entries(labels).map(([isoCode, value]) => ({
+                  isoCode,
+                  value,
+                })),
+              }
+            : {}),
+          ...(suffix ? { suffix } : {}),
+          ...(Object.keys(meta).length ? { meta } : {}),
+        }
+      : undefined;
+
+  // Store the md5 of the address to be able to compare it with the one in the BAN database
+  if (banAddress) {
+    banAddress.meta = {
+      ...meta,
+      idfix: {
+        hash: hash.MD5(banAddress),
+      },
+    };
+  }
+
+  return banAddress;
 };
 
 export default balAddrToBanAddr;
