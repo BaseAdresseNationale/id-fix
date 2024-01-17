@@ -8,25 +8,27 @@ const csvBalToJsonBal = (csv: string): Bal => {
     header: true,
     skipEmptyLines: true,
     transform: (value: string, headerName: string) => {
-      switch (headerName) {
+      const trimmedValue = value.trim();
+      const trimmedHeaderName = headerName.trim();
+      switch (trimmedHeaderName) {
         case "commune_insee":
         case "commune_deleguee_insee":
-          return value.trim() && value.padStart(5, "0");
+          return trimmedValue && trimmedValue.padStart(5, "0");
         case "numero":
-          return parseInt(value);
+          return parseInt(trimmedValue);
         case "x":
         case "y":
         case "long":
         case "lat":
-          return parseFloat(value);
+          return parseFloat(trimmedValue);
         case "certification_commune":
-          return value === "1";
+          return trimmedValue === "1";
         case "cad_parcelles":
-          return value !== "" ? value.split("|") : [];
+          return trimmedValue !== "" ? value.split("|") : [];
         case "date_der_maj":
-          return new Date(value);
+          return new Date(trimmedValue);
         default:
-          return value;
+          return trimmedValue;
       }
     },
   }).data as Bal;
