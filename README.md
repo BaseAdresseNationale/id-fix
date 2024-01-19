@@ -1,12 +1,14 @@
 ## ID-FIX
+
 [Read the french version LISEZ-MOI.md](LISEZ-MOI.md)
+
 ## Description
-Id-fix API is a service that receives BAL format data, handles it and send it to the BAN plateforme. 
-Depending on whether the 'commune' is using the BAN-ID or not, Id-fix will send the data to the legacy API or use the BAN-ID API. In the second case, Id-fix will detect the data to create, to modify and to delete. It will also format it to the correct structure to use BAN-ID API.
+Id-fix api is a service that receives bal format data, handles it and send it to the ban-plateforme. 
+Depending on whether the district is using the ban-id or not, id-fix will send the data to the ban-plateforme legacy api or use the ban-plateforme ban-id api. In the second case, id-fix will detect the data to create, to modify and to delete. It will also format it to the correct structure to use ban-id api.
 
 ## Installation
 
-Choose from a docker or a local installation : 
+Choose from a Docker or a local installation : 
 
 ### Docker
 
@@ -14,7 +16,7 @@ Choose from a docker or a local installation :
 - Docker
 - Docker-compose
 
-Instructions on how to install the API :
+Instructions on how to install the api (dev mode) :
 
 1. Clone this repository
 2. Start the docker container : 
@@ -29,7 +31,7 @@ docker-compose up --build -d
 - Node (v18 or higher)
 - NPM
 
-Instructions on how to install the API :
+Instructions on how to install the api (dev mode) :
 
 1. Install dependencies 
 
@@ -44,15 +46,15 @@ npm run dev
 ```
 
 ## Scripts
-I. Init a BAL csv into the BAN plateforme using the ID-Fix BAL processing.
+I. Init a bal csv into the ban-plateforme using the id-fix bal processing.
 
-Prerequisite : the district data of the BAL to import needs to be already present in the BAN DB. If not, use the POST /district api to create it.
+Prerequisite : the district data of the bal to import needs to be already present in the ban db. If not, use the POST /district api to create it.
 
 Here is the command to use : 
 ```bash
-npm run initBALIntoBAN the/path/to/BAL/CSV
+npm run initBALIntoBAN path/to/BAL-file.csv
 ```
-replace "the/path/to/BAL/CSV" to the actual path of the BAL csv to process and insert into the BAN
+replace "path/to/BAL-file.csv" to the actual path of the bal csv to process and insert into the ban
 
 ## Logs
 
@@ -61,7 +63,7 @@ This project uses the winston logging library for logging. The configuration of 
 ### Log Modes
 In development mode (when NODE_ENV is not set to production), the logger outputs the logs to the console.
 
-In production mode (when NODE_ENV is set to production), the logger writes the logs to a file using the winston-daily-rotate-file transport. The log files are rotated daily and are stored in the logs directory. The filename of the log files is in the format id-fix-YYYY-MM-DD.log. For more details about the rotation settings (max file size, max number of file, ...), please refer to the logger.ts file.
+In production mode (when NODE_ENV is set to production), the logger writes the logs to a file using the winston-daily-rotate-file library. The log files are rotated daily and are stored in the logs directory. The filename of the log files is in the format id-fix-YYYY-MM-DD.log. For more details about the rotation settings (max file size, max number of file, ...), please refer to the logger.ts file.
 
 ### Log Format
 The logs are formatted in JSON and each log entry includes a timestamp.
