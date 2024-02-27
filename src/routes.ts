@@ -6,7 +6,7 @@ import {
   getRevisionFileText,
 } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
-import { getDistrictFromCOG, partialUpdateDistricts } from "./ban-api/index.js";
+import { getDistrictFromCOG, partialUpdateDistricts, sendBalToLegacyCompose } from "./ban-api/index.js";
 import {
   checkIfBALUseBanId,
   csvBalToJsonBal,
@@ -25,6 +25,7 @@ router.get(
     try {
       let responseBody;
       const { cog } = req.params;
+      const { force : forceLegacyCompose } = req.query;
 
       // Get revision from dump-api (api de dépôt)
       const revision = await getRevisionFromDistrictCOG(cog);
@@ -47,11 +48,8 @@ router.get(
 
       if (!useBanId || !isCogAccepted) {
         const message = `District cog ${cog} do not support BanID`;
-        responseBody = {
-          message,
-        };
         logger.info(message);
-        // TODO: send process to ban-plateforme legacy API
+        responseBody = await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
       } else {
         logger.info(`District cog ${cog} is using banID`);
         // Update District with revision data
