@@ -1,8 +1,8 @@
 {
   "verbose": true,
   "ignore": [],
-  "watch": ["src/**/*.ts", "src/**/*.json"],
+  "watch": ["src/**/*.ts", "src/**/*.json", "script/**/*.ts"],
   "execMap": {
-    "ts": "ts-node --esm"
+    "ts": "node --loader ts-node/esm"
   }
 }
