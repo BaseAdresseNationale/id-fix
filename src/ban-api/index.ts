@@ -10,21 +10,22 @@ import type { BanAddresses, BanCommonToponyms } from "../types/ban-types.d.ts";
 
 const BAN_API_TOKEN = process.env.BAN_API_TOKEN || "";
 const BAN_API_URL = process.env.BAN_API_URL || "";
+const BAN_LEGACY_API_TOKEN = process.env.BAN_LEGACY_API_TOKEN
 
 const defaultHeader = {
   Authorization: `Token ${BAN_API_TOKEN}`,
   "Content-Type": "application/json",
 };
 
-export const legacyCompose = async (districtID: string) => {
+export const sendBalToLegacyCompose = async (cog: string, forceLegacyCompose: string) => {
   try {
     const response = await fetch(
-      `${BAN_API_URL}/ban/communes/${districtID}/compose`,
+      `${BAN_API_URL}/legacy-compose/${cog}?force=${forceLegacyCompose}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Token ${BAN_API_TOKEN}`,
-        },
+          Authorization: `Token ${BAN_LEGACY_API_TOKEN}`,
+        }
       }
     );
 
