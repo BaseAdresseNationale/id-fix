@@ -47,7 +47,9 @@ const balTopoToBanTopo = (
     ...(addrNumber === Number(IS_TOPO_NB) ? { isLieuDit: true } : {}),
   };
   const meta = {
-    ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0
+    ...(addrNumber === Number(IS_TOPO_NB) &&
+    balAdresse.cad_parcelles &&
+    balAdresse.cad_parcelles.length > 0
       ? { cadastre: { ids: balAdresse.cad_parcelles } }
       : {}),
     ...(Object.keys(balMeta).length ? { bal: balMeta } : {}),

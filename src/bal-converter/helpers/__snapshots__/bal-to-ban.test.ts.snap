@@ -888,14 +888,8 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000D0053",
-            "212860000D0054",
-          ],
-        },
         "idfix": {
-          "hash": "ec86c583780bbb841c6fcd0201ce85f6",
+          "hash": "0e6ef35cb7e62f389ef75accdcab09a2",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -910,14 +904,8 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000C0237",
-            "212860000C0107",
-          ],
-        },
         "idfix": {
-          "hash": "351831d1674f1835db8ca13130dc31d2",
+          "hash": "6948e3b029bd5e1750286bbc4e27a39b",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -990,13 +978,8 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
-        "cadastre": {
-          "ids": [
-            "212860000D0143",
-          ],
-        },
         "idfix": {
-          "hash": "12fa5c6583ac3ecdfa6fce9aec94ff1d",
+          "hash": "b554926f53d75252a0990d6712edbdb0",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
