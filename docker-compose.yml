@@ -11,5 +11,6 @@ services:
       - BAN_API_URL=${BAN_API_URL}
       - BAN_API_TOKEN=${BAN_API_TOKEN}
       - API_DEPOT_URL=${API_DEPOT_URL}
+      - BAN_LEGACY_API_TOKEN=${BAN_LEGACY_API_TOKEN}
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
