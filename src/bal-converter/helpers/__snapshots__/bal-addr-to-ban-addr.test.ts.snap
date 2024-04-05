@@ -8,11 +8,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID and BanTopoID 1`
   "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {
-    "idfix": {
-      "hash": "55450a7f0463128ae6cb77f5ae0410ae",
-    },
-  },
   "number": 1,
   "positions": [
     {
@@ -37,11 +32,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID without BanTopoI
   "districtID": undefined,
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": undefined,
-  "meta": {
-    "idfix": {
-      "hash": "dea5e71a883c27a7e2bbd4735d9de42a",
-    },
-  },
   "number": 1,
   "positions": [
     {
@@ -66,11 +56,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanID, BanTopoID, othe
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {
-    "idfix": {
-      "hash": "233f7091064934fa8a927b9a57d9d442",
-    },
-  },
   "number": 1,
   "positions": [
     {
@@ -99,11 +84,6 @@ exports[`balAddrToBanAddr > should return BanAddress with BanTopoID 1`] = `
   "districtID": undefined,
   "id": undefined,
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {
-    "idfix": {
-      "hash": "301cb59faadb7ef5fe8c877dfbf0923c",
-    },
-  },
   "number": 1,
   "positions": [
     {
@@ -128,11 +108,6 @@ exports[`balAddrToBanAddr > should return BanAddress with multiple positions 1`]
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
   "id": "aaaaaaaa-0000-4aaa-9000-1234567890aa",
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
-  "meta": {
-    "idfix": {
-      "hash": "40dcdc9e0035670c043d043508f5175f",
-    },
-  },
   "number": 1,
   "positions": [
     {
@@ -171,11 +146,6 @@ exports[`balAddrToBanAddr > should return BanAddress without BanID & BanTopoID 1
   "districtID": undefined,
   "id": undefined,
   "mainCommonToponymID": undefined,
-  "meta": {
-    "idfix": {
-      "hash": "2bf856e5d03016e4f88548f656a44190",
-    },
-  },
   "number": 1,
   "positions": [
     {

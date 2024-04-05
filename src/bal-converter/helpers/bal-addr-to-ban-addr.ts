@@ -1,5 +1,3 @@
-import hash from "object-hash";
-
 import type { LangISO639v3 } from "../../types/ban-generic-types.js";
 import type {
   BalAdresse,
@@ -93,16 +91,6 @@ const balAddrToBanAddr = (
           ...(Object.keys(meta).length ? { meta } : {}),
         }
       : undefined;
-
-  // Store the md5 of the address to be able to compare it with the one in the BAN database
-  if (banAddress) {
-    banAddress.meta = {
-      ...meta,
-      idfix: {
-        hash: hash.MD5(banAddress),
-      },
-    };
-  }
 
   return banAddress;
 };

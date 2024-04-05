@@ -510,7 +510,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "meta": {
         "idfix": {
-          "hash": "a734076641a991aea8d01e55f8a7c009",
+          "hash": "78383f51f8416894ac2ffc48a85cf0ae",
         },
       },
       "number": 1,
@@ -889,7 +889,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "idfix": {
-          "hash": "0e6ef35cb7e62f389ef75accdcab09a2",
+          "hash": "32809e604e7b9b075c76d0fc2026abf1",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -905,7 +905,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "idfix": {
-          "hash": "6948e3b029bd5e1750286bbc4e27a39b",
+          "hash": "e68f1b460899bb6c8ca383706884919c",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -921,7 +921,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "idfix": {
-          "hash": "c1c7a987d818f7888973daf99a83f5a5",
+          "hash": "89fc16b5c1ba20eb526607e75b5ce126",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -963,7 +963,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "idfix": {
-          "hash": "c16a000f57a31ab88e9a4fd223343738",
+          "hash": "fd9fd441060c0d5b20ede321c102ea15",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -979,7 +979,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "idfix": {
-          "hash": "b554926f53d75252a0990d6712edbdb0",
+          "hash": "f75a1ac776fc54007779578b2eea7b7f",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
