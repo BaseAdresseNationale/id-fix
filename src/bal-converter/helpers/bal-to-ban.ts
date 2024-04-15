@@ -1,5 +1,7 @@
-import type { Bal, BalAdresse } from "../../types/bal-types.js";
-import type { Ban } from "../../types/ban-types.js";
+import hash from "object-hash";
+
+import type { Bal } from "../../types/bal-types.js";
+import type { Ban, BanAddress, BanCommonToponym } from "../../types/ban-types.js";
 
 import balAddrToBanAddr from "./bal-addr-to-ban-addr.js";
 import balTopoToBanTopo from "./bal-topo-to-ban-topo.js";
@@ -42,6 +44,28 @@ const balToBan = (bal: Bal): Ban => {
       ban.commonToponyms[mainTopoID] = banCommonTopoIdContent;
     }
   }
+
+  // Store the md5 of the addresses
+  for (const address of Object.values(ban.addresses)) {
+    const itemHash = hash.MD5(address);
+    address.meta = {
+      ...address?.meta,
+      idfix: {
+        hash: itemHash,
+      },
+    };
+  };
+
+  // Store the md5 of the commonToponyms
+  for (const commonToponym of Object.values(ban.commonToponyms)) {
+    const itemHash = hash.MD5(commonToponym);
+    commonToponym.meta = {
+      ...commonToponym?.meta,
+      idfix: {
+        hash: itemHash,
+      },
+    };
+  };
 
   return ban;
 };

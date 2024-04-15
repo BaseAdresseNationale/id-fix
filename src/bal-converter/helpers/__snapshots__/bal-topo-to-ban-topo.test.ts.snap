@@ -10,11 +10,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "c6249c625f1c60373e85238cf92cc15e",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -29,11 +24,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "c6249c625f1c60373e85238cf92cc15e",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -48,11 +38,6 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "c830bd351f23cf5c9d7553cfb96bec80",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -71,11 +56,6 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
       "value": "Baleen ibilbidea",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "ea0053807ccfac2e07b560674c3dae55",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -90,11 +70,6 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
       "value": "Avenue Rhoam Bosphoramus",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "2c256b9980c13169842b46209d757b76",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -109,11 +84,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "4293639f09ff774a7553810f47eceb1d",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -128,11 +98,6 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
       "value": "Route de la Baleine",
     },
   ],
-  "meta": {
-    "idfix": {
-      "hash": "4293639f09ff774a7553810f47eceb1d",
-    },
-  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
