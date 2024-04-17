@@ -16,7 +16,6 @@ import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
 
 export const computeFromCog = async (cog: string, forceLegacyCompose: string) => {
   const revision = await getRevisionFromDistrictCOG(cog);
-  console.log("revision", revision)
   const revisionFileText = await getRevisionFileText(revision._id);
 
   // Convert csv to json
