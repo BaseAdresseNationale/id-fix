@@ -52,8 +52,14 @@ router.post(
 
       const responses = [] 
       for (let i = 0; i < cogs.length; i++) {
-        const response = await computeFromCog(cogs[i], forceLegacyCompose as string)
-        responses.push(response)
+        try {
+          const response = await computeFromCog(cogs[i], forceLegacyCompose as string)
+          responses.push(response)
+        } catch (error) {
+          const { message } = error as Error;
+          logger.error(message);
+          responses.push(`Error for cog ${cogs[i]}: ${message}`);
+        }
       }
 
       response = {
