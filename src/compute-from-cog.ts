@@ -15,6 +15,18 @@ import {
 import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
 
 export const computeFromCog = async (cog: string, forceLegacyCompose: string) => {
+
+  // Temporary check for testing purpose
+  // Check if cog is part of the accepted cog list
+  const isCogAccepted = acceptedCogList.includes(cog);
+
+  if (!isCogAccepted){
+    logger.info(`District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`)
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
+  }
+
+  logger.info(`District cog ${cog} is part of the whitelist.`)
+
   const revision = await getRevisionFromDistrictCOG(cog);
   const revisionFileText = await getRevisionFileText(revision._id);
 
@@ -25,17 +37,13 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
   const version = getBalVersion(bal);
   logger.info(`District cog ${cog} is using BAL version ${version}`);
 
-  // Temporary check for testing purpose
-  // Check if cog is part of the accepted cog list
-  const isCogAccepted = acceptedCogList.includes(cog);
-
-  // Check if bal is using BanID on all address lines
+  // Check if bal is using BanID
   // If not, send process to ban-plateforme legacy API
+  // If the use of IDs is partial, throwing an error
   const useBanId = await checkIfBALUseBanId(bal, version);
 
-  if (!useBanId || !isCogAccepted) {
-    const message = `District cog ${cog} do not support BanID`;
-    logger.info(message);
+  if (!useBanId) {
+    logger.info(`District cog ${cog} does not use BanID: sending BAL to legacy compose...`)
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
   } else {
     logger.info(`District cog ${cog} is using banID`);
