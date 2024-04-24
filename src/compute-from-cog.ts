@@ -18,7 +18,9 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
 
   // Temporary check for testing purpose
   // Check if cog is part of the accepted cog list
-  const isCogAccepted = acceptedCogList.includes(cog);
+  // const isCogAccepted = acceptedCogList.includes(cog);
+  // Quick fix to desactivate the whitelist to solve the issue we have on the new process
+  const isCogAccepted = false;
 
   if (!isCogAccepted){
     logger.info(`District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`)
