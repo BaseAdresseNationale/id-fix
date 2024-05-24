@@ -24,7 +24,7 @@ const csvBalToJsonBal = (csv: string): Bal => {
         case "certification_commune":
           return trimmedValue === "1";
         case "cad_parcelles":
-          return trimmedValue !== "" ? value.split("|") : [];
+          return trimmedValue !== "" ? value.split("|").map(value => value.trim()) : [];
         case "date_der_maj":
           return new Date(trimmedValue);
         default:
