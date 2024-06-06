@@ -3,7 +3,6 @@ import { logger } from "./utils/logger.js";
 import authMiddleware from "./middleware/auth.js";
 import { computeFromCog } from "./compute-from-cog.js";
 
-
 const router: Router = Router();
 
 router.get(
@@ -11,12 +10,15 @@ router.get(
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
-    try {
-      const { cog } = req.params;
-      const { force : forceLegacyCompose } = req.query;
+    const { cog } = req.params;
+    const { force: forceLegacyCompose } = req.query;
 
-      const responseBody = await computeFromCog(cog, forceLegacyCompose as string);
-      
+    try {
+      const responseBody = await computeFromCog(
+        cog,
+        forceLegacyCompose as string
+      );
+
       response = {
         date: new Date(),
         status: "success",
@@ -50,11 +52,14 @@ router.post(
         throw new Error("Invalid or missing 'cogs' data in the request body");
       }
 
-      const responses = [] 
+      const responses = [];
       for (let i = 0; i < cogs.length; i++) {
         try {
-          const response = await computeFromCog(cogs[i], forceLegacyCompose as string)
-          responses.push(response)
+          const response = await computeFromCog(
+            cogs[i],
+            forceLegacyCompose as string
+          );
+          responses.push(response);
         } catch (error) {
           const { message } = error as Error;
           logger.error(message);

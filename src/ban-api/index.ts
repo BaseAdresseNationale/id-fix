@@ -199,3 +199,18 @@ export const partialUpdateDistricts = async (partialDistricts: any) => {
     throw new Error(`Ban API - ${message}`);
   }
 };
+
+export const sendProcessingReport = async (districtId: string, data: any) => {
+  try {
+    const body = JSON.stringify(data);
+    const response = await fetch(`${BAN_API_URL}/report/district/${districtId}`, {
+      method: "POST",
+      headers: defaultHeader,
+      body,
+    });
+    return await HandleHTTPResponse(response);
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Ban API - ${message}`);
+  }
+}
