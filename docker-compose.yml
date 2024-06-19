@@ -3,9 +3,7 @@ services:
     build:
       dockerfile: "Dockerfile.dev"
     volumes:
-      - ./src:/app/src
-      - ./script:/app/script
-      - ./nodemon.json:/app/nodemon.json
+      - ./:/app/
     environment:
       - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
       - BAN_API_URL=${BAN_API_URL}
