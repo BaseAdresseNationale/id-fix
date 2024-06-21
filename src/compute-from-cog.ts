@@ -5,7 +5,12 @@ import {
   getRevisionFileText,
 } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
-import { getDistrictFromCOG, partialUpdateDistricts, sendBalToLegacyCompose } from "./ban-api/index.js";
+import {
+  getDistrictFromCOG,
+  partialUpdateDistricts,
+  sendBalToLegacyCompose,
+  sendProcessingReport,
+} from "./ban-api/index.js";
 import {
   checkIfBALUseBanId,
   csvBalToJsonBal,
@@ -13,79 +18,120 @@ import {
 } from "./bal-converter/helpers/index.js";
 
 import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
+import { buildPreProcessingReport } from "./utils/report.js";
 
-export const computeFromCog = async (cog: string, forceLegacyCompose: string) => {
+export const computeFromCog = async (
+  cog: string,
+  forceLegacyCompose: string
+) => {
+  // Get revision data from dump-api
+  const revision = await getRevisionFromDistrictCOG(cog);
+  
+  if (!revision) {
+    throw new Error(`No revision found for cog ${cog}`);
+  }
+
+  const { _id: revisionId, publishedAt: revisionPublishedAt  } = revision;
+
+  // Get district data from ban-api
+  const districtResponseRaw = await getDistrictFromCOG(cog);
+  if (!districtResponseRaw || !districtResponseRaw.length) {
+    throw new Error(`No district found with cog ${cog}`);
+  } else if (districtResponseRaw.length > 1) {
+    throw new Error(
+      `Multiple district found with cog ${cog}. Behavior not handled yet.`
+    );
+  }
+
+  const { id: districtId } = districtResponseRaw[0];
+  if (!districtId) {
+    throw new Error(`No district id found with cog ${cog}`);
+  }
+
+  logger.info(`District with cog ${cog} found (id: ${districtId})`);
 
   // Temporary check for testing purpose
   // Check if cog is part of the accepted cog list
   const isCogAccepted = acceptedCogList.includes(cog);
 
-  if (!isCogAccepted){
-    logger.info(`District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`)
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
+  if (!isCogAccepted) {
+    const message = `Redirected to legacy : District id ${districtId} (cog: ${cog}) is not part of the whitelist.`;
+    logger.info(message);
+
+    const processingReport = buildPreProcessingReport(0, message, {}, {targetedPlateform: "legacy", revision, cog});
+    await sendProcessingReport(districtId, processingReport);
+    
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
-  logger.info(`District cog ${cog} is part of the whitelist.`)
+  logger.info(`District id ${districtId} (cog: ${cog}) is part of the whitelist.`);
 
-  const revision = await getRevisionFromDistrictCOG(cog);
-  const revisionFileText = await getRevisionFileText(revision._id);
+  const revisionFileText = await getRevisionFileText(revisionId);
 
   // Convert csv to json
   const bal = csvBalToJsonBal(revisionFileText);
 
   // Detect BAL version
   const version = getBalVersion(bal);
-  logger.info(`District cog ${cog} is using BAL version ${version}`);
+  logger.info(`District id ${districtId} (cog: ${cog}) is using BAL version ${version}`);
 
   // Check if bal is using BanID
   // If not, send process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await checkIfBALUseBanId(bal, version);
-
+  let useBanId = false;
+  try {
+    useBanId = await checkIfBALUseBanId(bal, version);
+  } catch (error) {
+    const { message: validatorErrorMessage } = error as Error;
+    const message = `Not Processed : ${validatorErrorMessage}`;
+    const processingReport = buildPreProcessingReport(1, message, {}, {revision, cog});
+    await sendProcessingReport(districtId, processingReport);
+    throw new Error(message);
+  }
+  
   if (!useBanId) {
-    logger.info(`District cog ${cog} does not use BanID: sending BAL to legacy compose...`)
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
-  } else {
-    logger.info(`District cog ${cog} is using banID`);
-    // Update District with revision data
-    const districtResponseRaw = await getDistrictFromCOG(cog);
-    if (!districtResponseRaw.length) {
-      throw new Error(`No district found with cog ${cog}`);
-    } else if (districtResponseRaw.length > 1) {
-      throw new Error(
-        `Multiple district found with cog ${cog}. Behavior not handled yet.`
-      );
-    }
+    const message = `Redirected to legacy : District id ${districtId} (cog: ${cog}) does not use BanID.`;
+    logger.info(message);
 
-    const { id } = districtResponseRaw[0];
-    logger.info(`District with cog ${cog} found (id: ${id})`);
+    const processingReport = buildPreProcessingReport(0, message, {}, {targetedPlateform: "legacy", revision, cog});
+    await sendProcessingReport(districtId, processingReport);
+
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+  } else {
+    logger.info(`District id ${districtId} (cog: ${cog}) is using banID`);
+    // Update District with revision data
 
     // Update District meta with revision data from dump-api (id and date)
     const districtUpdate = {
-      id,
+      id: districtId,
       meta: {
         bal: {
-          idRevision: revision._id,
-          dateRevision: revision.publishedAt,
+          idRevision: revisionId,
+          dateRevision: revisionPublishedAt,
         },
       },
     };
     await partialUpdateDistricts([districtUpdate]);
 
-    const result = (await sendBalToBan(bal)) || {};
+    const processingResult = (await sendBalToBan(bal)) || {};
 
-    if (!Object.keys(result).length) {
-      const response = `District id ${id} not updated in BAN BDD. No changes detected.`
-      logger.info(response);
-      return response;
+    // No changes detected
+    if (!Object.keys(processingResult).length) {
+      const message = `No change detected : District id ${districtId} (cog: ${cog}) is already up to date.`;
+      logger.info(message);
+
+      const processingReport = buildPreProcessingReport(0, message, {}, {targetedPlateform: "ban", revision, cog});
+      await sendProcessingReport(districtId, processingReport);
+
+      return message;
     }
 
-    logger.info(
-      `District id ${id} updated in BAN BDD. Response body : ${JSON.stringify(
-        result
-      )}`
-    );
-    
-    return result;
+    const message = `Pre-processed : District id ${districtId} (cog: ${cog}) pre-processed and sent to BAN APIs.`;
+    logger.info(`${message} - ${JSON.stringify(processingResult)}`);
+
+    const processingReport = buildPreProcessingReport(0, message, processingResult, {targetedPlateform: "ban", revision, cog});
+    await sendProcessingReport(districtId, processingReport);
+
+    return processingResult;
   }
-}
+};
