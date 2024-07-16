@@ -5,27 +5,35 @@ import {
   getRevisionFileText,
 } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
-import { getDistrictFromCOG, partialUpdateDistricts, sendBalToLegacyCompose } from "./ban-api/index.js";
 import {
-  checkIfBALUseBanId,
+  getDistrictFromCOG,
+  partialUpdateDistricts,
+  sendBalToLegacyCompose,
+} from "./ban-api/index.js";
+import {
+  validator,
   csvBalToJsonBal,
   getBalVersion,
 } from "./bal-converter/helpers/index.js";
 
 import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
 
-export const computeFromCog = async (cog: string, forceLegacyCompose: string) => {
-
+export const computeFromCog = async (
+  cog: string,
+  forceLegacyCompose: string
+) => {
   // Temporary check for testing purpose
   // Check if cog is part of the accepted cog list
   const isCogAccepted = acceptedCogList.includes(cog);
 
-  if (!isCogAccepted){
-    logger.info(`District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`)
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
+  if (!isCogAccepted) {
+    logger.info(
+      `District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
+    );
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
-  logger.info(`District cog ${cog} is part of the whitelist.`)
+  logger.info(`District cog ${cog} is part of the whitelist.`);
 
   const revision = await getRevisionFromDistrictCOG(cog);
   const revisionFileText = await getRevisionFileText(revision._id);
@@ -37,29 +45,29 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
   const version = getBalVersion(bal);
   logger.info(`District cog ${cog} is using BAL version ${version}`);
 
+  const districtResponseRaw = await getDistrictFromCOG(cog);
+  if (!districtResponseRaw.length) {
+    throw new Error(`No district found with cog ${cog}`);
+  } else if (districtResponseRaw.length > 1) {
+    throw new Error(
+      `Multiple district found with cog ${cog}. Behavior not handled yet.`
+    );
+  }
+
+  const { id } = districtResponseRaw[0];
+
   // Check if bal is using BanID
   // If not, send process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await checkIfBALUseBanId(bal, version);
+  const useBanId = await validator(id, bal, version);
 
   if (!useBanId) {
-    logger.info(`District cog ${cog} does not use BanID: sending BAL to legacy compose...`)
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
+    logger.info(
+      `District cog ${cog} does not use BanID: sending BAL to legacy compose...`
+    );
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
     logger.info(`District cog ${cog} is using banID`);
-    // Update District with revision data
-    const districtResponseRaw = await getDistrictFromCOG(cog);
-    if (!districtResponseRaw.length) {
-      throw new Error(`No district found with cog ${cog}`);
-    } else if (districtResponseRaw.length > 1) {
-      throw new Error(
-        `Multiple district found with cog ${cog}. Behavior not handled yet.`
-      );
-    }
-
-    const { id } = districtResponseRaw[0];
-    logger.info(`District with cog ${cog} found (id: ${id})`);
-
     // Update District meta with revision data from dump-api (id and date)
     const districtUpdate = {
       id,
@@ -75,7 +83,7 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
     const result = (await sendBalToBan(bal)) || {};
 
     if (!Object.keys(result).length) {
-      const response = `District id ${id} not updated in BAN BDD. No changes detected.`
+      const response = `District id ${id} not updated in BAN BDD. No changes detected.`;
       logger.info(response);
       return response;
     }
@@ -85,7 +93,7 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
         result
       )}`
     );
-    
+
     return result;
   }
-}
+};
