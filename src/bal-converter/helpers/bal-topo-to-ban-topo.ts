@@ -43,6 +43,9 @@ const balTopoToBanTopo = (
       ? { nomAncienneCommune: balAdresse.commune_deleguee_nom }
       : {}),
     ...(addrNumber === Number(IS_TOPO_NB) ? { isLieuDit: true } : {}),
+    ...(balAdresse.cle_interop 
+      ? { cleInterop: balAdresse.cle_interop }
+      : {}),
   };
   const meta = {
     ...(addrNumber === Number(IS_TOPO_NB) &&

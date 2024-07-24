@@ -50,6 +50,9 @@ const balAddrToBanAddr = (
     ...(balAdresse.commune_deleguee_nom
       ? { nomAncienneCommune: balAdresse.commune_deleguee_nom }
       : {}),
+    ...(balAdresse.cle_interop 
+      ? { cleInterop: balAdresse.cle_interop }
+      : {}),
   };
   const meta = {
     ...(balAdresse.cad_parcelles && balAdresse.cad_parcelles.length > 0
