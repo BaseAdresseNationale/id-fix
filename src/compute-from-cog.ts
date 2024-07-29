@@ -7,7 +7,7 @@ import {
 import { sendBalToBan } from "./bal-converter/index.js";
 import { getDistrictFromCOG, partialUpdateDistricts, sendBalToLegacyCompose } from "./ban-api/index.js";
 import {
-  checkIfBALUseBanId,
+  validator,
   csvBalToJsonBal,
   getBalVersion,
 } from "./bal-converter/helpers/index.js";
@@ -37,18 +37,7 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
   const version = getBalVersion(bal);
   logger.info(`District cog ${cog} is using BAL version ${version}`);
 
-  // Check if bal is using BanID
-  // If not, send process to ban-plateforme legacy API
-  // If the use of IDs is partial, throwing an error
-  const useBanId = await checkIfBALUseBanId(bal, version);
-
-  if (!useBanId) {
-    logger.info(`District cog ${cog} does not use BanID: sending BAL to legacy compose...`)
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
-  } else {
-    logger.info(`District cog ${cog} is using banID`);
-    // Update District with revision data
-    const districtResponseRaw = await getDistrictFromCOG(cog);
+  const districtResponseRaw = await getDistrictFromCOG(cog);
     if (!districtResponseRaw.length) {
       throw new Error(`No district found with cog ${cog}`);
     } else if (districtResponseRaw.length > 1) {
@@ -58,8 +47,17 @@ export const computeFromCog = async (cog: string, forceLegacyCompose: string) =>
     }
 
     const { id } = districtResponseRaw[0];
-    logger.info(`District with cog ${cog} found (id: ${id})`);
 
+  // Check if bal is using BanID
+  // If not, send process to ban-plateforme legacy API
+  // If the use of IDs is partial, throwing an error
+  const useBanId = await validator(id, bal, version);
+
+  if (!useBanId) {
+    logger.info(`District cog ${cog} does not use BanID: sending BAL to legacy compose...`)
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string)
+  } else {
+    logger.info(`District cog ${cog} is using banID`);
     // Update District meta with revision data from dump-api (id and date)
     const districtUpdate = {
       id,
