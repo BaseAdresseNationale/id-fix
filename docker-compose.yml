@@ -3,9 +3,7 @@ services:
     build:
       dockerfile: "Dockerfile.dev"
     volumes:
-      - ./src:/app/src
-      - ./script:/app/script
-      - ./nodemon.json:/app/nodemon.json
+      - ./:/app/
     environment:
       - IDEFIX_ADMIN_TOKENS=${IDEFIX_ADMIN_TOKENS}
       - BAN_API_URL=${BAN_API_URL}
@@ -13,5 +11,6 @@ services:
       - API_DEPOT_URL=${API_DEPOT_URL}
       - BAN_LEGACY_API_TOKEN=${BAN_LEGACY_API_TOKEN}
       - STANDALONE_MODE=${STANDALONE_MODE}
+      - PATH_TO_BAL_FILE=${PATH_TO_BAL_FILE}
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
