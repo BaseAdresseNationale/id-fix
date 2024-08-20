@@ -15,6 +15,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_2xdjog_00001",
+        },
         "cadastre": {
           "ids": [
             "212860000C0115",
@@ -22,7 +25,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "7f36f579b78ed612c8974ee8292ffd15",
+          "hash": "58f38f6a3ebc0417a9b02ba5c816cf37",
         },
       },
       "number": 1,
@@ -63,8 +66,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_mz58hg_00031",
+        },
         "idfix": {
-          "hash": "ee469211890d8ae381ae449cb7511152",
+          "hash": "1e3e1ed62f8ac2418a77b5b4ee323997",
         },
       },
       "number": 31,
@@ -95,13 +101,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00006",
+        },
         "cadastre": {
           "ids": [
             "212860000D0237",
           ],
         },
         "idfix": {
-          "hash": "a176094c881c91f73ca08904b6c8897d",
+          "hash": "fc0d30a7e9fdcdf2249346f10208e7e5",
         },
       },
       "number": 6,
@@ -126,6 +135,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "2480fe76-bbd8-4703-a41a-5c43fd3c5891",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00010",
+        },
         "cadastre": {
           "ids": [
             "212860000D0053",
@@ -133,7 +145,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "08a829e7b8f3c0024ffd20df5062d7a9",
+          "hash": "1e28632c625c2ce14bb090c32f607132",
         },
       },
       "number": 10,
@@ -158,6 +170,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "28fd0d23-9f3a-4ac0-8e17-05f851546f34",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00005",
+        },
         "cadastre": {
           "ids": [
             "212860000D0305",
@@ -167,7 +182,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "c79da587be97727b9ac7715df77f306d",
+          "hash": "d5f00b652ca9805e93d79281f916073f",
         },
       },
       "number": 5,
@@ -192,8 +207,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "29387aa3-1dc6-4e38-a1e9-aea350c91296",
       "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_mz58hg_00033",
+        },
         "idfix": {
-          "hash": "1160ef1171c07c869d8a54e09028028f",
+          "hash": "fe1a4fb08c9d0f246c80c8bdabe3730b",
         },
       },
       "number": 33,
@@ -218,13 +236,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "48691fd6-a611-4335-b346-a05679bcb31d",
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00011",
+        },
         "cadastre": {
           "ids": [
             "212860000D0143",
           ],
         },
         "idfix": {
-          "hash": "fadf044404aa56b3e1c288babd455478",
+          "hash": "0bc059047107cc1e42eadb189c9bb582",
         },
       },
       "number": 11,
@@ -249,8 +270,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "4afc82e4-694e-4bb3-81cb-0a32cd59a300",
       "mainCommonToponymID": "7ce61747-d840-4019-97be-82dc0568619f",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_mz58hg_00029",
+        },
         "idfix": {
-          "hash": "62eaefc8128d3ef43df4272818ba0303",
+          "hash": "385829ed5afc6c4bf59fa53d32ff3c4b",
         },
       },
       "number": 29,
@@ -275,6 +299,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "5114f638-f99d-4da2-b3ed-d2e2c3a32765",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00009",
+        },
         "cadastre": {
           "ids": [
             "212860000D0290",
@@ -284,7 +311,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "2b9a4aeff1e6940eb280ca8f3bbfaa30",
+          "hash": "0ca576fd16e085c51b65a2f5390a355e",
         },
       },
       "number": 9,
@@ -309,13 +336,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "5139b74a-f569-4008-aade-3bb955186134",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00008",
+        },
         "cadastre": {
           "ids": [
             "21286000ZC0087",
           ],
         },
         "idfix": {
-          "hash": "583bdd0d216a628d95f6eba9dacfc236",
+          "hash": "410b40aafcce28effb83c59d9f081a9d",
         },
       },
       "number": 8,
@@ -340,13 +370,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "577e9019-42bb-4965-b287-fe4cebe41038",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00001",
+        },
         "cadastre": {
           "ids": [
             "212860000D0113",
           ],
         },
         "idfix": {
-          "hash": "bc7a0c55edee8c8ff2236e6f650099c7",
+          "hash": "64ab823969cc56990b28a26ca2d38cba",
         },
       },
       "number": 1,
@@ -377,13 +410,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00003",
+        },
         "cadastre": {
           "ids": [
             "212860000D0113",
           ],
         },
         "idfix": {
-          "hash": "b213daf4db3d70198dd7233a3962de4d",
+          "hash": "b25fe71184ccfd2141733380397bffee",
         },
       },
       "number": 3,
@@ -408,6 +444,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "6edd2c77-e8db-4384-bbb6-810e868d4dee",
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00003",
+        },
         "cadastre": {
           "ids": [
             "212860000D0304",
@@ -415,7 +454,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "a27f252f410e48e1d3dcdc6b17f3dbbc",
+          "hash": "93c2d2498f1330d6c9c174eb0f36dfe8",
         },
       },
       "number": 3,
@@ -440,13 +479,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "7a9e11ff-31b6-4f14-8494-55369e7dce04",
       "mainCommonToponymID": "468d0b9b-ec0c-448d-8188-4e28762251e2",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_p899mr_00007",
+        },
         "cadastre": {
           "ids": [
             "212860000D0293",
           ],
         },
         "idfix": {
-          "hash": "c60cf288ff20384b25e1c318a46ea019",
+          "hash": "80f0d69b1e26b9ce918e770d2a2d7bb8",
         },
       },
       "number": 7,
@@ -477,8 +519,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0085_00002",
+        },
         "idfix": {
-          "hash": "0ca9fc2ff67598e07e9ba7d0bdb7c7d9",
+          "hash": "b157bd429be9dbed36bd2c93b1eae4dd",
         },
       },
       "number": 2,
@@ -509,8 +554,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c965715f-3874-4cba-ae4e-c9afa585f5eb",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0085_00001",
+        },
         "idfix": {
-          "hash": "78383f51f8416894ac2ffc48a85cf0ae",
+          "hash": "661ba8f682fd255b9211148012a2117f",
         },
       },
       "number": 1,
@@ -551,6 +599,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "787ca7cf-8072-47ae-a8c6-98a62a8dd90c",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_2xdjog_00002",
+        },
         "cadastre": {
           "ids": [
             "212860000C0237",
@@ -558,7 +609,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "0bd10f8b50ad896d46b5a8c079e4bff5",
+          "hash": "2dec4ef5d08ce9a081f9958e10c8e5b0",
         },
       },
       "number": 2,
@@ -589,13 +640,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00008",
+        },
         "cadastre": {
           "ids": [
             "212860000D0236",
           ],
         },
         "idfix": {
-          "hash": "b728e2b6949041d9343037a5abe5246f",
+          "hash": "fdae71fa34182e8e89c3af0ade05dc00",
         },
       },
       "number": 8,
@@ -626,13 +680,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00007",
+        },
         "cadastre": {
           "ids": [
             "212860000D0150",
           ],
         },
         "idfix": {
-          "hash": "704ba3dfbd1cca275e7041123050f39c",
+          "hash": "9e4db7a77162454efb20ef9f02b22c63",
         },
       },
       "number": 7,
@@ -657,13 +714,16 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       "id": "f1a28bf1-fac3-41f0-8cb4-3abc82b2b963",
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00005",
+        },
         "cadastre": {
           "ids": [
             "212860000D0230",
           ],
         },
         "idfix": {
-          "hash": "636b59123a0459e7204d9cd649393e49",
+          "hash": "db0f8e38b7b0af8a647c8047d2e6d14d",
         },
       },
       "number": 5,
@@ -694,6 +754,9 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "mainCommonToponymID": "c9b6df77-638b-4b30-991e-71486a91ea95",
       "meta": {
+        "bal": {
+          "cleInterop": "21286_0040_00009",
+        },
         "cadastre": {
           "ids": [
             "212860000D0148",
@@ -701,7 +764,7 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
           ],
         },
         "idfix": {
-          "hash": "773311222081dfdbf2fba519f4854b40",
+          "hash": "188c29bd0cd87ccd8818a81bd91aa16f",
         },
       },
       "number": 9,
@@ -740,10 +803,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_B010",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "c3f27b0f69abdcbe3035d87b11bb5b4b",
+          "hash": "8422b18fd4dbf6b2a5982b4c5c9dda71",
         },
       },
       "updateDate": "2022-06-03T00:00:00.000Z",
@@ -766,10 +830,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_zpe59o",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "b9955c560c2aed4d0c809223b24e04d1",
+          "hash": "17c4735267406add8846f624f88d55d3",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",
@@ -792,10 +857,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_B040",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "dc32342673fa4a7947c6e3af2b497240",
+          "hash": "4ac385db9c38ea9ac83d14ad2cec5fa4",
         },
       },
       "updateDate": "2022-08-23T00:00:00.000Z",
@@ -818,10 +884,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_vwgc9s",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "2dd5c5167fa7cb5e109c5945ba1e408b",
+          "hash": "c461874d9881ddd58b1b9af6610273ca",
         },
       },
       "updateDate": "2022-06-13T00:00:00.000Z",
@@ -844,10 +911,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_B015",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "d54e994a009e56cdd5cd44037824e72f",
+          "hash": "9dd55103ae387925fd207441dc16a250",
         },
       },
       "updateDate": "2020-08-31T00:00:00.000Z",
@@ -870,10 +938,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_B023",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "5b04bc478f77912f66765e5e7a60571d",
+          "hash": "ba62090ee3ae36711fb6c0b36fa2b3df",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",
@@ -888,8 +957,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
+        "bal": {
+          "deprecatedID": "21286_p899mr",
+        },
         "idfix": {
-          "hash": "32809e604e7b9b075c76d0fc2026abf1",
+          "hash": "8928ba0b9bd611aff9aa89a23aefe4f9",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -904,8 +976,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
+        "bal": {
+          "deprecatedID": "21286_2xdjog",
+        },
         "idfix": {
-          "hash": "e68f1b460899bb6c8ca383706884919c",
+          "hash": "20e99798cbe2c8b49372bfbaf23afd7f",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -920,8 +995,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
+        "bal": {
+          "deprecatedID": "21286_mz58hg",
+        },
         "idfix": {
-          "hash": "89fc16b5c1ba20eb526607e75b5ce126",
+          "hash": "1e035ffb2b452d5cffc0cdaac881355d",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -944,10 +1022,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_t6v2h3",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "f6b344cb4f3de47989e8a587d881c0e5",
+          "hash": "fb43b18bc090a7da69afdb693fec3c98",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",
@@ -962,8 +1041,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
+        "bal": {
+          "deprecatedID": "21286_0085",
+        },
         "idfix": {
-          "hash": "fd9fd441060c0d5b20ede321c102ea15",
+          "hash": "4b699fb29e730bcc166d059c5b4b53a3",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -978,8 +1060,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
         },
       ],
       "meta": {
+        "bal": {
+          "deprecatedID": "21286_0040",
+        },
         "idfix": {
-          "hash": "f75a1ac776fc54007779578b2eea7b7f",
+          "hash": "3b282b93cf116741f836b793b6a4b2f7",
         },
       },
       "updateDate": "2021-09-06T00:00:00.000Z",
@@ -1002,10 +1087,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_ty2whe",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "8df1d421bd86f0665c6a4e31b5827ee6",
+          "hash": "8835eed19d4b71ee4010c76bc11567bb",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",
@@ -1028,10 +1114,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_adckqc",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "42c57947dfba503614f46b89a4cebaaa",
+          "hash": "1296593f99fd1113e83b5db18db896b8",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",
@@ -1054,10 +1141,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_k6znad",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "048624da46a04f24fa9925ad88223ef7",
+          "hash": "86b6f1b46dd14cf5e287120953981e0e",
         },
       },
       "updateDate": "2023-01-13T00:00:00.000Z",
@@ -1080,10 +1168,11 @@ exports[`balToBan > should convert Bal list into Ban list 1`] = `
       ],
       "meta": {
         "bal": {
+          "deprecatedID": "21286_B019",
           "isLieuDit": true,
         },
         "idfix": {
-          "hash": "e1fcaf44601fe028408ec7bc60d70db4",
+          "hash": "3319e3a47272f665fc0f279c0c5ccf95",
         },
       },
       "updateDate": "2020-07-03T00:00:00.000Z",

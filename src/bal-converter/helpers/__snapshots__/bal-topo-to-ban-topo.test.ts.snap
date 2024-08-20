@@ -10,6 +10,11 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (1) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -24,6 +29,11 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID (2) 1`] = `
       "value": "Route de la Baleine",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -38,6 +48,11 @@ exports[`balTopoToBanTopo > should return BanToponym with BanTopoID and BanDistr
       "value": "Route de la Baleine",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -56,6 +71,11 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
       "value": "Baleen ibilbidea",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -70,6 +90,11 @@ exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = 
       "value": "Avenue Rhoam Bosphoramus",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -84,6 +109,11 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 1`] = `
       "value": "Route de la Baleine",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
@@ -98,6 +128,11 @@ exports[`balTopoToBanTopo > should return BanToponym without BanTopoID 2`] = `
       "value": "Route de la Baleine",
     },
   ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
   "updateDate": 2021-01-01T00:00:00.000Z,
 }
 `;
