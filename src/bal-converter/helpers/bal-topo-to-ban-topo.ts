@@ -35,6 +35,8 @@ const balTopoToBanTopo = (
     ),
   };
   const addrNumber = balAdresse.numero;
+  const cleInteropParts = balAdresse.cle_interop ? balAdresse.cle_interop?.split("_") : [];
+  const deprecatedID = cleInteropParts.length > 1 && `${cleInteropParts[0]}_${cleInteropParts[1]}`
   const balMeta = {
     ...(balAdresse.commune_deleguee_insee
       ? { codeAncienneCommune: balAdresse.commune_deleguee_insee }
@@ -43,6 +45,9 @@ const balTopoToBanTopo = (
       ? { nomAncienneCommune: balAdresse.commune_deleguee_nom }
       : {}),
     ...(addrNumber === Number(IS_TOPO_NB) ? { isLieuDit: true } : {}),
+    ...(deprecatedID 
+      ? { deprecatedID }
+      : {}),
   };
   const meta = {
     ...(addrNumber === Number(IS_TOPO_NB) &&
