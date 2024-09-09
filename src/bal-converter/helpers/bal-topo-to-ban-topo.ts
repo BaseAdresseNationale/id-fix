@@ -67,7 +67,7 @@ const balTopoToBanTopo = (
     labels: Object.entries(labels).map(([isoCode, value]) => ({
       isoCode,
       value,
-    })),
+    })).filter(({value}) => value), // no empty value
 
     updateDate: balAdresse.date_der_maj,
     ...(geometry ? { geometry } : {}),
