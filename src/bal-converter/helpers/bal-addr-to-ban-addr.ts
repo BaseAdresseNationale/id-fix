@@ -20,7 +20,7 @@ const balAddrToBanAddr = (
 ): BanAddress | undefined => {
   const { addressID, mainTopoID, secondaryTopoIDs, districtID } =
     digestIDsFromBalAddr(balAdresse, balVersion);
-  const addrNumber = balAdresse.numero || oldBanAddress?.number;
+  const addrNumber = balAdresse.numero ?? oldBanAddress?.number;
   const positionType = convertBalPositionTypeToBanPositionType(
     balAdresse.position
   );
@@ -60,8 +60,9 @@ const balAddrToBanAddr = (
       : {}),
     ...(Object.keys(balMeta).length ? { bal: balMeta } : {}),
   };
+
   const banAddress =
-    addrNumber && addrNumber !== Number(IS_TOPO_NB)
+    addrNumber !== undefined && addrNumber !== Number(IS_TOPO_NB)
       ? {
           ...(oldBanAddress || {}),
           id: addressID,
@@ -94,7 +95,7 @@ const balAddrToBanAddr = (
           ...(Object.keys(meta).length ? { meta } : {}),
         }
       : undefined;
-
+  
   return banAddress;
 };
 
