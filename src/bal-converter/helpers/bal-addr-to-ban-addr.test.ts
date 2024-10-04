@@ -102,4 +102,14 @@ describe("balAddrToBanAddr", () => {
 
     expect(balAddrToBanAddr(testBalAddress, oldBanAddress)).toMatchSnapshot();
   });
+
+  test("should return BanAddress with number '0'", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      numero: 0,
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
 });
