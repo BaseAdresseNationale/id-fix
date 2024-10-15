@@ -39,6 +39,15 @@ export const sendBalToBan = async (bal: Bal) => {
     getCommonToponymIdsReport(districtID, dataForCommonToponymReport),
   ]);
 
+  // Check for unauthorized addresses and toponyms
+  const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
+  const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
+
+  if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
+    return { error: `Unauthorized items detected, operation aborted. district: ${districtID}`,unauthorizedAddresses, unauthorizedToponyms };
+  }
+  
+
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];
   for (const addressId of addressIdsReport.idsToCreate) {
