@@ -18,6 +18,8 @@ import {
 
 import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
 
+const FORCE_REVISION = process.env.FORCE_REVISION === "true";
+
 export const computeFromCog = async (
   cog: string,
   forceLegacyCompose: string
@@ -54,12 +56,12 @@ export const computeFromCog = async (
     );
   }
 
-  const { id } = districtResponseRaw[0];
+  const { id: districtID, meta: districtMeta } = districtResponseRaw[0];
 
   // Check if bal is using BanID
   // If not, send process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await validator(id, bal, version);
+  const useBanId = await validator(districtID, bal, version);
 
   if (!useBanId) {
     logger.info(
@@ -68,9 +70,16 @@ export const computeFromCog = async (
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
     logger.info(`District cog ${cog} is using banID`);
+
+    if (districtMeta.bal?.idRevision === revision._id && !FORCE_REVISION) {
+      const response = `District id ${districtID} not updated in BAN BDD. Same revision detected.`;
+      logger.info(response);
+      return response; 
+    }
+
     // Update District meta with revision data from dump-api (id and date)
     const districtUpdate = {
-      id,
+      id: districtID,
       meta: {
         bal: {
           idRevision: revision._id,
@@ -83,13 +92,13 @@ export const computeFromCog = async (
     const result = (await sendBalToBan(bal)) || {};
 
     if (!Object.keys(result).length) {
-      const response = `District id ${id} not updated in BAN BDD. No changes detected.`;
+      const response = `District id ${districtID} not updated in BAN BDD. No changes detected.`;
       logger.info(response);
       return response;
     }
 
     logger.info(
-      `District id ${id} updated in BAN BDD. Response body : ${JSON.stringify(
+      `District id ${districtID} updated in BAN BDD. Response body : ${JSON.stringify(
         result
       )}`
     );
