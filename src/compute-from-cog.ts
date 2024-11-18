@@ -59,7 +59,7 @@ export const computeFromCog = async (
   // Check if bal is using BanID
   // If not, send process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await validator(id, bal, version);
+  const useBanId = await validator(bal, version, { cog, districtID: id });
 
   if (!useBanId) {
     logger.info(
