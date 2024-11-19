@@ -63,11 +63,11 @@ export const computeFromCog = async (
 
   if (!useBanId) {
     logger.info(
-      `District cog ${cog} does not use BanID: sending BAL to legacy compose...`
+      `District id ${id} (cog: ${cog}) does not use BanID: sending BAL to legacy compose...`
     );
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
-    logger.info(`District cog ${cog} is using banID`);
+    logger.info(`District id ${id} (cog: ${cog}) is using banID`);
     // Update District meta with revision data from dump-api (id and date)
     const districtUpdate = {
       id,
@@ -83,13 +83,13 @@ export const computeFromCog = async (
     const result = (await sendBalToBan(bal)) || {};
 
     if (!Object.keys(result).length) {
-      const response = `District id ${id} not updated in BAN BDD. No changes detected.`;
+      const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
       logger.info(response);
       return response;
     }
 
     logger.info(
-      `District id ${id} updated in BAN BDD. Response body : ${JSON.stringify(
+      `District id ${id} (cog: ${cog}) updated in BAN BDD. Response body : ${JSON.stringify(
         result
       )}`
     );

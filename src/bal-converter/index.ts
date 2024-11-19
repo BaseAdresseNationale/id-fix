@@ -44,7 +44,7 @@ export const sendBalToBan = async (bal: Bal) => {
   const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 
   if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-    return { error: `Unauthorized items detected, operation aborted. district: ${districtID}`,unauthorizedAddresses, unauthorizedToponyms };
+    throw new Error(`Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(", ")}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(", ")}\``);
   }
   
 
