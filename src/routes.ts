@@ -12,10 +12,9 @@ router.get(
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
+    const { cog } = req.params;
+    const { force : forceLegacyCompose } = req.query;
     try {
-      const { cog } = req.params;
-      const { force : forceLegacyCompose } = req.query;
-
       const responseBody = await computeFromCog(cog, forceLegacyCompose as string);
       
       response = {
@@ -25,12 +24,13 @@ router.get(
       };
     } catch (error) {
       const { message } = error as Error;
-      logger.error(message);
-      await sendMessageToWebHook(message);
+      const finalMessage = `Error computing cog \`${cog}\` : ${message}`;
+      logger.error(finalMessage);
+      await sendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
         status: "error",
-        message,
+        finalMessage,
         response: {},
       };
     }
@@ -44,10 +44,9 @@ router.post(
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
+    const { cogs } = req.body;
+    const forceLegacyCompose = req.query.force as string;
     try {
-      const { cogs } = req.body;
-      const forceLegacyCompose = req.query.force as string;
-
       if (!cogs || !Array.isArray(cogs)) {
         throw new Error("Invalid or missing 'cogs' data in the request body");
       }
@@ -59,9 +58,10 @@ router.post(
           responses.push(response)
         } catch (error) {
           const { message } = error as Error;
-          logger.error(message);
-          await sendMessageToWebHook(message);
-          responses.push(`Error for cog ${cogs[i]}: ${message}`);
+          const finalMessage = `Error computing cog \`${cogs[i]}\` : ${message}`;
+          logger.error(finalMessage);
+          await sendMessageToWebHook(finalMessage);
+          responses.push(finalMessage);
         }
       }
 
