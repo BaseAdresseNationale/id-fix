@@ -36,7 +36,6 @@ const reOrderBalJSON = (balJSON: (BalAdresse & { index: number })[]): Bal =>
     .sort(({ index: aIndex }, { index: bIndex }) => {
       return aIndex - bIndex;
     })
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(({ index, ...balAddr }) => balAddr);
 
 const balJSONlegacy2balJSON = (balJSONlegacy: Bal): Bal => {
