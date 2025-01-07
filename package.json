@@ -44,7 +44,7 @@
     "minimist": "^1.2.8",
     "object-hash": "^3.0.0",
     "papaparse": "^5.4.1",
-    "uuid": "^9.0.1",
+    "uuid": "^11.0.4",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   }
