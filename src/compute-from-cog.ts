@@ -16,7 +16,7 @@ import {
   getBalVersion,
 } from "./bal-converter/helpers/index.js";
 
-import acceptedCogList from "./accepted-cog-list.json" assert { type: "json" };
+import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 
 export const computeFromCog = async (
   cog: string,

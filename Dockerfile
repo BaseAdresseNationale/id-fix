@@ -1,5 +1,5 @@
 # Stage 1: Build TypeScript
-FROM node:18 AS builder
+FROM node:22 AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Create production image
-FROM node:18 AS runner
+FROM node:22 AS runner
 
 # Set the working directory inside the container
 WORKDIR /app
