@@ -30,7 +30,7 @@ router.get(
       response = {
         date: new Date(),
         status: "error",
-        finalMessage,
+        message: finalMessage,
         response: {},
       };
     }
