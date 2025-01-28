@@ -1,8 +1,8 @@
-import type { Bal } from "../types/bal-types.js";
+import type { Bal } from '../types/bal-types.js';
 import type {
   BanIDWithHash,
   BanCommonTopoIDWithHash,
-} from "../types/bal-converter-types.d.ts";
+} from '../types/bal-converter-types.d.ts';
 import {
   getAddressIdsReport,
   createAddresses,
@@ -12,9 +12,9 @@ import {
   createCommonToponyms,
   updateCommonToponyms,
   deleteCommonToponyms,
-} from "../ban-api/index.js";
-import { balToBan } from "./helpers/index.js";
-import { formatToChunks, formatResponse } from "./helpers/format.js";
+} from '../ban-api/index.js';
+import { balToBan } from './helpers/index.js';
+import { formatToChunks, formatResponse } from './helpers/format.js';
 
 const CHUNK_SIZE = 1000;
 
@@ -44,9 +44,10 @@ export const sendBalToBan = async (bal: Bal) => {
   const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 
   if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-    throw new Error(`Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(", ")}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(", ")}\``);
+    throw new Error(
+      `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
+    );
   }
-  
 
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];

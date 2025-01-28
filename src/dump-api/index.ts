@@ -1,6 +1,6 @@
-import HandleHTTPResponse from "../utils/http-request-handler.js";
+import HandleHTTPResponse from '../utils/http-request-handler.js';
 
-const API_DEPOT_URL = process.env.API_DEPOT_URL || "";
+const API_DEPOT_URL = process.env.API_DEPOT_URL || '';
 
 export const getRevisionFromDistrictCOG = async (cog: string) => {
   try {

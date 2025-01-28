@@ -1,37 +1,37 @@
-import type { BalAdresse } from "../../types/bal-types.js";
-import type { BanCommonToponym } from "../../types/ban-types.js";
+import type { BalAdresse } from '../../types/bal-types.js';
+import type { BanCommonToponym } from '../../types/ban-types.js';
 
-import { describe, expect, test } from "vitest";
-import { idSampleWithAddressId, 
-  idSampleWithMainTopoId, 
+import { describe, expect, test } from 'vitest';
+import {
+  idSampleWithAddressId,
+  idSampleWithMainTopoId,
   idSampleWithAddressIdAndMainTopoId,
-  idSampleWithAllIds
-} from "./__mocks__/fake-data.js";
-import balTopoToBanTopo from "./bal-topo-to-ban-topo";
-
+  idSampleWithAllIds,
+} from './__mocks__/fake-data.js';
+import balTopoToBanTopo from './bal-topo-to-ban-topo';
 
 const defaultTestBalAdresse: BalAdresse = {
-  cle_interop: "21286_0001_00001",
-  commune_insee: "21286",
-  commune_nom: "Cocorico",
-  voie_nom: "Route de la Baleine",
+  cle_interop: '21286_0001_00001',
+  commune_insee: '21286',
+  commune_nom: 'Cocorico',
+  voie_nom: 'Route de la Baleine',
   numero: 1,
-  position: "autre",
+  position: 'autre',
   x: 1,
   y: 2,
   long: 1,
   lat: 2,
-  date_der_maj: new Date("2021-01-01"),
+  date_der_maj: new Date('2021-01-01'),
   certification_commune: true,
-  source: "BAL",
+  source: 'BAL',
 };
 
-describe("balTopoToBanTopo", () => {
-  test("should return BanToponym without BanTopoID", async () => {
+describe('balTopoToBanTopo', () => {
+  test('should return BanToponym without BanTopoID', async () => {
     expect(balTopoToBanTopo(defaultTestBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym without BanTopoID", async () => {
+  test('should return BanToponym without BanTopoID', async () => {
     // TODO: In next version - should probably return BanToponym without temporary BanTopoID ?
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
@@ -40,7 +40,7 @@ describe("balTopoToBanTopo", () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with BanTopoID (1)", async () => {
+  test('should return BanToponym with BanTopoID (1)', async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithMainTopoId,
@@ -48,7 +48,7 @@ describe("balTopoToBanTopo", () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with BanTopoID (2)", async () => {
+  test('should return BanToponym with BanTopoID (2)', async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithAddressIdAndMainTopoId,
@@ -56,7 +56,7 @@ describe("balTopoToBanTopo", () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with BanTopoID and BanDistrictID", async () => {
+  test('should return BanToponym with BanTopoID and BanDistrictID', async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithAllIds,
@@ -64,23 +64,23 @@ describe("balTopoToBanTopo", () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with multilingual label", async () => {
+  test('should return BanToponym with multilingual label', async () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithMainTopoId,
-      voie_nom: "Route de la Baleine",
-      voie_nom_eus: "Baleen ibilbidea",
+      voie_nom: 'Route de la Baleine',
+      voie_nom_eus: 'Baleen ibilbidea',
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test("should return BanToponym with overwrited data", async () => {
+  test('should return BanToponym with overwrited data', async () => {
     // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error ?
 
     const testOldBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithAllIds,
-      voie_nom: "Route de la Baleine",
+      voie_nom: 'Route de la Baleine',
     };
     const oldBanToponym = balTopoToBanTopo(
       testOldBalAdresse
@@ -89,7 +89,7 @@ describe("balTopoToBanTopo", () => {
     const testBalAdresse: BalAdresse = {
       ...defaultTestBalAdresse,
       uid_adresse: idSampleWithAllIds,
-      voie_nom: "Avenue Rhoam Bosphoramus",
+      voie_nom: 'Avenue Rhoam Bosphoramus',
     };
     expect(balTopoToBanTopo(testBalAdresse, oldBanToponym)).toMatchSnapshot();
   });

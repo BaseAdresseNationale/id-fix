@@ -1,18 +1,18 @@
 import type {
   GeometryType,
   LangISO639v3,
-} from "../../types/ban-generic-types.js";
+} from '../../types/ban-generic-types.js';
 import type {
   BalAdresse,
   BalVersion,
   VoieNomIsoCodeKey,
-} from "../../types/bal-types.js";
-import type { BanCommonToponym } from "../../types/ban-types.js";
+} from '../../types/bal-types.js';
+import type { BanCommonToponym } from '../../types/ban-types.js';
 
-import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
-import { numberForTopo as IS_TOPO_NB } from "../bal-converter.config.js";
+import digestIDsFromBalAddr from './digest-ids-from-bal-addr.js';
+import { numberForTopo as IS_TOPO_NB } from '../bal-converter.config.js';
 
-const DEFAULT_ISO_LANG = "fra";
+const DEFAULT_ISO_LANG = 'fra';
 
 const balTopoToBanTopo = (
   balAdresse: BalAdresse,
@@ -23,20 +23,23 @@ const balTopoToBanTopo = (
     balAdresse,
     balVersion
   );
-  const isoCodeFromBalNomVoie = (key: LangISO639v3) => key.trim().split("_")[2];
+  const isoCodeFromBalNomVoie = (key: LangISO639v3) => key.trim().split('_')[2];
   const labels = {
     [DEFAULT_ISO_LANG]: balAdresse.voie_nom,
     ...Object.fromEntries(
       (
         Object.keys(balAdresse).filter((key) =>
-          key.startsWith("voie_nom_")
+          key.startsWith('voie_nom_')
         ) as VoieNomIsoCodeKey[]
       ).map((key) => [isoCodeFromBalNomVoie(key), balAdresse[key]])
     ),
   };
   const addrNumber = balAdresse.numero;
-  const cleInteropParts = balAdresse.cle_interop ? balAdresse.cle_interop?.split("_") : [];
-  const deprecatedID = cleInteropParts.length > 1 && `${cleInteropParts[0]}_${cleInteropParts[1]}`
+  const cleInteropParts = balAdresse.cle_interop
+    ? balAdresse.cle_interop?.split('_')
+    : [];
+  const deprecatedID =
+    cleInteropParts.length > 1 && `${cleInteropParts[0]}_${cleInteropParts[1]}`;
   const balMeta = {
     ...(balAdresse.commune_deleguee_insee
       ? { codeAncienneCommune: balAdresse.commune_deleguee_insee }
@@ -45,9 +48,7 @@ const balTopoToBanTopo = (
       ? { nomAncienneCommune: balAdresse.commune_deleguee_nom }
       : {}),
     ...(addrNumber === Number(IS_TOPO_NB) ? { isLieuDit: true } : {}),
-    ...(deprecatedID 
-      ? { deprecatedID }
-      : {}),
+    ...(deprecatedID ? { deprecatedID } : {}),
   };
   const meta = {
     ...(addrNumber === Number(IS_TOPO_NB) &&
@@ -60,7 +61,7 @@ const balTopoToBanTopo = (
   const geometry =
     addrNumber === Number(IS_TOPO_NB) && balAdresse.long && balAdresse.lat
       ? {
-          type: "Point" as GeometryType,
+          type: 'Point' as GeometryType,
           coordinates: [balAdresse.long, balAdresse.lat] as [number, number],
         }
       : undefined;
@@ -69,10 +70,12 @@ const balTopoToBanTopo = (
     ...(oldBanCommonToponym || {}),
     id: mainTopoID,
     districtID,
-    labels: Object.entries(labels).map(([isoCode, value]) => ({
-      isoCode,
-      value,
-    })).filter(({value}) => value), // no empty value
+    labels: Object.entries(labels)
+      .map(([isoCode, value]) => ({
+        isoCode,
+        value,
+      }))
+      .filter(({ value }) => value), // no empty value
 
     updateDate: balAdresse.date_der_maj,
     ...(geometry ? { geometry } : {}),

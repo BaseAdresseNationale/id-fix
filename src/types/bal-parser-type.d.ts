@@ -1,6 +1,6 @@
-import { idsIdentifier } from "../bal-converter/bal-converter.config";
+import { idsIdentifier } from '../bal-converter/bal-converter.config';
 
-export type IdsIdentifierKey = (typeof idsIdentifier)[number]["key"];
+export type IdsIdentifierKey = (typeof idsIdentifier)[number]['key'];
 
 export type Identifier = {
   key: IdsIdentifierKey;

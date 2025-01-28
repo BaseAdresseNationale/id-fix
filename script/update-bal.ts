@@ -1,14 +1,14 @@
 #!/usr/bin/env ts-node
 
-import fs from "node:fs";
-import path from "node:path";
-import argvParser from "minimist";
+import fs from 'node:fs';
+import path from 'node:path';
+import argvParser from 'minimist';
 import {
   csvBalToJsonBal,
   balJSONlegacy2balJSON,
   jsonBalToCsvBal,
-} from "../src/bal-converter/helpers/index.js";
-import { exit } from "node:process";
+} from '../src/bal-converter/helpers/index.js';
+import { exit } from 'node:process';
 
 const args = argvParser(process.argv.slice(2));
 
@@ -18,10 +18,10 @@ const {
   id = true,
 } = args;
 
-const destFileExt = json ? ".updated.json" : ".updated.csv";
+const destFileExt = json ? '.updated.json' : '.updated.csv';
 
 if (!pathToMockBalCSV) {
-  console.error("Missing path to BAL CSV file");
+  console.error('Missing path to BAL CSV file');
   exit(1);
 }
 
@@ -39,7 +39,7 @@ const pathOfDestFile =
   argPathOfDestFile || pathToMockBalCSV.replace(/.csv$/, destFileExt);
 const pathOfDestDir = path.dirname(pathOfDestFile);
 
-const mockBalCSV = fs.readFileSync(pathToMockBalCSV, "utf8");
+const mockBalCSV = fs.readFileSync(pathToMockBalCSV, 'utf8');
 
 const balJSONlegacy = csvBalToJsonBal(mockBalCSV);
 const balJSON = id ? balJSONlegacy2balJSON(balJSONlegacy) : balJSONlegacy;
@@ -49,10 +49,10 @@ if (!fs.existsSync(pathOfDestDir)) {
 }
 
 if (json) {
-  fs.writeFileSync(pathOfDestFile, JSON.stringify(balJSON), "utf8");
+  fs.writeFileSync(pathOfDestFile, JSON.stringify(balJSON), 'utf8');
 } else {
   const balCSV = jsonBalToCsvBal(balJSON);
-  fs.writeFileSync(pathOfDestFile, balCSV, "utf8");
+  fs.writeFileSync(pathOfDestFile, balCSV, 'utf8');
 }
 
 console.log(

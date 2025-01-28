@@ -1,18 +1,18 @@
-import type { Identifier } from "../../types/bal-parser-type.js";
+import type { Identifier } from '../../types/bal-parser-type.js';
 
-import { idsIdentifier } from "../bal-converter.config.js";
+import { idsIdentifier } from '../bal-converter.config.js';
 
 const digestIDsFromBalUIDs = (ids?: string) => {
   const regExpIds = new RegExp(
     idsIdentifier.reduce(
       (acc, { key, prefix, regExp, batch = false }: Identifier) => {
-        const strRegExp = typeof regExp === "string" ? regExp : regExp.source;
+        const strRegExp = typeof regExp === 'string' ? regExp : regExp.source;
         const keyRegExp = batch ? `(\\|?${strRegExp})*` : strRegExp;
-        return `${acc ? `${acc}|` : ""}(${prefix}(?<${key}>${`${keyRegExp}`}))`;
+        return `${acc ? `${acc}|` : ''}(${prefix}(?<${key}>${`${keyRegExp}`}))`;
       },
-      ""
+      ''
     ),
-    "igm"
+    'igm'
   );
 
   return Object.fromEntries(
@@ -22,8 +22,8 @@ const digestIDsFromBalUIDs = (ids?: string) => {
             .filter(([, value]) => value)
             .map(([key, value]) => {
               switch (key) {
-                case "secondaryTopoIDs":
-                  return [key, (value as string).split("|")];
+                case 'secondaryTopoIDs':
+                  return [key, (value as string).split('|')];
                 default:
                   return [key, value];
               }

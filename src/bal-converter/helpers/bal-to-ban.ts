@@ -1,16 +1,16 @@
-import hash from "object-hash";
+import hash from 'object-hash';
 
-import type { Bal } from "../../types/bal-types.js";
-import type { Ban } from "../../types/ban-types.js";
+import type { Bal } from '../../types/bal-types.js';
+import type { Ban } from '../../types/ban-types.js';
 
-import balAddrToBanAddr from "./bal-addr-to-ban-addr.js";
-import balTopoToBanTopo from "./bal-topo-to-ban-topo.js";
-import digestIDsFromBalAddr from "./digest-ids-from-bal-addr.js";
-import getBalVersion from "./get-bal-version.js";
+import balAddrToBanAddr from './bal-addr-to-ban-addr.js';
+import balTopoToBanTopo from './bal-topo-to-ban-topo.js';
+import digestIDsFromBalAddr from './digest-ids-from-bal-addr.js';
+import getBalVersion from './get-bal-version.js';
 
 const balToBan = (bal: Bal): Ban => {
   const ban: Ban = {
-    districtID: "",
+    districtID: '',
     addresses: {},
     commonToponyms: {},
   };
@@ -54,7 +54,7 @@ const balToBan = (bal: Bal): Ban => {
         hash: itemHash,
       },
     };
-  };
+  }
 
   // Store the md5 of the commonToponyms
   for (const commonToponym of Object.values(ban.commonToponyms)) {
@@ -65,7 +65,7 @@ const balToBan = (bal: Bal): Ban => {
         hash: itemHash,
       },
     };
-  };
+  }
 
   return ban;
 };

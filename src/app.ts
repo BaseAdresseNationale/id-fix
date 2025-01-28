@@ -1,8 +1,8 @@
-import "dotenv/config.js";
-import express, { Application } from "express";
-import setupMocks from "./mock.js";
-import routes from "./routes.js";
-import { logger } from "./utils/logger.js";
+import 'dotenv/config.js';
+import express, { Application } from 'express';
+import setupMocks from './mock.js';
+import routes from './routes.js';
+import { logger } from './utils/logger.js';
 
 const PORT = process.env.PORT || 3000;
 const STANDALONE_MODE = process.env.STANDALONE_MODE === 'true' || false;
@@ -20,7 +20,7 @@ if (STANDALONE_MODE) {
 }
 
 // Define the API routes
-app.use("/", routes);
+app.use('/', routes);
 
 // Start the server on the specified port
 app.listen(PORT, () => {

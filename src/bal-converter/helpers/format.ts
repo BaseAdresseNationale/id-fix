@@ -1,5 +1,5 @@
-const DATA_TYPE = ["addresses", "commonToponyms"];
-const ACTION_TYPE = ["add", "update", "delete"];
+const DATA_TYPE = ['addresses', 'commonToponyms'];
+const ACTION_TYPE = ['add', 'update', 'delete'];
 
 export const formatToChunks = (array: any[], size: number) => {
   const chunks = [];
