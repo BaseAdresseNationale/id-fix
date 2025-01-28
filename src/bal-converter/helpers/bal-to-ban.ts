@@ -1,7 +1,7 @@
 import hash from "object-hash";
 
 import type { Bal } from "../../types/bal-types.js";
-import type { Ban, BanAddress, BanCommonToponym } from "../../types/ban-types.js";
+import type { Ban } from "../../types/ban-types.js";
 
 import balAddrToBanAddr from "./bal-addr-to-ban-addr.js";
 import balTopoToBanTopo from "./bal-topo-to-ban-topo.js";
