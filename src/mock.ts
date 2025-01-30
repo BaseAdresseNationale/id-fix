@@ -7,8 +7,8 @@ import path from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const API_DEPOT_URL = process.env.API_DEPOT_URL || '';
-const PATH_TO_BAL_FILE = process.env.PATH_TO_BAL_FILE || '';
+const API_DEPOT_URL = process.env.API_DEPOT_URL || "";
+const PATH_TO_BAL_FILE = process.env.PATH_TO_BAL_FILE || "./";
 
 const setupMocks = () => {
   // Mocking dump API requests in development
