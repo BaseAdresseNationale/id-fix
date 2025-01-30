@@ -6,6 +6,7 @@ import sendMessageToWebHook from './utils/send-message-to-hook.js';
 
 const router: Router = Router();
 
+// Route to compute BAL from a single COG
 router.get(
   '/compute-from-cog/:cog',
   authMiddleware,
@@ -31,8 +32,8 @@ router.get(
       await sendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
-        status: 'error',
-        finalMessage,
+        status: "error",
+        mesage: finalMessage,
         response: {},
       };
     }
@@ -41,6 +42,7 @@ router.get(
   }
 );
 
+// Route to compute BAL from multiple COGs
 router.post(
   '/compute-from-cogs',
   authMiddleware,

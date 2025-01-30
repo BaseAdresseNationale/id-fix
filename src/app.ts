@@ -13,7 +13,10 @@ const app: Application = express();
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Apply mocks if in development mode
+// Apply mocks if in standalone mode
+// Standalone mode is used for testing the API without the need for dump-api to be running
+// BALs are retrieved locally from the path PATH_TO_BAL_FILE (env variable)
+// Local bal files needs to be named bal-<cog>.csv
 if (STANDALONE_MODE) {
   logger.info('Standalone mode : setting up mocks');
   setupMocks(); // Call the mock setup function

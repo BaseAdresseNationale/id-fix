@@ -19,6 +19,7 @@ import { formatToChunks, formatResponse } from './helpers/format.js';
 const CHUNK_SIZE = 1000;
 
 export const sendBalToBan = async (bal: Bal) => {
+  // Extract data from BAL
   const { districtID, addresses, commonToponyms } = balToBan(bal);
 
   // Get addresses and toponyms reports
@@ -34,6 +35,8 @@ export const sendBalToBan = async (bal: Bal) => {
     id: commonToponym.id,
     hash: commonToponym.meta?.idfix?.hash,
   }));
+
+  // Get addresses and toponyms reports from BAN to know which items to create, update or delete
   const [addressIdsReport, toponymsIdsReport] = await Promise.all([
     getAddressIdsReport(districtID, dataForAddressReport),
     getCommonToponymIdsReport(districtID, dataForCommonToponymReport),
@@ -93,7 +96,10 @@ export const sendBalToBan = async (bal: Bal) => {
     CHUNK_SIZE
   );
 
-  // Order is important here. Need to handle common toponyms first (except delete), then adresses
+  // Order is important here.
+  // Need to handle common toponyms first (except delete), then adresses
+  // We want to avoid creating addresses with a common toponym that does not exist yet
+  
   // Common toponyms
   const responseCommonToponymsToAdd = await Promise.all(
     banToponymsToAddChunks.map((chunk) => createCommonToponyms(chunk))

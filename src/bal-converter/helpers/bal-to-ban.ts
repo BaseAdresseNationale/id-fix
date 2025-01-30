@@ -33,7 +33,6 @@ const balToBan = (bal: Bal): Ban => {
       balVersion
     );
 
-    // To-fix : BAL can have multiple districtID
     ban.districtID = districtID;
 
     if (banIdContent) {
