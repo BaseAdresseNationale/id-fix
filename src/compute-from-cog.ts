@@ -36,7 +36,7 @@ export const computeFromCog = async (
   logger.info(`District cog ${cog} is part of the whitelist.`);
 
   const revision = await getRevisionFromDistrictCOG(cog);
-  const revisionFileText = await getRevisionFileText(revision._id);
+  const revisionFileText = await getRevisionFileText(revision.id);
 
   // Convert csv to json
   const bal = csvBalToJsonBal(revisionFileText);
@@ -73,7 +73,7 @@ export const computeFromCog = async (
       id,
       meta: {
         bal: {
-          idRevision: revision._id,
+          idRevision: revision.id,
           dateRevision: revision.publishedAt,
         },
       },
