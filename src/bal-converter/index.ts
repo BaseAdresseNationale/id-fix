@@ -99,7 +99,7 @@ export const sendBalToBan = async (bal: Bal) => {
   // Order is important here.
   // Need to handle common toponyms first (except delete), then adresses
   // We want to avoid creating addresses with a common toponym that does not exist yet
-  
+
   // Common toponyms
   const responseCommonToponymsToAdd = await Promise.all(
     banToponymsToAddChunks.map((chunk) => createCommonToponyms(chunk))
