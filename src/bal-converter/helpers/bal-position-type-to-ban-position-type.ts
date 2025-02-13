@@ -1,4 +1,4 @@
-import positionTypeDictionary from "./position-type-dictionary.json" with { type: "json" };
+import positionTypeDictionary from './position-type-dictionary.json' with { type: 'json' };
 
 const positionTypeConverter = (data: any, langFrom: string, langTo: string) => {
   const dataMemorized = data.reduce((acc: any, val: any) => {
@@ -13,8 +13,8 @@ const positionTypeConverter = (data: any, langFrom: string, langTo: string) => {
 
 const convertBalPositionTypeToBanPositionType = positionTypeConverter(
   positionTypeDictionary,
-  "fra",
-  "eng"
+  'fra',
+  'eng'
 );
 
 export default convertBalPositionTypeToBanPositionType;

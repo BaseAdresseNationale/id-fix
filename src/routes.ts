@@ -1,25 +1,27 @@
-import { Router, Request, Response } from "express";
-import { logger } from "./utils/logger.js";
-import authMiddleware from "./middleware/auth.js";
-import { computeFromCog } from "./compute-from-cog.js";
-import sendMessageToWebHook from "./utils/send-message-to-hook.js";
-
+import { Router, Request, Response } from 'express';
+import { logger } from './utils/logger.js';
+import authMiddleware from './middleware/auth.js';
+import { computeFromCog } from './compute-from-cog.js';
+import sendMessageToWebHook from './utils/send-message-to-hook.js';
 
 const router: Router = Router();
 
 router.get(
-  "/compute-from-cog/:cog",
+  '/compute-from-cog/:cog',
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
     const { cog } = req.params;
-    const { force : forceLegacyCompose } = req.query;
+    const { force: forceLegacyCompose } = req.query;
     try {
-      const responseBody = await computeFromCog(cog, forceLegacyCompose as string);
-      
+      const responseBody = await computeFromCog(
+        cog,
+        forceLegacyCompose as string
+      );
+
       response = {
         date: new Date(),
-        status: "success",
+        status: 'success',
         response: responseBody,
       };
     } catch (error) {
@@ -29,7 +31,7 @@ router.get(
       await sendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
-        status: "error",
+        status: 'error',
         finalMessage,
         response: {},
       };
@@ -40,7 +42,7 @@ router.get(
 );
 
 router.post(
-  "/compute-from-cogs",
+  '/compute-from-cogs',
   authMiddleware,
   async (req: Request, res: Response) => {
     let response;
@@ -51,11 +53,14 @@ router.post(
         throw new Error("Invalid or missing 'cogs' data in the request body");
       }
 
-      const responses = [] 
+      const responses = [];
       for (let i = 0; i < cogs.length; i++) {
         try {
-          const response = await computeFromCog(cogs[i], forceLegacyCompose as string)
-          responses.push(response)
+          const response = await computeFromCog(
+            cogs[i],
+            forceLegacyCompose as string
+          );
+          responses.push(response);
         } catch (error) {
           const { message } = error as Error;
           const finalMessage = `Error computing cog \`${cogs[i]}\` : ${message}`;
@@ -67,7 +72,7 @@ router.post(
 
       response = {
         date: new Date(),
-        status: "success",
+        status: 'success',
         response: responses,
       };
     } catch (error) {
@@ -76,7 +81,7 @@ router.post(
       await sendMessageToWebHook(message);
       response = {
         date: new Date(),
-        status: "error",
+        status: 'error',
         message,
         response: {},
       };

@@ -1,7 +1,7 @@
 services:
   api:
     build:
-      dockerfile: "Dockerfile.dev"
+      dockerfile: 'Dockerfile.dev'
     volumes:
       - ./:/app/
     environment:
@@ -14,4 +14,4 @@ services:
       - PATH_TO_BAL_FILE=${PATH_TO_BAL_FILE}
       - MESSAGE_WEBHOOK_URL=${MESSAGE_WEBHOOK_URL}
     ports:
-      - "${PORT:-3000}:${PORT:-3000}"
+      - '${PORT:-3000}:${PORT:-3000}'

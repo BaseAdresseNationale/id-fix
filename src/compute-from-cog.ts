@@ -1,22 +1,22 @@
 // Get revision from dump-api (api de dépôt)
-import { logger } from "./utils/logger.js";
+import { logger } from './utils/logger.js';
 import {
   getRevisionFromDistrictCOG,
   getRevisionFileText,
-} from "./dump-api/index.js";
-import { sendBalToBan } from "./bal-converter/index.js";
+} from './dump-api/index.js';
+import { sendBalToBan } from './bal-converter/index.js';
 import {
   getDistrictFromCOG,
   partialUpdateDistricts,
   sendBalToLegacyCompose,
-} from "./ban-api/index.js";
+} from './ban-api/index.js';
 import {
   validator,
   csvBalToJsonBal,
   getBalVersion,
-} from "./bal-converter/helpers/index.js";
+} from './bal-converter/helpers/index.js';
 
-import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
+import acceptedCogList from './accepted-cog-list.json' with { type: 'json' };
 
 export const computeFromCog = async (
   cog: string,

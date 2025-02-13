@@ -2,30 +2,36 @@ import type {
   BanAddressID,
   BanCommonTopoID,
   BanDistrictID,
-} from "../types/ban-generic-types.d.ts";
-import type { BanIDWithHash, BanCommonTopoIDWithHash } from "./../types/bal-converter-types.d.ts";
-import HandleHTTPResponse from "../utils/http-request-handler.js";
+} from '../types/ban-generic-types.d.ts';
+import type {
+  BanIDWithHash,
+  BanCommonTopoIDWithHash,
+} from './../types/bal-converter-types.d.ts';
+import HandleHTTPResponse from '../utils/http-request-handler.js';
 
-import type { BanAddresses, BanCommonToponyms } from "../types/ban-types.d.ts";
+import type { BanAddresses, BanCommonToponyms } from '../types/ban-types.d.ts';
 
-const BAN_API_TOKEN = process.env.BAN_API_TOKEN || "";
-const BAN_API_URL = process.env.BAN_API_URL || "";
-const BAN_LEGACY_API_TOKEN = process.env.BAN_LEGACY_API_TOKEN
+const BAN_API_TOKEN = process.env.BAN_API_TOKEN || '';
+const BAN_API_URL = process.env.BAN_API_URL || '';
+const BAN_LEGACY_API_TOKEN = process.env.BAN_LEGACY_API_TOKEN;
 
 const defaultHeader = {
   Authorization: `Token ${BAN_API_TOKEN}`,
-  "Content-Type": "application/json",
+  'Content-Type': 'application/json',
 };
 
-export const sendBalToLegacyCompose = async (cog: string, forceLegacyCompose: string) => {
+export const sendBalToLegacyCompose = async (
+  cog: string,
+  forceLegacyCompose: string
+) => {
   try {
     const response = await fetch(
       `${BAN_API_URL}/legacy-compose/${cog}?force=${forceLegacyCompose}`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Token ${BAN_LEGACY_API_TOKEN}`,
-        }
+        },
       }
     );
 
@@ -43,7 +49,7 @@ export const getAddressIdsReport = async (
   try {
     const body = JSON.stringify({ districtID, data });
     const response = await fetch(`${BAN_API_URL}/address/delta-report`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -60,7 +66,7 @@ export const createAddresses = async (addresses: BanAddresses) => {
   try {
     const body = JSON.stringify(addresses);
     const response = await fetch(`${BAN_API_URL}/address`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -75,7 +81,7 @@ export const updateAddresses = async (addresses: BanAddresses) => {
   try {
     const body = JSON.stringify(addresses);
     const response = await fetch(`${BAN_API_URL}/address`, {
-      method: "PUT",
+      method: 'PUT',
       headers: defaultHeader,
       body,
     });
@@ -90,7 +96,7 @@ export const deleteAddresses = async (ids: BanAddressID[]) => {
   try {
     const body = JSON.stringify(ids);
     const response = await fetch(`${BAN_API_URL}/address/delete`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -108,7 +114,7 @@ export const getCommonToponymIdsReport = async (
   try {
     const body = JSON.stringify({ districtID, data });
     const response = await fetch(`${BAN_API_URL}/common-toponym/delta-report`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -127,7 +133,7 @@ export const createCommonToponyms = async (
   try {
     const body = JSON.stringify(commonToponyms);
     const response = await fetch(`${BAN_API_URL}/common-toponym`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -145,7 +151,7 @@ export const updateCommonToponyms = async (
   try {
     const body = JSON.stringify(commonToponyms);
     const response = await fetch(`${BAN_API_URL}/common-toponym`, {
-      method: "PUT",
+      method: 'PUT',
       headers: defaultHeader,
       body,
     });
@@ -160,7 +166,7 @@ export const deleteCommonToponyms = async (ids: BanCommonTopoID[]) => {
   try {
     const body = JSON.stringify(ids);
     const response = await fetch(`${BAN_API_URL}/common-toponym/delete`, {
-      method: "POST",
+      method: 'POST',
       headers: defaultHeader,
       body,
     });
@@ -189,7 +195,7 @@ export const partialUpdateDistricts = async (partialDistricts: any) => {
   try {
     const body = JSON.stringify(partialDistricts);
     const response = await fetch(`${BAN_API_URL}/district`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: defaultHeader,
       body,
     });

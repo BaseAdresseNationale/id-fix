@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "lint": "npx eslint .",
+    "format": "prettier --write .",
     "build": "npx tsc",
     "test": "vitest",
     "updateBAL": "ts-node --esm script/update-bal.ts",

@@ -8,7 +8,7 @@ import type {
   Geometry,
   Meta,
   Config,
-} from "./ban-generic-types.js";
+} from './ban-generic-types.js';
 
 // TODO: use english names ?
 

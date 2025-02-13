@@ -1,9 +1,9 @@
 const HandleHTTPResponse = async (response: Response): Promise<any> => {
-  const contentType = response.headers.get("content-type");
+  const contentType = response.headers.get('content-type');
 
   if (!response.ok) {
     let error;
-    if (contentType && contentType.includes("application/json")) {
+    if (contentType && contentType.includes('application/json')) {
       const data = await response.json();
       error = new Error(data.message || response.statusText);
     } else {
@@ -13,7 +13,7 @@ const HandleHTTPResponse = async (response: Response): Promise<any> => {
     throw error;
   }
 
-  if (contentType && contentType.includes("application/json")) {
+  if (contentType && contentType.includes('application/json')) {
     return response.json();
   } else {
     return response.text();

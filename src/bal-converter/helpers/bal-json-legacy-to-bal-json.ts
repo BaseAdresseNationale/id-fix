@@ -1,12 +1,12 @@
-import type { Bal, BalAdresse } from "../../types/bal-types.js";
+import type { Bal, BalAdresse } from '../../types/bal-types.js';
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-import digestIDsFromBalUIDs from "./digest-ids-from-bal-uids.js";
+import digestIDsFromBalUIDs from './digest-ids-from-bal-uids.js';
 import {
   idsIdentifierIndex,
   numberForTopo as IS_TOPO_NB,
-} from "../bal-converter.config.js";
+} from '../bal-converter.config.js';
 
 const isTopo = (addrNumber: number | undefined) =>
   !addrNumber || addrNumber === 99999;
@@ -17,8 +17,8 @@ const sortBalJSONlegacy = (
   balJSONlegacy
     .map((balAddr, index) => ({ ...balAddr, index }))
     .sort((a, b) => {
-      const { uid_adresse: aBanID = "", numero: aAddrNumber } = a;
-      const { uid_adresse: bBanID = "", numero: bAddrNumber } = b;
+      const { uid_adresse: aBanID = '', numero: aAddrNumber } = a;
+      const { uid_adresse: bBanID = '', numero: bAddrNumber } = b;
 
       if (isTopo(aAddrNumber) && !isTopo(bAddrNumber)) return -1;
       if (!isTopo(aAddrNumber) && isTopo(bAddrNumber)) return 1;
@@ -59,7 +59,7 @@ const balJSONlegacy2balJSON = (balJSONlegacy: Bal): Bal => {
           districtID: rawDistrictID,
           addressID: rawAddressID,
           mainTopoID: rawMainTopoID,
-        } = digestIDsFromBalUIDs(uidAdresseLegacy || "");
+        } = digestIDsFromBalUIDs(uidAdresseLegacy || '');
 
         const getdistrictID = (inseeCode: string, districtName: string) =>
           uuidv4(); // TODO: Implement API // district.getId(insseeCode, districtName.toLowerCase())
@@ -93,8 +93,8 @@ const balJSONlegacy2balJSON = (balJSONlegacy: Bal): Bal => {
         const mainTopoID =
           idVoie && `${idsIdentifierIndex.mainTopoID}${idVoie}`;
         const formatedBanIDs =
-          `${districtID || ""} ${banID || ""} ${mainTopoID || ""}`
-            .replaceAll(/\s+/g, " ")
+          `${districtID || ''} ${banID || ''} ${mainTopoID || ''}`
+            .replaceAll(/\s+/g, ' ')
             .trim() || undefined;
 
         return {
