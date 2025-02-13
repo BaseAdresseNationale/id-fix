@@ -7,6 +7,21 @@
 l'API id-fix est un service qui reçoit des données au format BAL, les traite et les envoie à la plateforme BAN.
 En fonction de si la commune utilise ou non les ban-id, id-fix enverra les données à l'api legacy de ban-plateforme ou utilisera l'api ban-id de ban-plateforme. Dans le deuxième cas, id-fix détectera les données à créer, à modifier et à supprimer. Il les formatera également dans la structure correcte pour utiliser l'api ban-id.
 
+## Variables d'environnement
+
+Copiez-collez le fichier `.env.sample` en tant que fichier `.env`.
+
+| Nom de la variable        | Valeur par défaut | Obligatoire | Description |
+|---------------------------|------------------|-------------|-------------|
+| `IDEFIX_ADMIN_TOKENS`    | `""` (vide)      | ✅ Oui      | Liste de jetons d'authentification administrateur, séparés par des virgules. Chaque jeton doit contenir exactement **36 caractères** et être préfixé par `Token` dans les requêtes API. |
+| `BAN_API_URL`            | `""` (vide)      | ✅ Oui      | URL de l'API BAN. |
+| `BAN_API_TOKEN`          | `""` (vide)      | ✅ Oui      | Jeton d'accès à l'API BAN. |
+| `BAN_LEGACY_API_TOKEN`   | `""` (vide)      | ✅ Oui      | Jeton d'accès à l'ancienne API BAN. |
+| `API_DEPOT_URL`          | `""` (vide)      | ✅ Oui      | URL de l'API Dépôt. |
+| `STANDALONE_MODE`        | `false`         | ❌ Non      | Indique si le système fonctionne en mode autonome. |
+| `PATH_TO_BAL_FILE`       | `./`            | ❌ Non      | Chemin du répertoire où est stocké le fichier BAL. Le fichier doit être nommé **`bal-${cog}.csv`**, où `${cog}` correspond au cog du district. |
+
+
 ## Installation
 
 Choisissez entre une installation avec Docker ou en local :

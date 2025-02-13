@@ -22,7 +22,7 @@ export const computeFromCog = async (
   cog: string,
   forceLegacyCompose: string
 ) => {
-  // Temporary check for testing purpose
+  // Temporary check
   // Check if cog is part of the accepted cog list
   const isCogAccepted = acceptedCogList.includes(cog);
 
@@ -35,6 +35,7 @@ export const computeFromCog = async (
 
   logger.info(`District cog ${cog} is part of the whitelist.`);
 
+  // Get BAL (csv) from dump-api
   const revision = await getRevisionFromDistrictCOG(cog);
   const revisionFileText = await getRevisionFileText(revision.id);
 
@@ -45,6 +46,7 @@ export const computeFromCog = async (
   const version = getBalVersion(bal);
   logger.info(`District cog ${cog} is using BAL version ${version}`);
 
+  // Get related districts from our main BAN DB
   const districtResponseRaw = await getDistrictFromCOG(cog);
   if (!districtResponseRaw.length) {
     throw new Error(`No district found with cog ${cog}`);
@@ -57,7 +59,7 @@ export const computeFromCog = async (
   const { id } = districtResponseRaw[0];
 
   // Check if bal is using BanID
-  // If not, send process to ban-plateforme legacy API
+  // If not, sending process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
   const useBanId = await validator(bal, version, { cog, districtID: id });
 
@@ -68,7 +70,7 @@ export const computeFromCog = async (
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
     logger.info(`District id ${id} (cog: ${cog}) is using banID`);
-    // Update District meta with revision data from dump-api (id and date)
+    // Patch district meta with revision data from dump-api (id and date)
     const districtUpdate = {
       id,
       meta: {
