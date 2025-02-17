@@ -19,7 +19,7 @@ const setupMocks = () => {
       const match = uri.match(/\/communes\/([^/]+)\/current-revision/);
       const cog = match ? match[1] : 'unknown'; // Extract 'cog' from the URL
       return {
-        _id: cog,
+        id: cog,
         data: `Mocked data for COG ${cog}`,
       };
     });
