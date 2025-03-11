@@ -38,7 +38,7 @@ const balAddrToBanAddr = (
           ).map((key) => [
             isoCodeFromBalLieuDitComplementNom(key),
             balAdresse[key],
-          ])
+          ]).filter(([_, value]) => value !== '')
         ),
       }
     : undefined;
@@ -85,7 +85,7 @@ const balAddrToBanAddr = (
             ? {
                 labels: Object.entries(labels).map(([isoCode, value]) => ({
                   isoCode,
-                  value,
+                  value: value as string,
                 })),
               }
             : {}),
