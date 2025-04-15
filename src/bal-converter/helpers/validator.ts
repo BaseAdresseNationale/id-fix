@@ -2,14 +2,10 @@ import { Bal, BalVersion } from '../../types/bal-types';
 import { digestIDsFromBalAddr } from './index.js';
 import { numberForTopo as IS_TOPO_NB } from '../bal-converter.config.js';
 
-const validator = async (
-  bal: Bal,
-  version: BalVersion,
-  { districtID, cog }: { districtID: string; cog: string }
-) => {
-  let balAdresseUseBanId = 0;
-  let balAddressDoNotUseBanId = 0;
-  const districtIDs = new Set();
+const validator = async (districtIDsFromDB: string[], bal: Bal, version: BalVersion, {cog}: {cog: string}) => {
+  let balAdresseUseBanId = 0
+  let balAddressDoNotUseBanId = 0
+  const districtIDsExtracted: string[] = [];
   for (const balAdresse of bal) {
     // Check presence and format of BanIDs
     const { districtID, mainTopoID, addressID } = digestIDsFromBalAddr(
@@ -36,8 +32,10 @@ const validator = async (
           `Missing addressID - BAL from district ID : \`${districtID}\` (cog : \`${cog}\`) - BAL address line detail : \`${JSON.stringify(balAdresse)}\``
         );
       }
-      balAdresseUseBanId++;
-      districtIDs.add(districtID);
+      balAdresseUseBanId++
+      if (!districtIDsExtracted.includes(districtID)) {
+        districtIDsExtracted.push(districtID);
+      }
     } else {
       balAddressDoNotUseBanId++;
     }
@@ -45,23 +43,15 @@ const validator = async (
 
   if (balAdresseUseBanId === bal.length) {
     // Check district IDs consistency
-    if (districtIDs.size > 1) {
-      throw new Error(
-        `Multiple district IDs - BAL from district ID : \`${districtID}\` (cog : \`${cog}\`) - District ids : \`${JSON.stringify([...districtIDs])}\``
-      );
-    }
-    if (!districtIDs.has(districtID)) {
-      throw new Error(
-        `Missing rights - BAL from district ID : \`${districtID}\` (cog : \`${cog}\`) - Cannot be updated`
-      );
+    if (!districtIDsExtracted.every(districtIDExtracted => districtIDsFromDB.includes(districtIDExtracted))) {
+      const unauthorizedDistrictIDs = districtIDsExtracted.filter(districtIDExtracted => !districtIDsFromDB.includes(districtIDExtracted));
+      throw new Error(`Missing rights - districtIDs ${unauthorizedDistrictIDs} are not part of the authorized districts to be updated`);
     }
     return true;
   } else if (balAddressDoNotUseBanId === bal.length) {
     return false;
   } else {
-    throw new Error(
-      `Missing IDs - BAL from district ID : \`${districtID}\` (cog : \`${cog}\`) - Some BAL address lines are using BanIDs and some are not`
-    );
+    throw new Error(`Missing IDs - BAL from cog : \`${cog}\` - Some BAL address lines are using BanIDs and some are not`);
   }
 };
 
