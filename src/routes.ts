@@ -32,8 +32,8 @@ router.get(
       await sendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
-        status: 'error',
-        mesage: finalMessage,
+        status: "error",
+        message: finalMessage,
         response: {},
       };
     }
