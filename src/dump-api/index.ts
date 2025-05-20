@@ -2,7 +2,13 @@ import HandleHTTPResponse from '../utils/http-request-handler.js';
 
 const API_DEPOT_URL = process.env.API_DEPOT_URL || '';
 
-export const getRevisionFromDistrictCOG = async (cog: string) => {
+export const getRevisionData = async (cog: string) => {
+  const revision = await getRevisionFromDistrictCOG(cog);
+  const balTextData = await getRevisionFileText(revision.id);
+  return {revision, balTextData};
+};
+
+const getRevisionFromDistrictCOG = async (cog: string) => {
   try {
     const response = await fetch(
       `${API_DEPOT_URL}/communes/${cog}/current-revision`
@@ -14,8 +20,9 @@ export const getRevisionFromDistrictCOG = async (cog: string) => {
   }
 };
 
-export const getRevisionFileText = async (revisionId: string) => {
+const getRevisionFileText = async (revisionId: string) => {
   try {
+    console.log(revisionId)
     const response = await fetch(
       `${API_DEPOT_URL}/revisions/${revisionId}/files/bal/download`
     );

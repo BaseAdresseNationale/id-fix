@@ -23,7 +23,7 @@ export type Label = {
 };
 
 export type BanDistrict = {
-  districtID: BanDistrictID; // code INSEE de la commune
+  id: BanDistrictID; // code INSEE de la commune
   labels: {
     isoCode: LangISO639v3; // code ISO de la langue
     value: string; // nom de la voie
