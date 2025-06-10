@@ -14,6 +14,7 @@ import {
 } from './bal-converter/helpers/index.js';
 
 import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
+import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
 
@@ -22,14 +23,24 @@ export const computeFromCog = async (
   forceLegacyCompose: string
 ) => {
   // Temporary check
-  // Check if cog is part of the accepted cog list
+
+  // Build isDepAccepted
+  let numDep = cog.substring(0, 2);
+  if ((numDep === "97") || (numDep === "98")) {
+    numDep = cog.substring(0, 3);
+  }
+  const isDepAccepted = acceptedDepList.includes(numDep);
+
+  // Check if dep or cog is part of the accepted dep or cog list
   const isCogAccepted = acceptedCogList.includes(cog);
 
-  if (!isCogAccepted) {
-    logger.info(
-      `District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
-    );
-    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+  if (!isDepAccepted) {
+    if (!isCogAccepted) {
+      logger.info(
+        `Dep or District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
+      );
+      return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+    }
   }
 
   logger.info(`District cog ${cog} is part of the whitelist.`);
