@@ -32,15 +32,12 @@ export const computeFromCog = async (
   const isDepAccepted = acceptedDepList.includes(numDep);
 
   // Check if dep or cog is part of the accepted dep or cog list
-  const isCogAccepted = acceptedCogList.includes(cog);
-
-  if (!isDepAccepted) {
-    if (!isCogAccepted) {
-      logger.info(
-        `Dep or District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
-      );
-      return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
-    }
+  const isCogAccepted = isDepAccepted || acceptedCogList.includes(cog);
+  if (!isCogAccepted) {
+    logger.info(
+      `Dep or District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
+    );
+    return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
   logger.info(`District cog ${cog} is part of the whitelist.`);
