@@ -74,6 +74,36 @@ describe('balTopoToBanTopo', () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
+  test('should return BanToponym with multilingual label and replace default value', async () => {
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAdresse,
+      uid_adresse: idSampleWithMainTopoId,
+      voie_nom: 'Baleen ibilbidea',
+      voie_nom_fra: 'Route de la Baleine',
+    };
+    expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
+  });
+
+  test('should return BanToponym with multilingual label and ignore empty default value', async () => {
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAdresse,
+      uid_adresse: idSampleWithMainTopoId,
+      voie_nom: 'Baleen ibilbidea',
+      voie_nom_fra: '',
+    };
+    expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
+  });
+
+  test('should return BanToponym with multilingual label after cleaning ISO code lang', async () => {
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAdresse,
+      uid_adresse: idSampleWithMainTopoId,
+      voie_nom: 'Baleen ibilbidea',
+      voie_nom_unknow: 'Anything',
+    };
+    expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
+  });
+
   test('should return BanToponym with overwrited data', async () => {
     // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error ?
 

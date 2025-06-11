@@ -1,17 +1,15 @@
-import type { LangISO639v3 } from '../../types/ban-generic-types.js';
 import type {
   BalAdresse,
   BalVersion,
-  LieuditComplementNomIsoCodeKey,
 } from '../../types/bal-types.js';
 import type { BanAddress, Position } from '../../types/ban-types.js';
 
+import getLabels, { DEFAULT_ISO_LANG } from '../../utils/getLabels.js';
 import { numberForTopo as IS_TOPO_NB } from '../bal-converter.config.js';
 import { convertBalPositionTypeToBanPositionType } from './index.js';
 import digestIDsFromBalAddr from './digest-ids-from-bal-addr.js';
 
 const DEFAULT_BAN_ADDR_POSITION = 'other';
-const DEFAULT_ISO_LANG = 'fra';
 
 const balAddrToBanAddr = (
   balAdresse: BalAdresse,
@@ -25,22 +23,12 @@ const balAddrToBanAddr = (
     balAdresse.position
   );
   const suffix = balAdresse.suffixe;
-  const isoCodeFromBalLieuDitComplementNom = (key: LangISO639v3) =>
-    key.trim().split('_')[3];
   const labels = balAdresse.lieudit_complement_nom
-    ? {
-        [DEFAULT_ISO_LANG]: balAdresse.lieudit_complement_nom,
-        ...Object.fromEntries(
-          (
-            Object.keys(balAdresse).filter((key) =>
-              key.startsWith('lieudit_complement_nom_')
-            ) as LieuditComplementNomIsoCodeKey[]
-          ).map((key) => [
-            isoCodeFromBalLieuDitComplementNom(key),
-            balAdresse[key],
-          ]).filter(([_, value]) => value !== '')
-        ),
-      }
+    ? getLabels(
+      balAdresse,
+      'lieudit_complement_nom',
+      DEFAULT_ISO_LANG
+    )
     : undefined;
 
   const balMeta = {
@@ -62,36 +50,36 @@ const balAddrToBanAddr = (
   const banAddress =
     addrNumber !== undefined && addrNumber !== Number(IS_TOPO_NB)
       ? {
-          ...(oldBanAddress || {}),
-          id: addressID,
-          districtID,
-          mainCommonToponymID: mainTopoID,
-          secondaryCommonToponymIDs: secondaryTopoIDs,
-          number: addrNumber,
-          positions: [
-            // Previous positions
-            ...(oldBanAddress?.positions || []),
-            {
-              type: positionType || DEFAULT_BAN_ADDR_POSITION,
-              geometry: {
-                type: 'Point',
-                coordinates: [balAdresse.long, balAdresse.lat],
-              },
+        ...(oldBanAddress || {}),
+        id: addressID,
+        districtID,
+        mainCommonToponymID: mainTopoID,
+        secondaryCommonToponymIDs: secondaryTopoIDs,
+        number: addrNumber,
+        positions: [
+          // Previous positions
+          ...(oldBanAddress?.positions || []),
+          {
+            type: positionType || DEFAULT_BAN_ADDR_POSITION,
+            geometry: {
+              type: 'Point',
+              coordinates: [balAdresse.long, balAdresse.lat],
             },
-          ] as Position[],
-          certified: balAdresse.certification_commune,
-          updateDate: balAdresse.date_der_maj,
-          ...(labels
-            ? {
-                labels: Object.entries(labels).map(([isoCode, value]) => ({
-                  isoCode,
-                  value: value as string,
-                })),
-              }
-            : {}),
-          ...(suffix ? { suffix } : {}),
-          ...(Object.keys(meta).length ? { meta } : {}),
-        }
+          },
+        ] as Position[],
+        certified: balAdresse.certification_commune,
+        updateDate: balAdresse.date_der_maj,
+        ...(labels
+          ? {
+            labels: Object.entries(labels).map(([isoCode, value]) => ({
+              isoCode,
+              value: value as string,
+            })),
+          }
+          : {}),
+        ...(suffix ? { suffix } : {}),
+        ...(Object.keys(meta).length ? { meta } : {}),
+      }
       : undefined;
 
   return banAddress;
