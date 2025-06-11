@@ -63,16 +63,6 @@ const balJSONSimplifiedAndModified_4 = [
   },
 ];
 
-const balWithMultipleDistrictIDs = [
-  {
-    ...balJSON_2[0],
-  },
-  {
-    ...balJSON_2[1],
-    id_ban_commune: '1234',
-  },
-];
-
 const balWithDifferentDistrictID = [
   {
     ...balJSON_2[0],
@@ -82,44 +72,44 @@ const balWithDifferentDistrictID = [
 
 describe("balTopoToBanTopo", () => {
   test("Should return true as bal 1.3 uses ban IDs", async () => {
-    expect(await validator([districtID], balJSON_1, '1.3', {cog})).toMatchSnapshot();
+    expect(await validator([districtID], balJSON_1, '1.3', { cog })).toMatchSnapshot();
   });
 
   test("Should return true as bal 1.4 uses ban IDs", async () => {
-    expect(await validator([districtID], balJSON_2, '1.4', {cog})).toMatchSnapshot();
+    expect(await validator([districtID], balJSON_2, '1.4', { cog })).toMatchSnapshot();
   });
 
   test("Should return false as bal does not use ban IDs", async () => {
-    expect(await validator([districtID], balJSONlegacy, '1.3', {cog})).toMatchSnapshot();
+    expect(await validator([districtID], balJSONlegacy, '1.3', { cog })).toMatchSnapshot();
   });
 
   test('Should throw an error as bal does not have a district ID on one of its line', async () => {
     await expect(
-      validator([districtID], balJSONSimplifiedAndModified_1, '1.3', {cog})
+      validator([districtID], balJSONSimplifiedAndModified_1, '1.3', { cog })
     ).rejects.toThrowError(/Missing districtID/);
   });
 
   test('Should throw an error as bal does not have a common toponym ID on one of its line', async () => {
     await expect(
-      validator([districtID], balJSONSimplifiedAndModified_2, '1.3', {cog})
+      validator([districtID], balJSONSimplifiedAndModified_2, '1.3', { cog })
     ).rejects.toThrowError(/Missing mainTopoID/);
   });
 
   test('Should throw an error as bal does not have an address ID on one of its line that has a number different from the topo number', async () => {
     await expect(
-      validator([districtID], balJSONSimplifiedAndModified_3, '1.3', {cog})
+      validator([districtID], balJSONSimplifiedAndModified_3, '1.3', { cog })
     ).rejects.toThrowError(/Missing addressID/);
   });
 
   test('Should throw an error as some lines are using BanIDs and some are not', async () => {
     await expect(
-      validator([districtID], balJSONSimplifiedAndModified_4, '1.3', {cog})
+      validator([districtID], balJSONSimplifiedAndModified_4, '1.3', { cog })
     ).rejects.toThrowError(/Missing IDs/);
   });
 
   test("Should throw an error as district ID from BAL different from district ID from district DB", async () => {
     await expect(
-      validator([districtID], balWithDifferentDistrictID, '1.4', {cog})
+      validator([districtID], balWithDifferentDistrictID, '1.4', { cog })
     ).rejects.toThrowError(/Missing rights/);
   });
 });
