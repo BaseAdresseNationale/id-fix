@@ -30,7 +30,7 @@ export default [
     },
 
     rules: {
-      'no-unused-vars': 1,
+      'no-unused-vars': ["error", { "ignoreRestSiblings": true }],
     },
   },
   eslintConfigPrettier,
