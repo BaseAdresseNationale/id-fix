@@ -89,10 +89,6 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label aft
       "isoCode": "fra",
       "value": "Baleen ibilbidea",
     },
-    {
-      "isoCode": "unknow",
-      "value": "Anything",
-    },
   ],
   "meta": {
     "bal": {
