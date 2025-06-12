@@ -111,4 +111,58 @@ describe('balAddrToBanAddr', () => {
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
   });
+
+  test("should return BanAddress with label", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      lieudit_complement_nom: 'Ancien chemin du hero',
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
+
+  test("should return BanAddress with multilingual label", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      lieudit_complement_nom: 'Ancien chemin du hero',
+      lieudit_complement_nom_eu: 'Antzinako Heroiaren Bidea',
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
+
+  test("should return BanAddress with multilingual label and ignore empty default value", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      lieudit_complement_nom: 'Antzinako Heroiaren Bidea',
+      lieudit_complement_nom_fra: 'Ancien chemin du hero',
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
+
+  test("should return BanAddress with multilingual label and ignore empty default value", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      lieudit_complement_nom: 'Ancien chemin du hero',
+      lieudit_complement_nom_fra: '',
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
+
+  test("should return BanAddress with multilingual label after cleaning ISO code lang", async () => {
+    const testBalAddress: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithAllIds,
+      lieudit_complement_nom: 'Ancien chemin du hero',
+      lieudit_complement_nom__unknow: 'Anything',
+    };
+
+    expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
 });

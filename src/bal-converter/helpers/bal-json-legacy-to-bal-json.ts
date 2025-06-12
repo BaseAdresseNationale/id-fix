@@ -61,8 +61,9 @@ const balJSONlegacy2balJSON = (balJSONlegacy: Bal): Bal => {
           mainTopoID: rawMainTopoID,
         } = digestIDsFromBalUIDs(uidAdresseLegacy || '');
 
+        // eslint-disable-next-line no-unused-vars
         const getdistrictID = (inseeCode: string, districtName: string) =>
-          uuidv4(); // TODO: Implement API // district.getId(insseeCode, districtName.toLowerCase())
+          uuidv4(); // TODO: Implement API // (inseeCode: string, districtName: string) => district.getId(insseeCode, districtName.toLowerCase())
         const districtKey = `${districtName}`;
 
         if (!idsDistrictMapping.has(districtKey))

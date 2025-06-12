@@ -80,6 +80,67 @@ exports[`balTopoToBanTopo > should return BanToponym with multilingual label 1`]
 }
 `;
 
+exports[`balTopoToBanTopo > should return BanToponym with multilingual label after cleaning ISO code lang 1`] = `
+{
+  "districtID": undefined,
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "labels": [
+    {
+      "isoCode": "fra",
+      "value": "Baleen ibilbidea",
+    },
+    {
+      "isoCode": "unknow",
+      "value": "Anything",
+    },
+  ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
+  "updateDate": 2021-01-01T00:00:00.000Z,
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with multilingual label and ignore empty default value 1`] = `
+{
+  "districtID": undefined,
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "labels": [
+    {
+      "isoCode": "fra",
+      "value": "Baleen ibilbidea",
+    },
+  ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
+  "updateDate": 2021-01-01T00:00:00.000Z,
+}
+`;
+
+exports[`balTopoToBanTopo > should return BanToponym with multilingual label and replace default value 1`] = `
+{
+  "districtID": undefined,
+  "id": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
+  "labels": [
+    {
+      "isoCode": "fra",
+      "value": "Route de la Baleine",
+    },
+  ],
+  "meta": {
+    "bal": {
+      "deprecatedID": "21286_0001",
+    },
+  },
+  "updateDate": 2021-01-01T00:00:00.000Z,
+}
+`;
+
 exports[`balTopoToBanTopo > should return BanToponym with overwrited data 1`] = `
 {
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",

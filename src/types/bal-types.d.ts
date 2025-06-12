@@ -10,12 +10,12 @@ import type {
 
 export type UIdAdresse = string;
 
-export type CommuneNomIsoCodeKey = `commune_nom_${LangISO639v3}`;
-export type CommuneDelegueeNomIsoCodeKey =
-  `commune_deleguee_nom_${LangISO639v3}`;
-export type VoieNomIsoCodeKey = `voie_nom_${LangISO639v3}`;
-export type LieuditComplementNomIsoCodeKey =
-  `lieudit_complement_nom_${LangISO639v3}`;
+type CommuneNomIsoCodeKey = `commune_nom_${LangISO639v3}`;
+type CommuneDelegueeNomIsoCodeKey = `commune_deleguee_nom_${LangISO639v3}`;
+type VoieNomIsoCodeKey = `voie_nom_${LangISO639v3}`;
+type LieuditComplementNomIsoCodeKey = `lieudit_complement_nom_${LangISO639v3}`;
+export type MultilingualBalKey = VoieNomIsoCodeKey | LieuditComplementNomIsoCodeKey | CommuneNomIsoCodeKey | CommuneDelegueeNomIsoCodeKey
+
 export type BalVersion = '1.3' | '1.4';
 
 export type BalAdresse = {
@@ -41,10 +41,7 @@ export type BalAdresse = {
   source: string;
   date_der_maj: DateISO8601;
   certification_commune: boolean;
-  [key?: CommuneNomIsoCodeKey]: string;
-  [key?: CommuneDelegueeNomIsoCodeKey]: string;
-  [key?: VoieNomIsoCodeKey]: string;
-  [key?: LieuditComplementNomIsoCodeKey]: string;
+  [key?: MultilingualBalKey]: string;
 };
 
 export type Bal = BalAdresse[];
