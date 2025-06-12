@@ -172,7 +172,7 @@ exports[`balAddrToBanAddr > should return BanAddress with multilingual label 1`]
       "value": "Ancien chemin du hero",
     },
     {
-      "isoCode": "eu",
+      "isoCode": "eus",
       "value": "Antzinako Heroiaren Bidea",
     },
   ],
@@ -204,7 +204,7 @@ exports[`balAddrToBanAddr > should return BanAddress with multilingual label 1`]
 }
 `;
 
-exports[`balAddrToBanAddr > should return BanAddress with multilingual label after cleaning ISO code lang 1`] = `
+exports[`balAddrToBanAddr > should return BanAddress with multilingual label after cleaning non-compliant ISO code lang 1`] = `
 {
   "certified": true,
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",
@@ -213,10 +213,6 @@ exports[`balAddrToBanAddr > should return BanAddress with multilingual label aft
     {
       "isoCode": "fra",
       "value": "Ancien chemin du hero",
-    },
-    {
-      "isoCode": "_unknow",
-      "value": "Anything",
     },
   ],
   "mainCommonToponymID": "bbbbbbbb-0000-4aaa-9000-1234567890bb",
@@ -286,7 +282,7 @@ exports[`balAddrToBanAddr > should return BanAddress with multilingual label and
 }
 `;
 
-exports[`balAddrToBanAddr > should return BanAddress with multilingual label and ignore empty default value 2`] = `
+exports[`balAddrToBanAddr > should return BanAddress with multilingual label and overwrite default value 1`] = `
 {
   "certified": true,
   "districtID": "dddddddd-0000-4aaa-9000-1234567890ff",

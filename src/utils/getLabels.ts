@@ -15,7 +15,7 @@ const getLabels = (
     return {
         [defaultIsoLang as LangISO639v3]: baseValue ? String(baseValue) : '',
         ...Object.fromEntries(
-            (Object.keys(balAdresse).filter((key) => key.startsWith(`${keyLabel}_`)) as MultilingualBalKey[])
+            (Object.keys(balAdresse).filter((key) => key.startsWith(`${keyLabel}_`) && Number(isoCodeFromKeyLabel(key)?.length) === 3) as MultilingualBalKey[])
                 .filter((key) => {
                     const val = balAdresse[key];
                     return typeof val === 'string' && val.trim() !== '';

@@ -127,13 +127,13 @@ describe('balAddrToBanAddr', () => {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
       lieudit_complement_nom: 'Ancien chemin du hero',
-      lieudit_complement_nom_eu: 'Antzinako Heroiaren Bidea',
+      lieudit_complement_nom_eus: 'Antzinako Heroiaren Bidea',
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
   });
 
-  test("should return BanAddress with multilingual label and ignore empty default value", async () => {
+  test("should return BanAddress with multilingual label and overwrite default value", async () => {
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
@@ -155,12 +155,12 @@ describe('balAddrToBanAddr', () => {
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
   });
 
-  test("should return BanAddress with multilingual label after cleaning ISO code lang", async () => {
+  test("should return BanAddress with multilingual label after cleaning non-compliant ISO code lang", async () => {
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
       lieudit_complement_nom: 'Ancien chemin du hero',
-      lieudit_complement_nom__unknow: 'Anything',
+      lieudit_complement_nom_unknow: 'Anything',
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
