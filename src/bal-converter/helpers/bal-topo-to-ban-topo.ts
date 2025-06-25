@@ -1,4 +1,5 @@
 import type {
+  Config,
   GeometryType,
   LangISO639v3,
 } from '../../types/ban-generic-types.js';
@@ -15,13 +16,15 @@ import getLabels, { DEFAULT_ISO_LANG } from '../../utils/getLabels.js';
 const balTopoToBanTopo = (
   balAdresse: BalAdresse,
   oldBanCommonToponym?: BanCommonToponym,
-  balVersion?: BalVersion
+  balVersion?: BalVersion,
+  districtConfig?: Config,
 ): BanCommonToponym => {
   const { mainTopoID, districtID } = digestIDsFromBalAddr(
     balAdresse,
     balVersion
   );
-  const labels: Record<LangISO639v3, string> = getLabels(balAdresse, 'voie_nom', DEFAULT_ISO_LANG);
+  const defaultBalLang = districtConfig?.defaultBalLang || DEFAULT_ISO_LANG;
+  const labels: Record<LangISO639v3, string> = getLabels(balAdresse, 'voie_nom', defaultBalLang);
   const addrNumber = balAdresse.numero;
   const cleInteropParts = balAdresse.cle_interop
     ? balAdresse.cle_interop?.split('_')
