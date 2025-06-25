@@ -133,7 +133,8 @@ describe('balAddrToBanAddr', () => {
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
   });
 
-  test("should return BanAddress with multilingual label and overwrite default value", async () => {
+  test("should return BanAddress with multilingual label and overwrited default value", async () => {
+    // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error
     const testBalAddress: BalAdresse = {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
@@ -142,6 +143,28 @@ describe('balAddrToBanAddr', () => {
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();
+  });
+
+  test('should return BanToponym with multilingual label and personal config for default lang', async () => {
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithMainTopoId,
+      lieudit_complement_nom: 'Antzinako Heroiaren Bidea',
+      lieudit_complement_nom_fra: 'Ancien chemin du hero',
+    };
+    expect(balAddrToBanAddr(testBalAdresse, undefined, undefined, { defaultBalLang: 'eus' })).toMatchSnapshot();
+  });
+
+  test('should return BanToponym with multilingual label, personal config for default lang  and overwrited default value', async () => {
+    // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithMainTopoId,
+      lieudit_complement_nom: 'Antzinako Heroiaren Bidea',
+      lieudit_complement_nom_fra: 'Ancien chemin du hero du temps',
+      lieudit_complement_nom_eus: 'Denboraren heroiaren antzinako bidea',
+    };
+    expect(balAddrToBanAddr(testBalAdresse, undefined, undefined, { defaultBalLang: 'eus' })).toMatchSnapshot();
   });
 
   test("should return BanAddress with multilingual label and ignore empty default value", async () => {
@@ -160,7 +183,7 @@ describe('balAddrToBanAddr', () => {
       ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
       lieudit_complement_nom: 'Ancien chemin du hero',
-      lieudit_complement_nom_unknow: 'Anything',
+      lieudit_complement_nom_unknowISO: 'Anything',
     };
 
     expect(balAddrToBanAddr(testBalAddress)).toMatchSnapshot();

@@ -10,7 +10,7 @@ import {
 } from './__mocks__/fake-data.js';
 import balTopoToBanTopo from './bal-topo-to-ban-topo';
 
-const defaultTestBalAdresse: BalAdresse = {
+const defaultTestBalAddress: BalAdresse = {
   cle_interop: '21286_0001_00001',
   commune_insee: '21286',
   commune_nom: 'Cocorico',
@@ -28,13 +28,12 @@ const defaultTestBalAdresse: BalAdresse = {
 
 describe('balTopoToBanTopo', () => {
   test('should return BanToponym without BanTopoID', async () => {
-    expect(balTopoToBanTopo(defaultTestBalAdresse)).toMatchSnapshot();
+    expect(balTopoToBanTopo(defaultTestBalAddress)).toMatchSnapshot();
   });
 
   test('should return BanToponym without BanTopoID', async () => {
-    // TODO: In next version - should probably return BanToponym without temporary BanTopoID ?
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithAddressId,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
@@ -42,7 +41,7 @@ describe('balTopoToBanTopo', () => {
 
   test('should return BanToponym with BanTopoID (1)', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithMainTopoId,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
@@ -50,7 +49,7 @@ describe('balTopoToBanTopo', () => {
 
   test('should return BanToponym with BanTopoID (2)', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithAddressIdAndMainTopoId,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
@@ -58,7 +57,7 @@ describe('balTopoToBanTopo', () => {
 
   test('should return BanToponym with BanTopoID and BanDistrictID', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
@@ -66,7 +65,7 @@ describe('balTopoToBanTopo', () => {
 
   test('should return BanToponym with multilingual label', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithMainTopoId,
       voie_nom: 'Route de la Baleine',
       voie_nom_eus: 'Baleen ibilbidea',
@@ -74,9 +73,10 @@ describe('balTopoToBanTopo', () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test('should return BanToponym with multilingual label and replace default value', async () => {
+  test('should return BanToponym with multilingual label and overwrited default value', async () => {
+    // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithMainTopoId,
       voie_nom: 'Baleen ibilbidea',
       voie_nom_fra: 'Route de la Baleine',
@@ -84,9 +84,31 @@ describe('balTopoToBanTopo', () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
+  test('should return BanToponym with multilingual label and personal config for default lang', async () => {
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithMainTopoId,
+      voie_nom: 'Baleen ibilbidea',
+      voie_nom_fra: 'Route de la Baleine',
+    };
+    expect(balTopoToBanTopo(testBalAdresse, undefined, undefined, { defaultBalLang: 'eus' })).toMatchSnapshot();
+  });
+
+  test('should return BanToponym with multilingual label, personal config for default lang  and overwrited default value', async () => {
+    // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error
+    const testBalAdresse: BalAdresse = {
+      ...defaultTestBalAddress,
+      uid_adresse: idSampleWithMainTopoId,
+      voie_nom: 'Baleen ibilbidea',
+      voie_nom_fra: 'Route de la baleine sacrée',
+      voie_nom_eus: 'Balea Sakratuaren Ibilbidea',
+    };
+    expect(balTopoToBanTopo(testBalAdresse, undefined, undefined, { defaultBalLang: 'eus' })).toMatchSnapshot();
+  });
+
   test('should return BanToponym with multilingual label and ignore empty default value', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithMainTopoId,
       voie_nom: 'Baleen ibilbidea',
       voie_nom_fra: '',
@@ -94,21 +116,20 @@ describe('balTopoToBanTopo', () => {
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
-  test('should return BanToponym with multilingual label after cleaning ISO code lang', async () => {
+  test('should return BanToponym with multilingual label after cleaning non-compliant ISO code lang', async () => {
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithMainTopoId,
       voie_nom: 'Baleen ibilbidea',
-      voie_nom_unknow: 'Anything',
+      voie_nom_unknowISO: 'Anything',
     };
     expect(balTopoToBanTopo(testBalAdresse)).toMatchSnapshot();
   });
 
   test('should return BanToponym with overwrited data', async () => {
     // TODO : In next version - should probably not return BanToponym with overwrited data and throw an error ?
-
     const testOldBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
       voie_nom: 'Route de la Baleine',
     };
@@ -117,7 +138,7 @@ describe('balTopoToBanTopo', () => {
     ) as BanCommonToponym;
 
     const testBalAdresse: BalAdresse = {
-      ...defaultTestBalAdresse,
+      ...defaultTestBalAddress,
       uid_adresse: idSampleWithAllIds,
       voie_nom: 'Avenue Rhoam Bosphoramus',
     };
