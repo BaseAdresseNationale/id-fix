@@ -2,6 +2,7 @@ import type {
   BalAdresse,
   BalVersion,
 } from '../../types/bal-types.js';
+import type { Config } from '../../types/ban-generic-types.js';
 import type { BanAddress, Position } from '../../types/ban-types.js';
 
 import getLabels, { DEFAULT_ISO_LANG } from '../../utils/getLabels.js';
@@ -14,7 +15,8 @@ const DEFAULT_BAN_ADDR_POSITION = 'other';
 const balAddrToBanAddr = (
   balAdresse: BalAdresse,
   oldBanAddress?: BanAddress,
-  balVersion?: BalVersion
+  balVersion?: BalVersion,
+  districtConfig?: Config,
 ): BanAddress | undefined => {
   const { addressID, mainTopoID, secondaryTopoIDs, districtID } =
     digestIDsFromBalAddr(balAdresse, balVersion);
@@ -23,11 +25,12 @@ const balAddrToBanAddr = (
     balAdresse.position
   );
   const suffix = balAdresse.suffixe;
+  const defaultBalLang = districtConfig?.defaultBalLang || DEFAULT_ISO_LANG;
   const labels = balAdresse.lieudit_complement_nom
     ? getLabels(
       balAdresse,
       'lieudit_complement_nom',
-      DEFAULT_ISO_LANG
+      defaultBalLang
     )
     : undefined;
 

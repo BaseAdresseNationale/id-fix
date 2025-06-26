@@ -20,7 +20,8 @@ export type Meta = {
   [key: string]: any;
 };
 export type Config = {
-  [key: string]: any;
+  certificate?: boolean;
+  defaultBalLang: LangISO639v3;
 };
 export type GeometryType = 'Point'; // TODO: add other types
 export type Geometry = {

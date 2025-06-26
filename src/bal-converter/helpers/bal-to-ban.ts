@@ -1,5 +1,6 @@
 import hash from 'object-hash';
 
+import type { Config } from '../../types/ban-generic-types.js';
 import type { Bal } from '../../types/bal-types.js';
 import type { Ban } from '../../types/ban-types.js';
 
@@ -8,7 +9,7 @@ import balTopoToBanTopo from './bal-topo-to-ban-topo.js';
 import digestIDsFromBalAddr from './digest-ids-from-bal-addr.js';
 import getBalVersion from './get-bal-version.js';
 
-const balToBan = (bal: Bal): Ban => {
+const balToBan = (bal: Bal, districtsConfigs?: Map<string, Config | undefined>): Ban => {
   const ban: Ban = {
     districtID: '',
     addresses: {},
@@ -22,15 +23,20 @@ const balToBan = (bal: Bal): Ban => {
       balAdresse,
       balVersion
     );
+
+    const districtConfig: Config = districtsConfigs?.get(districtID) || ({} as Config);
+
     const banIdContent = balAddrToBanAddr(
       balAdresse,
       ban.addresses?.[addressID],
-      balVersion
+      balVersion,
+      districtConfig,
     );
     const banCommonTopoIdContent = balTopoToBanTopo(
       balAdresse,
       ban.commonToponyms?.[mainTopoID],
-      balVersion
+      balVersion,
+      districtConfig,
     );
 
     ban.districtID = districtID;
