@@ -177,6 +177,28 @@ export const deleteCommonToponyms = async (ids: BanCommonTopoID[]) => {
   }
 };
 
+export const getDistricts = async (ids: BanDistrictID[]) => {
+  try {
+    const districts = await Promise.all(
+      [...new Set(ids)].map(
+        (id) => fetch(
+          `${BAN_API_URL}/district/${id}`,
+          { headers: defaultHeader },
+        )
+          .then(res => HandleHTTPResponse(res))
+          .then(responseJson => responseJson?.response)
+          .then(district => ([district.id, district] as const))
+      )
+    );
+    const indexedDistricts = Object.fromEntries(districts);
+    const remapedDistricts = ids.map(id => indexedDistricts?.[id]);
+    return remapedDistricts;
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Ban API - ${message}`);
+  }
+};
+
 export const getDistrictFromCOG = async (cog: string) => {
   try {
     const response = await fetch(`${BAN_API_URL}/district/cog/${cog}`, {

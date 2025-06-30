@@ -3,7 +3,10 @@ import type {
   BanIDWithHash,
   BanCommonTopoIDWithHash,
 } from '../types/bal-converter-types.d.ts';
+import type { BanDistrict } from '../types/ban-types.js';
+import type { BanDistrictID } from '../types/ban-generic-types.js';
 import {
+  getDistricts,
   getAddressIdsReport,
   createAddresses,
   updateAddresses,
@@ -19,8 +22,16 @@ import { formatToChunks, formatResponse } from './helpers/format.js';
 const CHUNK_SIZE = 1000;
 
 export const sendBalToBan = async (bal: Bal) => {
+
+  // Fetch District configurations
+  const districtIDs = bal.map((address) => address.id_ban_commune as BanDistrictID);
+  const districts: BanDistrict[] = await getDistricts([...new Set(districtIDs)]);
+  const districtsConfigs = new Map(
+    districts.map(({ id, config }) => [id, config])
+  );
+
   // Extract data from BAL
-  const { districtID, addresses, commonToponyms } = balToBan(bal);
+  const { districtID, addresses, commonToponyms } = balToBan(bal, districtsConfigs);
 
   // Get addresses and toponyms reports
   const dataForAddressReport: BanIDWithHash[] = Object.values(
