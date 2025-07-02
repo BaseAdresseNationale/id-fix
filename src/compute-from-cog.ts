@@ -17,6 +17,7 @@ import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
+import { BanDistrictID } from "./types/ban-generic-types.js";
 
 export const computeFromCog = async (
   cog: string,
@@ -59,16 +60,50 @@ export const computeFromCog = async (
 
   const districtIDsFromDB = districts.map((district) => district.id);
 
-  // Check if bal is using BanID
   // If not, sending process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
   // Check if bal is using BanID
   let useBanId = false;
   try {
     useBanId = await validator(districtIDsFromDB, bal, version, { cog });
-  } catch (error) {
-    sendBalToLegacyCompose(cog, forceLegacyCompose as string)
-    throw error;
+  } catch (error: unknown) {
+    // Check if district is already on the new DB :
+    // const districtsOnNewDB = districts.reduce(
+    //   (acc, district) => {
+    //     if (district.meta?.bal?.idRevision) {
+    //       acc.push(district.id);
+    //     }
+    //     return acc;
+    //   },
+    //   [] as BanDistrictID[],
+    // );
+    const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
+
+    const errorMessage = [
+      "District cog: ${cog} have some errors in BAL: \n",
+      (error instanceof Error) ? error.message : error,
+    ] as string[];
+
+    if (!districtsOnNewDB.length) {
+      logger.warn(
+        [
+          ...errorMessage,
+          "> Because the district is not on the new DB ",
+          "> ⚠️ sending BAL to legacy compose...",
+        ].join("\n")
+      );
+      return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+    } else {
+      logger.error(
+        [
+          ...errorMessage,
+          "> Because some districts of ${cog} is already on the new DB ",
+          "> ⛔️ The BAL is stuck in the ID-Fix 'Black Hole Vortex' and will not be processed...",
+          `(District(s) already on the new DB: ${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")})`,
+        ].join("\n")
+      );
+      return;
+    }
   }
 
   if (!useBanId) {
