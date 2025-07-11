@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { logger } from './utils/logger.js';
 import authMiddleware from './middleware/auth.js';
 import { computeFromCog } from './compute-from-cog.js';
-import sendMessageToWebHook from './utils/send-message-to-hook.js';
+import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
 
 const router: Router = Router();
 
@@ -29,7 +29,7 @@ router.get(
       const { message } = error as Error;
       const finalMessage = `Error computing cog \`${cog}\` : ${message}`;
       logger.error(finalMessage);
-      await sendMessageToWebHook(finalMessage);
+      await asyncSendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
         status: "error",
@@ -67,7 +67,7 @@ router.post(
           const { message } = error as Error;
           const finalMessage = `Error computing cog \`${cogs[i]}\` : ${message}`;
           logger.error(finalMessage);
-          await sendMessageToWebHook(finalMessage);
+          await asyncSendMessageToWebHook(finalMessage);
           responses.push(finalMessage);
         }
       }
@@ -80,7 +80,7 @@ router.post(
     } catch (error) {
       const { message } = error as Error;
       logger.error(message);
-      await sendMessageToWebHook(message);
+      await asyncSendMessageToWebHook(message);
       response = {
         date: new Date(),
         status: 'error',

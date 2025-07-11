@@ -2,7 +2,7 @@
 const { MESSAGE_WEBHOOK_URL } = process.env;
 
 // Send the POST request using fetch
-async function sendMessageToWebHook(message: string) {
+async function asyncSendMessageToWebHook(message: string) {
   if (!MESSAGE_WEBHOOK_URL) {
     console.error('No message web hook URL provided');
     return;
@@ -27,4 +27,4 @@ async function sendMessageToWebHook(message: string) {
   }
 }
 
-export default sendMessageToWebHook;
+export default asyncSendMessageToWebHook;

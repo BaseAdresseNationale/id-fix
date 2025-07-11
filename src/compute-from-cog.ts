@@ -59,10 +59,43 @@ export const computeFromCog = async (
 
   const districtIDsFromDB = districts.map((district) => district.id);
 
-  // Check if bal is using BanID
   // If not, sending process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await validator(districtIDsFromDB, bal, version, { cog });
+  // Check if bal is using BanID
+  let useBanId = false;
+  try {
+    useBanId = await validator(districtIDsFromDB, bal, version, { cog });
+  } catch (error: unknown) {
+    // Check if district is already on the new DB :
+    const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
+
+    const errorMessage = [
+      "District cog: ${cog} have some errors in BAL: \n",
+      (error instanceof Error) ? error.message : error,
+    ] as string[];
+
+    if (!districtsOnNewDB.length) {
+      logger.warn(
+        [
+          ...errorMessage,
+          "- Because the district is not on the new DB ",
+          "- ⚠️ sending BAL to legacy compose...",
+        ].join("\n")
+      );
+      return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+    } else {
+      logger.error(
+        [
+          ...errorMessage,
+          "- Because some districts of ${cog} is already on the new DB ",
+          "- ⛔️ The BAL is stuck in the ID-Fix 'Black Hole Vortex' and will not be processed...",
+          `(District(s) already on the new DB: ${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")})`,
+        ].join("\n")
+      );
+      // TODO : Send this error on "Error Reporting Service"
+      return;
+    }
+  }
 
   if (!useBanId) {
     logger.info(
@@ -103,7 +136,6 @@ export const computeFromCog = async (
         await partialUpdateDistricts([districtUpdate]);
 
         const result = (await sendBalToBan(bal)) || {};
-
         if (!Object.keys(result).length) {
           const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
           logger.info(response);
