@@ -17,7 +17,6 @@ import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
-import { BanDistrictID } from "./types/ban-generic-types.js";
 
 export const computeFromCog = async (
   cog: string,
@@ -68,15 +67,6 @@ export const computeFromCog = async (
     useBanId = await validator(districtIDsFromDB, bal, version, { cog });
   } catch (error: unknown) {
     // Check if district is already on the new DB :
-    // const districtsOnNewDB = districts.reduce(
-    //   (acc, district) => {
-    //     if (district.meta?.bal?.idRevision) {
-    //       acc.push(district.id);
-    //     }
-    //     return acc;
-    //   },
-    //   [] as BanDistrictID[],
-    // );
     const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
 
     const errorMessage = [
@@ -88,8 +78,8 @@ export const computeFromCog = async (
       logger.warn(
         [
           ...errorMessage,
-          "> Because the district is not on the new DB ",
-          "> ⚠️ sending BAL to legacy compose...",
+          "- Because the district is not on the new DB ",
+          "- ⚠️ sending BAL to legacy compose...",
         ].join("\n")
       );
       return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
@@ -97,11 +87,12 @@ export const computeFromCog = async (
       logger.error(
         [
           ...errorMessage,
-          "> Because some districts of ${cog} is already on the new DB ",
-          "> ⛔️ The BAL is stuck in the ID-Fix 'Black Hole Vortex' and will not be processed...",
+          "- Because some districts of ${cog} is already on the new DB ",
+          "- ⛔️ The BAL is stuck in the ID-Fix 'Black Hole Vortex' and will not be processed...",
           `(District(s) already on the new DB: ${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")})`,
         ].join("\n")
       );
+      // TODO : Send this error on "Error Reporting Service"
       return;
     }
   }
@@ -145,7 +136,6 @@ export const computeFromCog = async (
         await partialUpdateDistricts([districtUpdate]);
 
         const result = (await sendBalToBan(bal)) || {};
-
         if (!Object.keys(result).length) {
           const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
           logger.info(response);
