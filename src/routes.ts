@@ -27,7 +27,7 @@ router.get(
       };
     } catch (error) {
       const { message } = error as Error;
-      const finalMessage = `Error computing cog \`${cog}\` : ${message}`;
+      const finalMessage = `Error computing cog \`${cog}\` :\n ${message}`;
       logger.error(finalMessage);
       await asyncSendMessageToWebHook(finalMessage);
       response = {
@@ -65,7 +65,7 @@ router.post(
           responses.push(response);
         } catch (error) {
           const { message } = error as Error;
-          const finalMessage = `Error computing cog \`${cogs[i]}\` : ${message}`;
+          const finalMessage = `Error computing cog \`${cogs[i]}\` :\n ${message}`;
           logger.error(finalMessage);
           await asyncSendMessageToWebHook(finalMessage);
           responses.push(finalMessage);

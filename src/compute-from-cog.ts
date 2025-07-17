@@ -70,31 +70,20 @@ export const computeFromCog = async (
     const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
 
     const errorMessage = [
-      "District cog: ${cog} have some errors in BAL: \n",
       (error instanceof Error) ? error.message : error,
     ] as string[];
 
     if (!districtsOnNewDB.length) {
-      logger.warn(
-        [
-          ...errorMessage,
-          "- Because the district is not on the new DB ",
-          "- ⚠️ sending BAL to legacy compose...",
-        ].join("\n")
-      );
-      return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+      const warningMessage = ["⚠️ sending BAL to legacy compose...", ...errorMessage].join("\n");
+      logger.warn(warningMessage)
+      await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+      throw new Error(warningMessage)
     } else {
-      logger.error(
-        [
-          ...errorMessage,
-          "- Because some districts of ${cog} is already on the new DB ",
-          "- ⛔️ The BAL is stuck in the ID-Fix 'Black Hole Vortex' and will not be processed...",
-          `(District(s) already on the new DB: ${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")})`,
-        ].join("\n")
-      );
-      // TODO : Send this error on "Error Reporting Service"
-      return;
-    }
+      const warningMessage =[`⛔️ BAL ${cog} blocked - District(s) already in new DB`,
+      ...errorMessage].join("\n")
+
+      logger.warn(warningMessage)
+      throw new Error(warningMessage)    }
   }
 
   if (!useBanId) {
