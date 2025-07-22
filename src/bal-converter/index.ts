@@ -21,7 +21,7 @@ import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
 
 const CHUNK_SIZE = 1000;
-
+const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
 export const sendBalToBan = async (bal: Bal) => {
 
   // Fetch District configurations
@@ -58,22 +58,14 @@ export const sendBalToBan = async (bal: Bal) => {
 const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
 const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 
-// Récupération des statistiques
-const createdAddresses = addressIdsReport.idsToCreate;
-const createdToponyms = toponymsIdsReport.idsToCreate;
-const updatedAddresses = addressIdsReport.idsToUpdate;
-const updatedToponyms = toponymsIdsReport.idsToUpdate;
 const deletedAddresses = addressIdsReport.idsToDelete;
 const deletedToponyms = toponymsIdsReport.idsToDelete;
 
-// Récupération des counts totaux du district
+// Get total counts from district
 const { _, commonToponymCount, addressCount } = await getDistrictCountsFromID(districtID);
-console.log('Total toponyms:', commonToponymCount, 'Total addresses:', addressCount);
 
-// Vérification du seuil de 25% de suppressions par rapport au total existant
-const DELETION_THRESHOLD = 0.25; // 25%
-
-// Calcul du ratio de suppressions = suppressions / total_existant
+// Checking the 25% deletion threshold relative to the existing total
+// Calculating deletion ratio = deletions / existing_total
 let addressDeletionRate = 0;
 let toponymDeletionRate = 0;
 
@@ -85,7 +77,7 @@ if (commonToponymCount > 0) {
   toponymDeletionRate = deletedToponyms.length / commonToponymCount;
 }
 
-// Vérification : le ratio de suppression ne doit pas dépasser 25% du total
+// Check: the deletion ratio must not exceed 25% of the total
 const addressesExceedThreshold = addressDeletionRate > DELETION_THRESHOLD;
 const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
 
@@ -109,7 +101,7 @@ if (addressesExceedThreshold || toponymsExceedThreshold) {
 
   throw new Error(errorMessage);
 }
-// Vérification des éléments non autorisés (code existant)
+// Check for unauthorized items (existing code)
 if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
   throw new Error(
     `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``

@@ -75,11 +75,13 @@ export const computeFromCog = async (
 
     if (!districtsOnNewDB.length) {
       const warningMessage = ["⚠️ sending BAL to legacy compose...", ...errorMessage].join("\n");
-      logger.warn(warningMessage)
+      logger.error(warningMessage)
       await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
       throw new Error(warningMessage)
     } else {
-      const warningMessage =[`⛔️ BAL ${cog} blocked - District(s) already in new DB`,
+      const warningMessage =[
+        `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+        `⛔️ BAL ${cog} blocked - District(s) already in new DB`,
       ...errorMessage].join("\n")
 
       logger.warn(warningMessage)
@@ -140,9 +142,12 @@ export const computeFromCog = async (
         }
       } catch (error) {
         const { message } = error as Error;
+        const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
         logger.error(message);
         results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-        const warningMessage =[`⛔️ BAL ${cog} blocked`, message].join("\n")
+        const warningMessage =[
+          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+          `⛔️ BAL ${cog} blocked`, message].join("\n")
         throw new Error(warningMessage)    }
     }
     return results;
