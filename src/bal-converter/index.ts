@@ -15,6 +15,7 @@ import {
   createCommonToponyms,
   updateCommonToponyms,
   deleteCommonToponyms,
+  getDistrictCountsFromID
 } from '../ban-api/index.js';
 import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
@@ -53,15 +54,67 @@ export const sendBalToBan = async (bal: Bal) => {
     getCommonToponymIdsReport(districtID, dataForCommonToponymReport),
   ]);
 
-  // Check for unauthorized addresses and toponyms
-  const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
-  const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
+// Check for unauthorized addresses and toponyms
+const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
+const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 
-  if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-    throw new Error(
-      `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
-    );
+// Récupération des statistiques
+const createdAddresses = addressIdsReport.idsToCreate;
+const createdToponyms = toponymsIdsReport.idsToCreate;
+const updatedAddresses = addressIdsReport.idsToUpdate;
+const updatedToponyms = toponymsIdsReport.idsToUpdate;
+const deletedAddresses = addressIdsReport.idsToDelete;
+const deletedToponyms = toponymsIdsReport.idsToDelete;
+
+// Récupération des counts totaux du district
+const { _, commonToponymCount, addressCount } = await getDistrictCountsFromID(districtID);
+console.log('Total toponyms:', commonToponymCount, 'Total addresses:', addressCount);
+
+// Vérification du seuil de 25% de suppressions par rapport au total existant
+const DELETION_THRESHOLD = 0.25; // 25%
+
+// Calcul du ratio de suppressions = suppressions / total_existant
+let addressDeletionRate = 0;
+let toponymDeletionRate = 0;
+
+if (addressCount > 0) {
+  addressDeletionRate = deletedAddresses.length / addressCount;
+}
+
+if (commonToponymCount > 0) {
+  toponymDeletionRate = deletedToponyms.length / commonToponymCount;
+}
+
+// Vérification : le ratio de suppression ne doit pas dépasser 25% du total
+const addressesExceedThreshold = addressDeletionRate > DELETION_THRESHOLD;
+const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
+
+if (addressesExceedThreshold || toponymsExceedThreshold) {
+  const errorDetails = [];
+  
+  if (addressesExceedThreshold) {
+    errorDetails.push(`Addresses: ${(addressDeletionRate * 100).toFixed(1)}% (${deletedAddresses.length}/${addressCount})`);
   }
+  
+  if (toponymsExceedThreshold) {
+    errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
+  }
+
+  const errorMessage = [
+    `**Deletion threshold exceeded**`,
+    `BAL from district ID: \`${districtID}\``,
+    `Threshold: ${DELETION_THRESHOLD * 100}%`,
+    `Exceeded: ${errorDetails.join(', ')}`
+  ].join('\n');
+
+  throw new Error(errorMessage);
+}
+// Vérification des éléments non autorisés (code existant)
+if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
+  throw new Error(
+    `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
+  );
+}
 
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];

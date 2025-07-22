@@ -110,6 +110,7 @@ export const computeFromCog = async (
 
     const results = [];
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
+
       const [id, bal] = Object.entries(splitBalPerDistictID)[i];
       try {
         // Update District meta with revision data from dump-api (id and date)
@@ -141,7 +142,8 @@ export const computeFromCog = async (
         const { message } = error as Error;
         logger.error(message);
         results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-      }
+        const warningMessage =[`⛔️ BAL ${cog} blocked`, message].join("\n")
+        throw new Error(warningMessage)    }
     }
     return results;
   }
