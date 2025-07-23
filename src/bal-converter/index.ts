@@ -61,45 +61,58 @@ const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 const deletedAddresses = addressIdsReport.idsToDelete;
 const deletedToponyms = toponymsIdsReport.idsToDelete;
 
-// Get total counts from district
-const { _, commonToponymCount, addressCount } = await getDistrictCountsFromID(districtID);
+// Check if we should apply deletion threshold (only for main districts)
+let shouldApplyThreshold;
+const district = districts.find(d => d.id === districtID);
 
+if (!district) {
+  shouldApplyThreshold = false;
+} else {
+const isMainDistrict = district?.meta?.insee?.isMain === true;
+const mainDistrictId = district?.meta?.insee?.mainId;
+shouldApplyThreshold = isMainDistrict && mainDistrictId === districtID;
+}
 // Checking the 25% deletion threshold relative to the existing total
 // Calculating deletion ratio = deletions / existing_total
-let addressDeletionRate = 0;
-let toponymDeletionRate = 0;
+if (shouldApplyThreshold)
+{
+  // Get total counts from district
+  const { _, commonToponymCount, addressCount } = await getDistrictCountsFromID(districtID);
+  let addressDeletionRate = 0;
+  let toponymDeletionRate = 0;
 
-if (addressCount > 0) {
-  addressDeletionRate = deletedAddresses.length / addressCount;
-}
-
-if (commonToponymCount > 0) {
-  toponymDeletionRate = deletedToponyms.length / commonToponymCount;
-}
-
-// Check: the deletion ratio must not exceed 25% of the total
-const addressesExceedThreshold = addressDeletionRate > DELETION_THRESHOLD;
-const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
-
-if (addressesExceedThreshold || toponymsExceedThreshold) {
-  const errorDetails = [];
-  
-  if (addressesExceedThreshold) {
-    errorDetails.push(`Addresses: ${(addressDeletionRate * 100).toFixed(1)}% (${deletedAddresses.length}/${addressCount})`);
-  }
-  
-  if (toponymsExceedThreshold) {
-    errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
+  if (addressCount > 0) {
+    addressDeletionRate = deletedAddresses.length / addressCount;
   }
 
-  const errorMessage = [
-    `**Deletion threshold exceeded**`,
-    `BAL from district ID: \`${districtID}\``,
-    `Threshold: ${DELETION_THRESHOLD * 100}%`,
-    `Exceeded: ${errorDetails.join(', ')}`
-  ].join('\n');
+  if (commonToponymCount > 0) {
+    toponymDeletionRate = deletedToponyms.length / commonToponymCount;
+  }
 
-  throw new Error(errorMessage);
+  // Check: the deletion ratio must not exceed 25% of the total
+  const addressesExceedThreshold = addressDeletionRate > DELETION_THRESHOLD;
+  const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
+
+  if (addressesExceedThreshold || toponymsExceedThreshold) {
+    const errorDetails = [];
+    
+    if (addressesExceedThreshold) {
+      errorDetails.push(`Addresses: ${(addressDeletionRate * 100).toFixed(1)}% (${deletedAddresses.length}/${addressCount})`);
+    }
+    
+    if (toponymsExceedThreshold) {
+      errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
+    }
+
+    const errorMessage = [
+      `**Deletion threshold exceeded**`,
+      `BAL from district ID: \`${districtID}\``,
+      `Threshold: ${DELETION_THRESHOLD * 100}%`,
+      `Exceeded: ${errorDetails.join(', ')}`
+    ].join('\n');
+
+    throw new Error(errorMessage);
+  }
 }
 // Check for unauthorized items (existing code)
 if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
