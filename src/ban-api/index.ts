@@ -227,3 +227,17 @@ export const partialUpdateDistricts = async (partialDistricts: any) => {
     throw new Error(`Ban API - ${message}`);
   }
 };
+
+
+export const getDistrictCountsFromID = async (districtID: string) => {
+  try {
+    const response = await fetch(`${BAN_API_URL}/district/count/${districtID}`, {
+      headers: defaultHeader,
+    });
+    const responseJson = await HandleHTTPResponse(response);
+    return responseJson?.response;
+  } catch (error) {
+    const { message } = error as Error;
+    throw new Error(`Ban API - ${message}`);
+  }
+};
