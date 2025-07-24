@@ -212,7 +212,7 @@ if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
   // Format response
   const allReponses = [responseAddresses, responseCommonToponyms];
   const result = formatResponse(allReponses);
-  // Retourner les données ET les erreurs
+  // Return data AND errors
   return {
     data: result,
     errors: errors,
