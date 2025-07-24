@@ -155,18 +155,15 @@ export const computeFromCog = async (
         const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
         logger.error(message);
         results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-        let warningMessage; 
+        let warningMessage =[
+          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+          `⛔️ BAL ${cog} blocked`, message].join("\n")
+            
         if (message.includes('Deletion threshold exceeded')){
         warningMessage =[
           `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
           `⚠️ ** BAL ${cog} will be blocked soon -- Unexplained ID changes detected **`, message].join("\n")
         }
-        else
-        {
-        warningMessage =[
-          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-          `⛔️ BAL ${cog} blocked`, message].join("\n")
-            }
         throw new Error(warningMessage)
         }
     }

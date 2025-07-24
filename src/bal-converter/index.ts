@@ -115,7 +115,6 @@ if (shouldApplyThreshold)
       type: 'DELETION_THRESHOLD_EXCEEDED',
       message: errorMessage
       });
-    //throw new Error(errorMessage);
   }
 }
 // Check for unauthorized items (existing code)
