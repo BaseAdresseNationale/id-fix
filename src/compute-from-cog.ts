@@ -114,7 +114,7 @@ export const computeFromCog = async (
       const [id, bal] = Object.entries(splitBalPerDistictID)[i];
       try {
         const result = (await sendBalToBan(bal)) || {};
-        // Vérifier s'il y a des erreurs et throw ici
+        // Check if there are errors and throw here
         if (result.hasErrors) {
           // Log errors before throwing
           result.errors.forEach(error => {
