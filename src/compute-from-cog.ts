@@ -116,7 +116,7 @@ export const computeFromCog = async (
         const result = (await sendBalToBan(bal)) || {};
         // Vérifier s'il y a des erreurs et throw ici
         if (result.hasErrors) {
-          // Logger les erreurs avant de throw
+          // Log errors before throwing
           result.errors.forEach(error => {
             logger.error(`${error.type}: ${error.message}`);
           });
