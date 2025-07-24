@@ -24,6 +24,7 @@ const CHUNK_SIZE = 1000;
 const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
 export const sendBalToBan = async (bal: Bal) => {
 
+  const errors = [];
   // Fetch District configurations
   const districtIDs = bal.map((address) => address.id_ban_commune as BanDistrictID);
   const districts: BanDistrict[] = await getDistricts([...new Set(districtIDs)]);
@@ -110,8 +111,10 @@ if (shouldApplyThreshold)
       `Threshold: ${DELETION_THRESHOLD * 100}%`,
       `Exceeded: ${errorDetails.join(', ')}`
     ].join('\n');
-
-    throw new Error(errorMessage);
+      errors.push({
+      type: 'DELETION_THRESHOLD_EXCEEDED',
+      message: errorMessage
+      });
   }
 }
 // Check for unauthorized items (existing code)
@@ -207,5 +210,11 @@ if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
 
   // Format response
   const allReponses = [responseAddresses, responseCommonToponyms];
-  return formatResponse(allReponses);
+  const result = formatResponse(allReponses);
+  // Return data AND errors
+  return {
+    data: result,
+    errors: errors,
+    hasErrors: errors.length > 0
+  };
 };

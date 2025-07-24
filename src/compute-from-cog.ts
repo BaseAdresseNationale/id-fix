@@ -109,12 +109,35 @@ export const computeFromCog = async (
     );
 
     logger.info(`District cog: ${cog} is using banID`);
-
     const results = [];
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
-
       const [id, bal] = Object.entries(splitBalPerDistictID)[i];
       try {
+        const result = (await sendBalToBan(bal)) || {};
+        // Check if there are errors and throw here
+        if (result.hasErrors) {
+          // Log errors before throwing
+          result.errors.forEach(error => {
+            logger.error(`${error.type}: ${error.message}`);
+          });
+          
+          // Throw the error here (your choice of message)
+          const errorMessages = result.errors.map(e => e.message).join('\n');
+          throw new Error(errorMessages);
+        }
+
+        if (!Object.keys(result.data).length) {
+          const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
+          logger.info(response);
+          results.push(response);
+        } else {
+          logger.info(
+            `District id ${id} (cog: ${cog}) updated in BAN BDD. Response body : ${JSON.stringify(
+              result.data
+            )}`
+          );
+          results.push(result.data);
+        }
         // Update District meta with revision data from dump-api (id and date)
         const districtUpdate = {
           id,
@@ -127,28 +150,22 @@ export const computeFromCog = async (
         };
         await partialUpdateDistricts([districtUpdate]);
 
-        const result = (await sendBalToBan(bal)) || {};
-        if (!Object.keys(result).length) {
-          const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
-          logger.info(response);
-          results.push(response);
-        } else {
-          logger.info(
-            `District id ${id} (cog: ${cog}) updated in BAN BDD. Response body : ${JSON.stringify(
-              result
-            )}`
-          );
-          results.push(result);
-        }
       } catch (error) {
         const { message } = error as Error;
         const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
         logger.error(message);
         results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-        const warningMessage =[
+        let warningMessage =[
           `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
           `⛔️ BAL ${cog} blocked`, message].join("\n")
-        throw new Error(warningMessage)    }
+            
+        if (message.includes('Deletion threshold exceeded')){
+        warningMessage =[
+          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+          `⚠️ ** BAL ${cog} will be blocked soon -- Unexplained ID changes detected **`, message].join("\n")
+        }
+        throw new Error(warningMessage)
+        }
     }
     return results;
   }
