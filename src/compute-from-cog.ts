@@ -59,10 +59,34 @@ export const computeFromCog = async (
 
   const districtIDsFromDB = districts.map((district) => district.id);
 
-  // Check if bal is using BanID
   // If not, sending process to ban-plateforme legacy API
   // If the use of IDs is partial, throwing an error
-  const useBanId = await validator(districtIDsFromDB, bal, version, { cog });
+  // Check if bal is using BanID
+  let useBanId = false;
+  try {
+    useBanId = await validator(districtIDsFromDB, bal, version, { cog });
+  } catch (error: unknown) {
+    // Check if district is already on the new DB :
+    const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
+
+    const errorMessage = [
+      (error instanceof Error) ? error.message : error,
+    ] as string[];
+
+    if (!districtsOnNewDB.length) {
+      const warningMessage = ["⚠️ sending BAL to legacy compose...", ...errorMessage].join("\n");
+      logger.error(warningMessage)
+      await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+      throw new Error(warningMessage)
+    } else {
+      const warningMessage =[
+        `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+        `⛔️ BAL ${cog} blocked - District(s) already in new DB`,
+      ...errorMessage].join("\n")
+
+      logger.warn(warningMessage)
+      throw new Error(warningMessage)    }
+  }
 
   if (!useBanId) {
     logger.info(
@@ -88,6 +112,7 @@ export const computeFromCog = async (
 
     const results = [];
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
+
       const [id, bal] = Object.entries(splitBalPerDistictID)[i];
       try {
         // Update District meta with revision data from dump-api (id and date)
@@ -103,7 +128,6 @@ export const computeFromCog = async (
         await partialUpdateDistricts([districtUpdate]);
 
         const result = (await sendBalToBan(bal)) || {};
-
         if (!Object.keys(result).length) {
           const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
           logger.info(response);
@@ -118,9 +142,13 @@ export const computeFromCog = async (
         }
       } catch (error) {
         const { message } = error as Error;
+        const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
         logger.error(message);
         results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-      }
+        const warningMessage =[
+          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
+          `⛔️ BAL ${cog} blocked`, message].join("\n")
+        throw new Error(warningMessage)    }
     }
     return results;
   }

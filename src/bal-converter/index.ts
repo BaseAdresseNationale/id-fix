@@ -15,12 +15,13 @@ import {
   createCommonToponyms,
   updateCommonToponyms,
   deleteCommonToponyms,
+  getDistrictCountsFromID
 } from '../ban-api/index.js';
 import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
 
 const CHUNK_SIZE = 1000;
-
+const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
 export const sendBalToBan = async (bal: Bal) => {
 
   // Fetch District configurations
@@ -53,15 +54,72 @@ export const sendBalToBan = async (bal: Bal) => {
     getCommonToponymIdsReport(districtID, dataForCommonToponymReport),
   ]);
 
-  // Check for unauthorized addresses and toponyms
-  const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
-  const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
+// Check for unauthorized addresses and toponyms
+const unauthorizedAddresses = addressIdsReport.idsUnauthorized;
+const unauthorizedToponyms = toponymsIdsReport.idsUnauthorized;
 
-  if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-    throw new Error(
-      `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
-    );
+const deletedAddresses = addressIdsReport.idsToDelete;
+const deletedToponyms = toponymsIdsReport.idsToDelete;
+
+// Check if we should apply deletion threshold (only for main districts)
+let shouldApplyThreshold;
+const district = districts.find(d => d.id === districtID);
+
+if (!district) {
+  shouldApplyThreshold = false;
+} else {
+const isMainDistrict = district?.meta?.insee?.isMain === true;
+const mainDistrictId = district?.meta?.insee?.mainId;
+shouldApplyThreshold = isMainDistrict && mainDistrictId === districtID;
+}
+// Checking the 25% deletion threshold relative to the existing total
+// Calculating deletion ratio = deletions / existing_total
+if (shouldApplyThreshold)
+{
+  // Get total counts from district
+  const { _, commonToponymCount, addressCount } = await getDistrictCountsFromID(districtID);
+  let addressDeletionRate = 0;
+  let toponymDeletionRate = 0;
+
+  if (addressCount > 0) {
+    addressDeletionRate = deletedAddresses.length / addressCount;
   }
+
+  if (commonToponymCount > 0) {
+    toponymDeletionRate = deletedToponyms.length / commonToponymCount;
+  }
+
+  // Check: the deletion ratio must not exceed 25% of the total
+  const addressesExceedThreshold = addressDeletionRate > DELETION_THRESHOLD;
+  const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
+
+  if (addressesExceedThreshold || toponymsExceedThreshold) {
+    const errorDetails = [];
+    
+    if (addressesExceedThreshold) {
+      errorDetails.push(`Addresses: ${(addressDeletionRate * 100).toFixed(1)}% (${deletedAddresses.length}/${addressCount})`);
+    }
+    
+    if (toponymsExceedThreshold) {
+      errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
+    }
+
+    const errorMessage = [
+      `**Deletion threshold exceeded**`,
+      `BAL from district ID: \`${districtID}\``,
+      `Threshold: ${DELETION_THRESHOLD * 100}%`,
+      `Exceeded: ${errorDetails.join(', ')}`
+    ].join('\n');
+
+    throw new Error(errorMessage);
+  }
+}
+// Check for unauthorized items (existing code)
+if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
+  throw new Error(
+    `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
+  );
+}
 
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];
