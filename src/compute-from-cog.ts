@@ -121,7 +121,7 @@ export const computeFromCog = async (
             logger.error(`${error.type}: ${error.message}`);
           });
           
-          // Throw l'erreur ici (votre choix du message)
+          // Throw the error here (your choice of message)
           const errorMessages = result.errors.map(e => e.message).join('\n');
           throw new Error(errorMessages);
         }
