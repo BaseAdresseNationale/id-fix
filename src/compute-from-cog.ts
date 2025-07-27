@@ -112,6 +112,16 @@ export const computeFromCog = async (
     const results = [];
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
       const [id, bal] = Object.entries(splitBalPerDistictID)[i];
+        // Update District meta with revision data from dump-api (id and date)
+        const districtUpdate = {
+          id,
+          meta: {
+            bal: {
+              idRevision: revision.id,
+              dateRevision: revision.publishedAt,
+            },
+          },
+        };
       try {
         const result = (await sendBalToBan(bal)) || {};
         // Check if there are errors and throw here
@@ -138,16 +148,7 @@ export const computeFromCog = async (
           );
           results.push(result.data);
         }
-        // Update District meta with revision data from dump-api (id and date)
-        const districtUpdate = {
-          id,
-          meta: {
-            bal: {
-              idRevision: revision.id,
-              dateRevision: revision.publishedAt,
-            },
-          },
-        };
+
         await partialUpdateDistricts([districtUpdate]);
 
       } catch (error) {
@@ -164,6 +165,7 @@ export const computeFromCog = async (
           `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
           `⚠️ ** BAL ${cog} will be blocked soon -- Unexplained ID changes detected **`, message].join("\n")
         }
+        await partialUpdateDistricts([districtUpdate]);
         throw new Error(warningMessage)
         }
     }
