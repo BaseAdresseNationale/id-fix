@@ -17,6 +17,91 @@ import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
+import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
+
+// Check un seul job
+async function checkSingleJob(statusID: string): Promise<void> {
+  const maxAttempts = 5;
+  
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const response = await fetch(`http://localhost:5000/api/job-status/${statusID}`);
+      const jobData = await response.json();
+      
+      if (jobData.response?.status === 'pending' ||jobData.response?.status === 'processing' ) {
+        logger.info(`Job ${statusID} pending... (attempt ${attempt}/${maxAttempts})`);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 sec
+        continue;
+      }
+      
+      if (jobData.response?.status === 'error') {
+        // Récupérer le message global et le premier détail
+        let errorMessage = jobData.response?.message || 'Unknown error';
+        
+        if (jobData.response?.report?.data && jobData.response.report.data.length > 0) {
+          const firstError = jobData.response.report.data[0];
+          if (firstError?.report?.data && firstError.report.data.length > 0) {
+            // Combiner le message global avec le premier détail
+            const firstDetailError = firstError.report.data[0];
+            errorMessage = `${errorMessage} - ${firstDetailError}`;
+          }
+        }
+        
+        throw new Error(`Job ${statusID} failed: ${errorMessage}`);
+      }
+      
+      if (jobData.response?.status === 'success') {
+        logger.info(`Job ${statusID} completed successfully`);
+        return; // OK
+      }
+      
+      // Status inconnu
+      throw new Error(`Job ${statusID} unknown status: ${jobData.response?.status}`);
+      
+    } catch (error) {
+      throw new Error(`Job ${statusID} check failed: ${(error as Error).message}`);
+    }
+  }
+  
+  // Timeout après 5 tentatives
+  throw new Error(`Job ${statusID} timeout after ${maxAttempts} attempts`);
+}
+
+// Fonction très simple : check tous les jobs
+async function checkAllJobs(responseData: any, id: string): Promise<void> {
+  // Extraire les statusIDs
+  const statusIDs: string[] = [];
+  
+  if (responseData.addresses?.add) {
+    responseData.addresses.add.forEach((item: any) => {
+      if (item.response?.statusID) {
+        statusIDs.push(item.response.statusID);
+      }
+    });
+  }
+  
+  if (responseData.commonToponyms?.add) {
+    responseData.commonToponyms.add.forEach((item: any) => {
+      if (item.response?.statusID) {
+        statusIDs.push(item.response.statusID);
+      }
+    });
+  }
+  
+  if (statusIDs.length === 0) {
+    return; // Pas de jobs = OK
+  }
+  
+  logger.info(`Checking ${statusIDs.length} job(s) for district ${id}...`);
+  
+  // Check chaque job
+  for (const statusID of statusIDs) {
+    await checkSingleJob(statusID);
+  }
+  
+  logger.info(`All jobs completed successfully for district ${id}`);
+}
+
 
 export const computeFromCog = async (
   cog: string,
@@ -146,10 +231,18 @@ export const computeFromCog = async (
               result.data
             )}`
           );
+          // CHECK DES JOBS ASYNCHRONES
+          await checkAllJobs(result.data, id);
           results.push(result.data);
         }
 
         await partialUpdateDistricts([districtUpdate]);
+        // Message de succès pour les révisions traitées avec succès
+        const successMessage = `✅ District ${id} (cog: ${cog}) successfully processed and updated in BAN database`;
+        logger.info(successMessage);
+
+        // Envoyer le message de succès via votre système d'alertes
+        await asyncSendMessageToWebHook(successMessage);
 
       } catch (error) {
         const { message } = error as Error;
