@@ -3,6 +3,9 @@ import { logger } from './utils/logger.js';
 import authMiddleware from './middleware/auth.js';
 import { computeFromCog } from './compute-from-cog.js';
 import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
+import { getRevisionId } from "./dump-api/index.js";
+
+
 
 const router: Router = Router();
 
@@ -14,6 +17,7 @@ router.get(
     let response;
     const { cog } = req.params;
     const { force: forceLegacyCompose } = req.query;
+    // const revision = await getRevisionId(cog);
     try {
       const responseBody = await computeFromCog(
         cog,
@@ -28,8 +32,8 @@ router.get(
     } catch (error) {
       const { message } = error as Error;
       const finalMessage = `Error computing cog \`${cog}\` :\n ${message}`;
-      logger.error(finalMessage);
-      await asyncSendMessageToWebHook(finalMessage);
+      // logger.error(finalMessage);
+      // await asyncSendMessageToWebHook(finalMessage,revision);
       response = {
         date: new Date(),
         status: "error",
