@@ -3,9 +3,6 @@ import { logger } from './utils/logger.js';
 import authMiddleware from './middleware/auth.js';
 import { computeFromCog } from './compute-from-cog.js';
 import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
-import { getRevisionId } from "./dump-api/index.js";
-
-
 
 const router: Router = Router();
 

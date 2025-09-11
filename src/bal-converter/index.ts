@@ -19,6 +19,8 @@ import {
 } from '../ban-api/index.js';
 import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
+import { MessageCatalog } from '../utils/status-catalog.js';
+
 
 const CHUNK_SIZE = 1000;
 const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
@@ -105,24 +107,23 @@ if (shouldApplyThreshold)
       errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
     }
 
-    const errorMessage = [
-      `**Deletion threshold exceeded**`,
-      `BAL from district ID: \`${districtID}\``,
-      `Threshold: ${DELETION_THRESHOLD * 100}%`,
-      `Exceeded: ${errorDetails.join(', ')}`
-    ].join('\n');
+      const errorMessage = MessageCatalog.ERROR.DELETION_THRESHOLD_EXCEEDED.template(
+        districtID, 
+        DELETION_THRESHOLD * 100, 
+        `Exceeded: ${errorDetails.join(', ')}`
+      );
+      
       errors.push({
-      type: 'DELETION_THRESHOLD_EXCEEDED',
-      message: errorMessage
+        type: 'DELETION_THRESHOLD_EXCEEDED',
+        message: errorMessage
       });
+    }
   }
-}
-// Check for unauthorized items (existing code)
-if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-  throw new Error(
-    `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
-  );
-}
+  
+  // Check for unauthorized items
+  if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
+    throw new Error(MessageCatalog.ERROR.UNAUTHORIZED_OPERATION.template(districtID, unauthorizedAddresses, unauthorizedToponyms));
+  }
 
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];

@@ -18,64 +18,67 @@ import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
 import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
+import { MessageCatalog, DistrictInfoBuilder } from './utils/status-catalog.js';
+
+async function sendWebhook(messageFunc: Function, revision: any, cog: string, districtName?: string | null, districtId?: string | null) {
+  const message = messageFunc();
+  const status = message.startsWith('✅') ? 'success' 
+    : message.startsWith('ℹ️') ? 'info'
+    : message.startsWith('⚠️') ? 'warning' : 'error';
+  
+  await asyncSendMessageToWebHook(message, revision?.id, cog, districtName, districtId, status);
+}
 
 async function checkSingleJob(statusID: string, maxWaitMinutes: number = 100): Promise<void> {
-  const maxAttempts = maxWaitMinutes * 12; // 12 tentatives par minute (toutes les 5 sec)
+  const maxAttempts = maxWaitMinutes * 12;
   const BAN_API_URL = process.env.BAN_API_URL || '';
+  
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       const response = await fetch(`${BAN_API_URL}/job-status/${statusID}`);
       const jobData = await response.json();
       
       if (jobData.response?.status === 'pending' || jobData.response?.status === 'processing') {
-        logger.info(`Job ${statusID} pending... (attempt ${attempt}/${maxAttempts})`);
-        await new Promise(resolve => setTimeout(resolve, 5000)); // 5 secondes
+        logger.info(MessageCatalog.INFO.JOB_PENDING.template(statusID, attempt, maxAttempts));
+        await new Promise(resolve => setTimeout(resolve, 5000));
         continue;
       }
       
       if (jobData.response?.status === 'error') {
-        // Récupérer le message global et le premier détail
         let errorMessage = jobData.response?.message || 'Unknown error';
         
         if (jobData.response?.report?.data && jobData.response.report.data.length > 0) {
           const firstError = jobData.response.report.data[0];
           if (firstError?.report?.data && firstError.report.data.length > 0) {
-            // Combiner le message global avec le premier détail
             const firstDetailError = firstError.report.data[0];
             errorMessage = `${errorMessage} - ${firstDetailError}`;
           }
         }
         
-        throw new Error(`Job ${statusID} failed: ${errorMessage}`);
+        throw new Error(MessageCatalog.ERROR.JOB_FAILED.template(statusID, errorMessage));
       }
       
       if (jobData.response?.status === 'success') {
-        logger.info(`Job ${statusID} completed successfully after ${attempt * 5}s`);
-        return; // OK
+        logger.info(MessageCatalog.SUCCESS.JOB_COMPLETED.template(statusID, attempt * 5));
+        return;
       }
       
-      // Status inconnu
-      throw new Error(`Job ${statusID} unknown status: ${jobData.response?.status}`);
+      throw new Error(MessageCatalog.ERROR.JOB_UNKNOWN_STATUS.template(statusID, jobData.response?.status));
       
     } catch (error) {
       if (attempt === maxAttempts) {
-        throw new Error(`Job ${statusID} timeout after ${maxWaitMinutes} minutes`);
+        throw new Error(MessageCatalog.ERROR.JOB_TIMEOUT.template(statusID, maxWaitMinutes));
       }
-      // Continuer si ce n'est pas la dernière tentative et que c'est une erreur réseau
-      if (error instanceof Error && error.message.includes('Job') && error.message.includes('failed')) {
-        throw error; // Remonter immédiatement les erreurs de job
+      if (error instanceof Error && error.message.includes('Job') && (error.message.includes('failed') || error.message.includes('échoué'))) {
+        throw error;
       }
     }
   }
   
-  // Timeout après toutes les tentatives
-  throw new Error(`Job ${statusID} timeout after ${maxWaitMinutes} minutes`);
+  throw new Error(MessageCatalog.ERROR.JOB_TIMEOUT.template(statusID, maxWaitMinutes));
 }
 
-
-// Fonction parallèle qui échoue dès qu'un job échoue
 async function checkAllJobs(responseData: any, id: string): Promise<void> {
-  // Extraire les statusIDs
   const statusIDs: string[] = [];
   
   if (responseData.addresses?.add) {
@@ -95,17 +98,15 @@ async function checkAllJobs(responseData: any, id: string): Promise<void> {
   }
   
   if (statusIDs.length === 0) {
-    return; // Pas de jobs = OK
+    return;
   }
   
-  logger.info(`Checking ${statusIDs.length} job(s) for district ${id} in parallel...`);
+  logger.info(MessageCatalog.INFO.CHECKING_JOBS.template(statusIDs.length, id));
   
-  // Promise.all échoue dès qu'une promise échoue
   await Promise.all(statusIDs.map(statusID => checkSingleJob(statusID)));
   
-  logger.info(`All ${statusIDs.length} jobs completed successfully for district ${id}`);
+  logger.info(MessageCatalog.SUCCESS.ALL_JOBS_COMPLETED.template(statusIDs.length, id));
 }
-
 
 export const computeFromCog = async (
   cog: string,
@@ -121,13 +122,11 @@ export const computeFromCog = async (
   // Check if dep or cog is part of the accepted dep or cog list
   const isCogAccepted = isDepAccepted || acceptedCogList.includes(cog);
   if (!isCogAccepted) {
-    logger.info(
-      `Dep or District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
-    );
+    logger.info(MessageCatalog.INFO.NOT_WHITELISTED.template(cog));
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
-  logger.info(`District cog ${cog} is part of the whitelist.`);
+  logger.info(MessageCatalog.INFO.WHITELISTED.template(cog));
 
   // Get BAL text data from dump-api
   const { revision, balTextData: balCsvData } = await getRevisionData(cog);
@@ -137,11 +136,11 @@ export const computeFromCog = async (
 
   // Detect BAL version
   const version = getBalVersion(bal);
-  logger.info(`District cog ${cog} is using BAL version ${version}`);
+  logger.info(MessageCatalog.INFO.BAL_VERSION.template(cog, version));
 
   const districts: BanDistrict[] = await getDistrictFromCOG(cog);
   if (!districts.length) {
-    throw new Error(`No district found with cog ${cog}`);
+    throw new Error(MessageCatalog.ERROR.NO_DISTRICT_FOUND.template(cog));
   }
 
   const districtIDsFromDB = districts.map((district) => district.id);
@@ -151,47 +150,35 @@ export const computeFromCog = async (
   try {
     useBanId = await validator(districtIDsFromDB, bal, version, { cog });
   } catch (error: unknown) {
-    // Check if district is already on the new DB :
     const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
-
-    const errorMessage = [
-      (error instanceof Error) ? error.message : error,
-    ] as string[];
-      const districtName = districtsOnNewDB[0]?.labels[0].value || districts[0]?.labels[0].value || null ;
-      const districtId = districtsOnNewDB[0]?.id || districts[0]?.id || null;
-    if (!districtsOnNewDB.length) {
+    const errorMessage = (error instanceof Error) ? error.message : String(error);
+    const districtName = districtsOnNewDB[0]?.labels[0].value || districts[0]?.labels[0].value || null;
+    const districtId = districtsOnNewDB[0]?.id || districts[0]?.id || null;
     
-      const warningMessage = ["⚠️ sending BAL to legacy compose...", ...errorMessage].join("\n");
-      logger.error(warningMessage)
+    if (!districtsOnNewDB.length) {
+      const message = MessageCatalog.WARNING.LEGACY_WITH_ERROR.template(cog, errorMessage);
+      logger.error(message);
       
-      // Webhook avec statut WARNING pour legacy compose avec erreur
-      await asyncSendMessageToWebHook(`Warning computing cog \`${cog}\` :\n ${warningMessage}`, revision.id, cog, districtName, districtId, 'warning');
+      await sendWebhook(() => message, revision, cog, districtName, districtId);
       
       await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
-      throw new Error(warningMessage)
+      throw new Error(message);
     } else {
+      const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+      const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
+      logger.error(message);
       
-      const warningMessage = [
-        `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-        `⛔️ BAL ${cog} blocked - District(s) already in new DB`,
-        ...errorMessage
-      ].join("\n")
-
-      logger.error(warningMessage)
+      await sendWebhook(() => message, revision, cog, districtName, districtId);
       
-      // Webhook avec statut WARNING pour BAL bloqué
-      await asyncSendMessageToWebHook(`Error computing cog \`${cog}\` :\n ${warningMessage}`, revision.id, cog, districtName, districtId, 'error');
-      
-      throw new Error(warningMessage)
+      throw new Error(message);
     }
   }
 
   if (!useBanId) {
-    const infoMessage = `District cog: ${cog} does not use BanID: sending BAL to legacy compose...`;
-    logger.info(infoMessage);
+    const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
+    logger.info(message);
     
-    // Webhook avec statut INFO pour legacy compose sans erreur
-    await asyncSendMessageToWebHook(`ℹ️ Info computing cog \`${cog}\` :\n ${infoMessage}`, revision.id, cog, null, null, 'info');
+    await sendWebhook(() => message, revision, cog);
     
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
@@ -209,7 +196,7 @@ export const computeFromCog = async (
       {}
     );
 
-    logger.info(`District cog: ${cog} is using banID`);
+    logger.info(MessageCatalog.INFO.USES_BAN_ID.template(cog));
     const results = [];
     
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
@@ -217,7 +204,6 @@ export const computeFromCog = async (
       const district = districts.find(d => d.id === id);
       const districtName = district?.labels[0].value || null;
       
-      // Update District meta with revision data from dump-api (id and date)
       const districtUpdate = {
         id,
         meta: {
@@ -231,72 +217,56 @@ export const computeFromCog = async (
       try {
         const result = (await sendBalToBan(bal)) || {};
         
-        // Check if there are errors and throw here
         if (result.hasErrors) {
-          // Log errors before throwing
           result.errors.forEach(error => {
             logger.error(`${error.type}: ${error.message}`);
           });
           
-          // Throw the error here (your choice of message)
           const errorMessages = result.errors.map(e => e.message).join('\n');
           throw new Error(errorMessages);
         }
 
         if (!Object.keys(result.data).length) {
-          const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
-          logger.info(response);
+          const message = MessageCatalog.INFO.NO_CHANGES.template(id, cog);
+          logger.info(message);
           
-          // Webhook avec statut INFO pour pas de changements
-          await asyncSendMessageToWebHook(`ℹ️ Info computing cog \`${cog}\` :\n ${response}`, revision.id, cog, districtName, id, 'info');
+          await sendWebhook(() => message, revision, cog, districtName, id);
           
-          results.push(response);
+          results.push(message);
         } else {
-          logger.info(
-            `District id ${id} (cog: ${cog}) updated in BAN BDD. Response body : ${JSON.stringify(
-              result.data
-            )}`
-          );
+          const responseBody = JSON.stringify(result.data);
+          logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
           
-          // CHECK DES JOBS ASYNCHRONES
           await checkAllJobs(result.data, id);
           results.push(result.data);
         }
 
         await partialUpdateDistricts([districtUpdate]);
         
-        // Message de succès pour les révisions traitées avec succès
-        const successMessage = `✅ District ${id} (cog: ${cog}) successfully processed and updated in BAN database`;
-        logger.info(successMessage);
+        const message = MessageCatalog.SUCCESS.DISTRICT_PROCESSED.template(id, cog);
+        logger.info(message);
 
-        // Webhook avec statut SUCCESS pour traitement réussi
-        await asyncSendMessageToWebHook(`Success computing cog \`${cog}\` :\n ${successMessage}`, revision.id, cog, districtName, id, 'success');
+        await sendWebhook(() => message, revision, cog, districtName, id);
 
       } catch (error) {
-        const { message } = error as Error;
+        const errorMessage = (error as Error).message;
         const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
-        logger.error(message);
-        results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
+        logger.error(errorMessage);
+        results.push(MessageCatalog.ERROR.DISTRICT_ERROR.template(id, cog, errorMessage));
         
-        let warningMessage = [
-          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-          `⛔️ BAL ${cog} blocked`, message
-        ].join("\n")
-            
-        if (message.includes('Deletion threshold exceeded')) {
-          warningMessage = [
-            `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-            `⚠️ ** BAL ${cog} will be blocked soon -- Unexplained ID changes detected **`, message
-          ].join("\n")
+        let message;
+        
+        if (errorMessage.includes('Deletion threshold exceeded') || errorMessage.includes('Seuil de suppression dépassé')) {
+          const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+          message = MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.template(cog, districtInfo, errorMessage);
+        } else {
+          const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+          message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
         }
         
+        await sendWebhook(() => message, revision, cog, districtName, id);
         await partialUpdateDistricts([districtUpdate]);
-        
-        // Webhook avec statut ERROR ou WARNING selon le type d'erreur
-        const errorStatus = message.includes('Deletion threshold exceeded') ? 'warning' : 'error';
-        await asyncSendMessageToWebHook(`Error computing cog \`${cog}\` :\n ${warningMessage}`, revision.id, cog, districtName, id, errorStatus);
-        
-        throw new Error(warningMessage)
+        throw new Error(message);
       }
     }
     return results;

@@ -47,8 +47,8 @@ function extractBasicInfo(
 
   // Auto-détection du statut seulement si pas fourni explicitement
   if (!data.status) {
-    if (message.includes('⚠️') || message.includes('blocked')) data.status = 'warning'
-    else if (message.includes('🔴')) data.status = 'error'
+    if (message.includes('⚠️') ) data.status = 'warning'
+    else if (message.includes('🔴') || message.includes('blocked') || message.includes('bloquée')) data.status = 'error'
     else if (message.includes('✅')) data.status = 'success'
     else data.status = 'info'
   }
@@ -91,10 +91,10 @@ async function sendToDatabase(basicData: BasicRevisionData, revisionId: string) 
 }
 
 async function asyncSendMessageToWebHook(
-  message: string, 
-  revisionId?: string, 
-  cog?: string, 
-  districtName?: string | null, 
+  message: string,
+  revisionId?: string,
+  cog?: string,
+  districtName?: string | null,
   districtId?: string | null,
   status?: 'success' | 'error' | 'warning' | 'info'
 ) {
@@ -104,23 +104,29 @@ async function asyncSendMessageToWebHook(
   if (revisionId) {
     await sendToDatabase(basicData, revisionId)
   }
-
+  
   // Continuer vers Mattermost
   if (!MESSAGE_WEBHOOK_URL) {
     console.error('No message web hook URL provided')
     return
   }
-
+  
   try {
     const response = await fetch(MESSAGE_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         username: 'Id-fix',
-        text: message,
+        text: 
+          `- **COG:** ${basicData.cog || '99999'}\n` +
+          `- **Commune:** ${basicData.districtName || 'N/A'}\n` +
+          `- **Status:** ${basicData.status?.toUpperCase() || 'INFO'}\n` +
+          `- **Revision:** ${revisionId || 'N/A'}\n` +
+          `- **Date:** ${basicData.timestamp}\n\n` +
+          `- **Message :**\n${message}`
       }),
     })
-
+    
     if (!response.ok) {
       console.error(`Failed to send message to web hook. Status: ${response.status}`)
     }
@@ -128,5 +134,6 @@ async function asyncSendMessageToWebHook(
     console.error('Error sending message to web hook:', error)
   }
 }
+
 
 export default asyncSendMessageToWebHook
