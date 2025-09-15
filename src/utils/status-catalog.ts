@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 export enum ErrorType {
   // Validation BAL
   MISSING_DATA = 'MISSING_DATA',
@@ -75,7 +75,7 @@ export const MessageCatalog = {
       type: ErrorType.WHITELIST,
       status: Status.INFO,
       template: (cog: string) => 
-        `Le département ou district cog ${cog} ne fait pas partie de la liste blanche : envoi de la BAL vers legacy compose...`
+        `Le département ou district cog ${cog} ne fait pas partie de la liste blanche : Enregistrement de la BAL sans les identifiants....`
     },
 
     WHITELISTED: {
@@ -96,7 +96,7 @@ export const MessageCatalog = {
       type: ErrorType.INVALID_FORMAT,
       status: Status.INFO,
       template: (cog: string) => 
-        `${ICONS.INFO} Le district cog: ${cog} n'utilise pas de BanID : envoi de la BAL vers legacy compose...`
+        `${ICONS.INFO} Le district cog: ${cog} n'utilise pas de BanID : Enregistrement de la BAL sans les identifiants....`
     },
 
     USES_BAN_ID: {
@@ -120,6 +120,19 @@ export const MessageCatalog = {
         `District id ${districtId} (cog: ${cog}) mis à jour dans la BDD BAN. Corps de réponse : ${responseBody}`
     },
 
+      PROCESSING_STATISTICS: {
+      type: ErrorType.BAN_API_ERROR,
+      status: Status.INFO,
+      template: (districtId: string, addressStats: {toAdd: number, toUpdate: number, toDelete: number}, toponymStats: {toAdd: number, toUpdate: number, toDelete: number}) => {
+        const addressTotal = addressStats.toAdd + addressStats.toUpdate + addressStats.toDelete;
+        const toponymTotal = toponymStats.toAdd + toponymStats.toUpdate + toponymStats.toDelete;
+        
+        return `${ICONS.INFO} Traitement du district ${districtId}:\n` +
+               `Adresses: ${addressStats.toAdd} ajouts, ${addressStats.toUpdate} modifications, ${addressStats.toDelete} suppressions\n` +
+               `Toponymes: ${toponymStats.toAdd} ajouts, ${toponymStats.toUpdate} modifications, ${toponymStats.toDelete} suppressions`;
+      }
+    },
+
     CHECKING_JOBS: {
       type: ErrorType.JOB_FAILURE,
       status: Status.INFO,
@@ -141,7 +154,7 @@ export const MessageCatalog = {
       type: ErrorType.INVALID_FORMAT,
       status: Status.WARNING,
       template: (cog: string, errorDetails: string) => 
-        `${ICONS.WARNING} envoi de la BAL vers legacy compose...\n${errorDetails}`
+        `${ICONS.WARNING} Enregistrement de la BAL sans les identifiants....\n${errorDetails}`
     },
 
     DELETION_THRESHOLD_SOON: {

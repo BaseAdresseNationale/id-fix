@@ -17,96 +17,10 @@ import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
 import { BalAdresse } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
-import asyncSendMessageToWebHook from './utils/send-message-to-hook.js';
+import { sendWebhook } from './utils/send-message-to-hook.js';
 import { MessageCatalog, DistrictInfoBuilder } from './utils/status-catalog.js';
+import checkAllJobs  from './utils/check-status-jobs.js'
 
-async function sendWebhook(messageFunc: Function, revision: any, cog: string, districtName?: string | null, districtId?: string | null) {
-  const message = messageFunc();
-  const status = message.startsWith('✅') ? 'success' 
-    : message.startsWith('ℹ️') ? 'info'
-    : message.startsWith('⚠️') ? 'warning' : 'error';
-  
-  await asyncSendMessageToWebHook(message, revision?.id, cog, districtName, districtId, status);
-}
-
-async function checkSingleJob(statusID: string, maxWaitMinutes: number = 100): Promise<void> {
-  const maxAttempts = maxWaitMinutes * 12;
-  const BAN_API_URL = process.env.BAN_API_URL || '';
-  
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    try {
-      const response = await fetch(`${BAN_API_URL}/job-status/${statusID}`);
-      const jobData = await response.json();
-      
-      if (jobData.response?.status === 'pending' || jobData.response?.status === 'processing') {
-        logger.info(MessageCatalog.INFO.JOB_PENDING.template(statusID, attempt, maxAttempts));
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        continue;
-      }
-      
-      if (jobData.response?.status === 'error') {
-        let errorMessage = jobData.response?.message || 'Unknown error';
-        
-        if (jobData.response?.report?.data && jobData.response.report.data.length > 0) {
-          const firstError = jobData.response.report.data[0];
-          if (firstError?.report?.data && firstError.report.data.length > 0) {
-            const firstDetailError = firstError.report.data[0];
-            errorMessage = `${errorMessage} - ${firstDetailError}`;
-          }
-        }
-        
-        throw new Error(MessageCatalog.ERROR.JOB_FAILED.template(statusID, errorMessage));
-      }
-      
-      if (jobData.response?.status === 'success') {
-        logger.info(MessageCatalog.SUCCESS.JOB_COMPLETED.template(statusID, attempt * 5));
-        return;
-      }
-      
-      throw new Error(MessageCatalog.ERROR.JOB_UNKNOWN_STATUS.template(statusID, jobData.response?.status));
-      
-    } catch (error) {
-      if (attempt === maxAttempts) {
-        throw new Error(MessageCatalog.ERROR.JOB_TIMEOUT.template(statusID, maxWaitMinutes));
-      }
-      if (error instanceof Error && error.message.includes('Job') && (error.message.includes('failed') || error.message.includes('échoué'))) {
-        throw error;
-      }
-    }
-  }
-  
-  throw new Error(MessageCatalog.ERROR.JOB_TIMEOUT.template(statusID, maxWaitMinutes));
-}
-
-async function checkAllJobs(responseData: any, id: string): Promise<void> {
-  const statusIDs: string[] = [];
-  
-  if (responseData.addresses?.add) {
-    responseData.addresses.add.forEach((item: any) => {
-      if (item.response?.statusID) {
-        statusIDs.push(item.response.statusID);
-      }
-    });
-  }
-  
-  if (responseData.commonToponyms?.add) {
-    responseData.commonToponyms.add.forEach((item: any) => {
-      if (item.response?.statusID) {
-        statusIDs.push(item.response.statusID);
-      }
-    });
-  }
-  
-  if (statusIDs.length === 0) {
-    return;
-  }
-  
-  logger.info(MessageCatalog.INFO.CHECKING_JOBS.template(statusIDs.length, id));
-  
-  await Promise.all(statusIDs.map(statusID => checkSingleJob(statusID)));
-  
-  logger.info(MessageCatalog.SUCCESS.ALL_JOBS_COMPLETED.template(statusIDs.length, id));
-}
 
 export const computeFromCog = async (
   cog: string,
@@ -227,6 +141,7 @@ export const computeFromCog = async (
         }
 
         if (!Object.keys(result.data).length) {
+  
           const message = MessageCatalog.INFO.NO_CHANGES.template(id, cog);
           logger.info(message);
           
@@ -235,6 +150,7 @@ export const computeFromCog = async (
           results.push(message);
         } else {
           const responseBody = JSON.stringify(result.data);
+          console.log(responseBody)
           logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
           
           await checkAllJobs(result.data, id);
@@ -242,9 +158,26 @@ export const computeFromCog = async (
         }
 
         await partialUpdateDistricts([districtUpdate]);
-        
+  // NOUVEAU: Envoyer les statistiques via webhook avant le message de succès
+  if (result.statistics && result.statistics.totalChanges >0) {
+    const statisticsMessage = MessageCatalog.INFO.PROCESSING_STATISTICS.template(
+      result.statistics.districtID, 
+      result.statistics.addressStats, 
+      result.statistics.toponymStats
+    );
+    
+    await sendWebhook(
+      () => statisticsMessage,
+      revision,
+      cog,
+      districtName,
+      id
+    );
+  }
+  
         const message = MessageCatalog.SUCCESS.DISTRICT_PROCESSED.template(id, cog);
         logger.info(message);
+
 
         await sendWebhook(() => message, revision, cog, districtName, id);
 

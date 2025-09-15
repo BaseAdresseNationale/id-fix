@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import type { Bal } from '../types/bal-types.js';
 import type {
   BanIDWithHash,
@@ -158,6 +159,20 @@ if (shouldApplyThreshold)
   }
   const banToponymsIdsToDelete = toponymsIdsReport.idsToDelete;
 
+const toponymStats = {
+  toAdd: banToponymsToAdd.length,
+  toUpdate: banToponymsToUpdate.length,
+  toDelete: banToponymsIdsToDelete.length
+};
+const addressStats = {
+  toAdd: banAddressesToAdd.length,
+  toUpdate: banAddressesToUpdate.length,
+  toDelete: banAddressesIdsToDelete.length
+};
+
+  const totalChanges = addressStats.toAdd + addressStats.toUpdate + addressStats.toDelete + 
+                      toponymStats.toAdd + toponymStats.toUpdate + toponymStats.toDelete;
+
   // Split common toponyms arrays in chunks
   const banToponymsToAddChunks = formatToChunks(banToponymsToAdd, CHUNK_SIZE);
   const banToponymsToUpdateChunks = formatToChunks(
@@ -213,9 +228,15 @@ if (shouldApplyThreshold)
   const allReponses = [responseAddresses, responseCommonToponyms];
   const result = formatResponse(allReponses);
   // Return data AND errors
-  return {
-    data: result,
-    errors: errors,
-    hasErrors: errors.length > 0
-  };
+return {
+  data: result,
+  errors: errors,
+  hasErrors: errors.length > 0,
+  statistics: {
+    totalChanges,
+    districtID,
+    addressStats,
+    toponymStats
+  }
+};
 };
