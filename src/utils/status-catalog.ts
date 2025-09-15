@@ -192,14 +192,14 @@ export const MessageCatalog = {
       type: ErrorType.UNAUTHORIZED,
       status: Status.ERROR,
       template: (districtId: string, unauthorizedAddresses: string[], unauthorizedToponyms: string[]) => 
-        `Opération non autorisée - BAL du district ID : \`${districtId}\` - Les éléments font partie d'un district différent : Adresses non autorisées : \`${unauthorizedAddresses.join(', ')}\` - Toponymes non autorisés : \`${unauthorizedToponyms.join(', ')}\``
+        `**Opération non autorisée - BAL du district ID : \`${districtId}\` - Les éléments font partie d'un district différent **: Adresses non autorisées : \`${unauthorizedAddresses.join(', ')}\` - Toponymes non autorisés : \`${unauthorizedToponyms.join(', ')}\``
     },
 
     MISSING_RIGHTS: {
       type: ErrorType.MISSING_RIGHTS,
       status: Status.ERROR,
       template: (unauthorizedIds: string[]) => 
-        `**Droits manquants** \nLes districtIDs ${unauthorizedIds.join(', ')} ne font pas partie des districts autorisés à être mis à jour`
+        `**Droits manquants \nLes districtIDs ${unauthorizedIds.join(', ')} ne font pas partie des districts autorisés à être mis à jour**`
     },
 
     MISSING_DISTRICT_ID: {
@@ -234,54 +234,54 @@ export const MessageCatalog = {
       type: ErrorType.JOB_FAILURE,
       status: Status.ERROR,
       template: (statusId: string, errorMessage: string) => 
-        `Job ${statusId} échoué : ${errorMessage}`
+        `**Job ${statusId} échoué : ${errorMessage}**`
     },
 
     JOB_TIMEOUT: {
       type: ErrorType.JOB_TIMEOUT,
       status: Status.ERROR,
       template: (statusId: string, maxWaitMinutes: number) => 
-        `Job ${statusId} timeout après ${maxWaitMinutes} minutes`
+        `**Job ${statusId} timeout après ${maxWaitMinutes} minutes**`
     },
 
     JOB_UNKNOWN_STATUS: {
       type: ErrorType.JOB_FAILURE,
       status: Status.ERROR,
       template: (statusId: string, status: string) => 
-        `Job ${statusId} statut inconnu : ${status}`
+        `**Job ${statusId} statut inconnu : ${status}**`
     },
 
     BAN_API_ERROR: {
       type: ErrorType.BAN_API_ERROR,
       status: Status.ERROR,
       template: (message: string) => 
-        `API BAN - ${message}`
+        `**API BAN - ${message}**`
     },
 
     BAN_LEGACY_API_ERROR: {
       type: ErrorType.LEGACY_API_ERROR,
       status: Status.ERROR,
       template: (message: string) => 
-        `API BAN legacy - ${message}`
+        `**API BAN legacy - ${message}**`
     },
 
     DUMP_API_ERROR: {
       type: ErrorType.DUMP_API_ERROR,
       status: Status.ERROR,
       template: (operation: string, message: string, url: string) => 
-        `API Dump - ${operation} - ${message} (${url})`
+        `**API Dump - ${operation} - ${message} (${url})**`
     },
 
     DISTRICT_ERROR: {
       type: ErrorType.BAN_API_ERROR,
       status: Status.ERROR,
       template: (districtId: string, cog: string, message: string) => 
-        `Erreur pour le district ${districtId} (cog: ${cog}) : ${message}`
+        `**Erreur pour le district ${districtId} (cog: ${cog}) : ${message}**`
     }
   }
 } as const
 
-// 🏗️ HELPERS UTILITAIRES
+// HELPERS UTILITAIRES
 export const DistrictInfoBuilder = {
   fromDistricts: (districts: any[]) => 
     districts.map(({ id, labels, meta }) => 
