@@ -154,7 +154,7 @@ export const MessageCatalog = {
       type: ErrorType.INVALID_FORMAT,
       status: Status.WARNING,
       template: (cog: string, errorDetails: string) => 
-        `${ICONS.WARNING} Enregistrement de la BAL sans les identifiants....\n${errorDetails}`
+        `${ICONS.WARNING} **Enregistrement de la BAL sans les identifiants**\n${errorDetails}`
     },
 
     DELETION_THRESHOLD_SOON: {

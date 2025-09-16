@@ -135,12 +135,15 @@ async function asyncSendMessageToWebHook(
   }
 }
 
-async function sendWebhook(messageFunc: Function, revision: any, cog: string, districtName?: string | null, districtId?: string | null) {
+async function sendWebhook(messageFunc: Function, revision: any, cog: string, districtName?: string | null, districtId?: string | null ,  explicitStatus?: 'success' | 'error' | 'warning' | 'info') {
   const message = messageFunc();
-  const status = message.startsWith('✅') ? 'success' 
+  // Utiliser le statut explicite s'il est fourni, sinon calculer automatiquement
+  const status = explicitStatus || (
+    message.startsWith('✅') ? 'success' 
     : message.startsWith('ℹ️') ? 'info'
-    : message.startsWith('⚠️') ? 'warning' : 'error';
-  
+    : message.startsWith('⚠️') ? 'warning' 
+    : 'error'
+  );
   await asyncSendMessageToWebHook(message, revision?.id, cog, districtName, districtId, status);
 }
 

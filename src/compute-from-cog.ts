@@ -73,7 +73,7 @@ export const computeFromCog = async (
       const message = MessageCatalog.WARNING.LEGACY_WITH_ERROR.template(cog, errorMessage);
       logger.error(message);
       
-      await sendWebhook(() => message, revision, cog, districtName, districtId);
+      await sendWebhook(() => message, revision, cog, districtName, districtId,MessageCatalog.WARNING.LEGACY_WITH_ERROR.status);
       
       await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
       throw new Error(message);
@@ -82,7 +82,7 @@ export const computeFromCog = async (
       const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
       logger.error(message);
       
-      await sendWebhook(() => message, revision, cog, districtName, districtId);
+      await sendWebhook(() => message, revision, cog, districtName, districtId,MessageCatalog.ERROR.BAL_BLOCKED.status);
       
       throw new Error(message);
     }
@@ -92,7 +92,7 @@ export const computeFromCog = async (
     const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
     logger.info(message);
     
-    await sendWebhook(() => message, revision, cog);
+    await sendWebhook(() => message, revision, cog,MessageCatalog.INFO.NO_BAN_ID.status);
     
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
@@ -145,7 +145,7 @@ export const computeFromCog = async (
           const message = MessageCatalog.INFO.NO_CHANGES.template(id, cog);
           logger.info(message);
           
-          await sendWebhook(() => message, revision, cog, districtName, id);
+          await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.INFO.NO_CHANGES.status);
           
           results.push(message);
         } else {
@@ -171,7 +171,8 @@ export const computeFromCog = async (
       revision,
       cog,
       districtName,
-      id
+      id,
+      MessageCatalog.INFO.PROCESSING_STATISTICS.status
     );
   }
   
@@ -179,7 +180,7 @@ export const computeFromCog = async (
         logger.info(message);
 
 
-        await sendWebhook(() => message, revision, cog, districtName, id);
+        await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.SUCCESS.DISTRICT_PROCESSED.status);
 
       } catch (error) {
         const errorMessage = (error as Error).message;
@@ -197,7 +198,7 @@ export const computeFromCog = async (
           message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
         }
         
-        await sendWebhook(() => message, revision, cog, districtName, id);
+        await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.ERROR.BAL_BLOCKED.status);
         await partialUpdateDistricts([districtUpdate]);
         throw new Error(message);
       }
