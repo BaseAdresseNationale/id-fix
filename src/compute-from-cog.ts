@@ -73,7 +73,7 @@ export const computeFromCog = async (
       const message = MessageCatalog.WARNING.LEGACY_WITH_ERROR.template(cog, errorMessage);
       logger.error(message);
       
-      await sendWebhook(() => message, revision, cog, districtName, districtId,MessageCatalog.WARNING.LEGACY_WITH_ERROR.status);
+      await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.WARNING.LEGACY_WITH_ERROR.status);
       
       await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
       throw new Error(message);
@@ -82,7 +82,7 @@ export const computeFromCog = async (
       const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
       logger.error(message);
       
-      await sendWebhook(() => message, revision, cog, districtName, districtId,MessageCatalog.ERROR.BAL_BLOCKED.status);
+      await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_BLOCKED.status);
       
       throw new Error(message);
     }
@@ -92,7 +92,7 @@ export const computeFromCog = async (
     const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
     logger.info(message);
     
-    await sendWebhook(() => message, revision, cog,MessageCatalog.INFO.NO_BAN_ID.status);
+    await sendWebhook(() => message, revision, cog, MessageCatalog.INFO.NO_BAN_ID.status);
     
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
@@ -131,21 +131,42 @@ export const computeFromCog = async (
       try {
         const result = (await sendBalToBan(bal)) || {};
         
+        // Gérer les erreurs avec distinction entre seuil et autres erreurs
         if (result.hasErrors) {
-          result.errors.forEach(error => {
-            logger.error(`${error.type}: ${error.message}`);
-          });
+          const hasThresholdError = result.errors.some(error => 
+            error.type === 'DELETION_THRESHOLD_EXCEEDED'
+          );
           
-          const errorMessages = result.errors.map(e => e.message).join('\n');
-          throw new Error(errorMessages);
+          if (hasThresholdError) {
+            // Traiter le seuil comme un warning mais continuer
+            const thresholdError = result.errors.find(e => e.type === 'DELETION_THRESHOLD_EXCEEDED');
+            if (thresholdError) {
+              const districtInfo = DistrictInfoBuilder.fromDistricts(districts.filter(d => d.meta?.bal?.idRevision));
+              const warningMessage = MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.template(cog, districtInfo, thresholdError.message);
+              
+              await sendWebhook(() => warningMessage, revision, cog, districtName, id, MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.status);
+            }
+            
+            // Continuer le traitement normal malgré le warning
+          }
+          
+          // Vérifier s'il y a d'autres erreurs vraiment bloquantes
+          const otherErrors = result.errors.filter(error => error.type !== 'DELETION_THRESHOLD_EXCEEDED');
+          if (otherErrors.length > 0) {
+            otherErrors.forEach(error => {
+              logger.error(`${error.type}: ${error.message}`);
+            });
+            
+            const errorMessages = otherErrors.map(e => e.message).join('\n');
+            throw new Error(errorMessages);
+          }
         }
 
         if (!Object.keys(result.data).length) {
-  
           const message = MessageCatalog.INFO.NO_CHANGES.template(id, cog);
           logger.info(message);
           
-          await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.INFO.NO_CHANGES.status);
+          await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.INFO.NO_CHANGES.status);
           
           results.push(message);
         } else {
@@ -158,29 +179,28 @@ export const computeFromCog = async (
         }
 
         await partialUpdateDistricts([districtUpdate]);
-  // NOUVEAU: Envoyer les statistiques via webhook avant le message de succès
-  if (result.statistics && result.statistics.totalChanges >0) {
-    const statisticsMessage = MessageCatalog.INFO.PROCESSING_STATISTICS.template(
-      result.statistics.districtID, 
-      result.statistics.addressStats, 
-      result.statistics.toponymStats
-    );
-    
-    await sendWebhook(
-      () => statisticsMessage,
-      revision,
-      cog,
-      districtName,
-      id,
-      MessageCatalog.INFO.PROCESSING_STATISTICS.status
-    );
-  }
-  
+        
+        // Envoyer les statistiques si disponibles
+        if (result.statistics && result.statistics.totalChanges > 0) {
+          const statisticsMessage = MessageCatalog.INFO.PROCESSING_STATISTICS.template(
+            result.statistics.districtID, 
+            result.statistics.addressStats, 
+            result.statistics.toponymStats
+          );
+          
+          await sendWebhook(
+            () => statisticsMessage,
+            revision,
+            cog,
+            districtName,
+            id,
+            MessageCatalog.INFO.PROCESSING_STATISTICS.status
+          );
+        }
+        
         const message = MessageCatalog.SUCCESS.DISTRICT_PROCESSED.template(id, cog);
         logger.info(message);
-
-
-        await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.SUCCESS.DISTRICT_PROCESSED.status);
+        await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.SUCCESS.DISTRICT_PROCESSED.status);
 
       } catch (error) {
         const errorMessage = (error as Error).message;
@@ -188,18 +208,11 @@ export const computeFromCog = async (
         logger.error(errorMessage);
         results.push(MessageCatalog.ERROR.DISTRICT_ERROR.template(id, cog, errorMessage));
         
-        let message;
+        // Autres erreurs vraiment bloquantes
+        const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+        const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
+        await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.ERROR.BAL_BLOCKED.status);
         
-        if (errorMessage.includes('Deletion threshold exceeded') || errorMessage.includes('Seuil de suppression dépassé')) {
-          const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
-          message = MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.template(cog, districtInfo, errorMessage);
-        } else {
-          const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
-          message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
-        }
-        
-        await sendWebhook(() => message, revision, cog, districtName, id,MessageCatalog.ERROR.BAL_BLOCKED.status);
-        await partialUpdateDistricts([districtUpdate]);
         throw new Error(message);
       }
     }

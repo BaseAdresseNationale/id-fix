@@ -53,31 +53,26 @@ async function checkSingleJob(statusID: string, maxWaitMinutes: number = 100): P
 
 async function checkAllJobs(responseData: any, id: string): Promise<void> {
   const statusIDs: string[] = [];
-  
-  if (responseData.addresses?.add) {
-    responseData.addresses.add.forEach((item: any) => {
-      if (item.response?.statusID) {
-        statusIDs.push(item.response.statusID);
+  const DATA_TYPES = ['addresses', 'commonToponyms'];
+  const ACTION_TYPES = ['add', 'update', 'delete'];
+
+  // Parcourir tous les types de données et toutes les actions
+  DATA_TYPES.forEach(dataType => {
+    ACTION_TYPES.forEach(actionType => {
+      if (responseData[dataType]?.[actionType]) {
+        responseData[dataType][actionType].forEach((item: any) => {
+          if (item.response?.statusID) {
+            statusIDs.push(item.response.statusID);
+          }
+        });
       }
     });
-  }
-  
-  if (responseData.commonToponyms?.add) {
-    responseData.commonToponyms.add.forEach((item: any) => {
-      if (item.response?.statusID) {
-        statusIDs.push(item.response.statusID);
-      }
-    });
-  }
-  
+  });
+
   if (statusIDs.length === 0) {
     return;
   }
-  
-  logger.info(MessageCatalog.INFO.CHECKING_JOBS.template(statusIDs.length, id));
-  
+
   await Promise.all(statusIDs.map(statusID => checkSingleJob(statusID)));
-  
-  logger.info(MessageCatalog.SUCCESS.ALL_JOBS_COMPLETED.template(statusIDs.length, id));
 }
 export default checkAllJobs
