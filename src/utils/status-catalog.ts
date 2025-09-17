@@ -24,6 +24,7 @@ export enum ErrorType {
   // Système
   NO_DISTRICT_FOUND = 'NO_DISTRICT_FOUND',
   WHITELIST = 'WHITELIST',
+   ALREADY_EXISTS = 'ALREADY_EXISTS',
 }
 
 // STATUT WEBHOOK
@@ -161,7 +162,7 @@ export const MessageCatalog = {
       type: ErrorType.DELETION_THRESHOLD,
       status: Status.WARNING,
       template: (cog: string, districtInfo: string, errorMessage: string) => 
-        `${districtInfo}\n${ICONS.WARNING} ** La BAL ${cog} sera bientôt bloquée -- Changements d'ID inexpliqués détectés **\n${errorMessage}`
+        `${districtInfo}\n${ICONS.WARNING} ** La BAL ${cog} sera bientôt bloquée -- Changements d'ID détectés **\n${errorMessage}`
     }
   },
 
@@ -175,10 +176,10 @@ export const MessageCatalog = {
     },
 
     BAL_BLOCKED: {
-      type: ErrorType.UNAUTHORIZED,
+      type: ErrorType.ALREADY_EXISTS,
       status: Status.ERROR,
       template: (cog: string, districtInfo: string, errorMessage: string) => 
-        `${districtInfo}\n${ICONS.BLOCKED} BAL ${cog} bloquée - District(s) déjà dans la nouvelle DB\n${errorMessage}`
+        `${districtInfo}\n${ICONS.BLOCKED} BAL ${cog} bloquée - **Le district est enregistré dans le nouveau système avec identifiants**\n${errorMessage}`
     },
 
     DELETION_THRESHOLD_EXCEEDED: {
@@ -192,14 +193,14 @@ export const MessageCatalog = {
       type: ErrorType.UNAUTHORIZED,
       status: Status.ERROR,
       template: (districtId: string, unauthorizedAddresses: string[], unauthorizedToponyms: string[]) => 
-        `**Opération non autorisée - BAL du district ID : \`${districtId}\` - Les éléments font partie d'un district différent **: Adresses non autorisées : \`${unauthorizedAddresses.join(', ')}\` - Toponymes non autorisés : \`${unauthorizedToponyms.join(', ')}\``
+        `**Opération non autorisée -Les éléments font partie d'un district différent : Adresses non autorisées : \`${unauthorizedAddresses.join(', ')}\` - Toponymes non autorisés : \`${unauthorizedToponyms.join(', ')}\`- BAL du district ID : \`${districtId}\`**`
     },
 
     MISSING_RIGHTS: {
       type: ErrorType.MISSING_RIGHTS,
       status: Status.ERROR,
       template: (unauthorizedIds: string[]) => 
-        `**Droits manquants \nLes districtIDs ${unauthorizedIds.join(', ')} ne font pas partie des districts autorisés à être mis à jour**`
+        `**Droits manquants, Les districtIDs ${unauthorizedIds.join(', ')} ne font pas partie des districts autorisés à être mis à jour**`
     },
 
     MISSING_DISTRICT_ID: {

@@ -5,7 +5,6 @@ const { MESSAGE_WEBHOOK_URL, BAN_API_URL, BAN_API_TOKEN } = process.env
 interface BasicRevisionData {
   message: string
   timestamp: string
-  source: 'id-fix-bot'
   cog?: string
   districtName?: string | null
   districtId?: string | null
@@ -22,7 +21,6 @@ function extractBasicInfo(
   const data: BasicRevisionData = {
     message,
     timestamp: new Date().toISOString(),
-    source: 'id-fix-bot'
   }
 
   // Utiliser les paramètres fournis en priorité
@@ -63,20 +61,20 @@ async function sendToDatabase(basicData: BasicRevisionData, revisionId: string) 
   }
   
   try {
-    const payload = {
+    const payload: any = {
       revisionId,
       cog: basicData.cog || '00000',
-      districtName: basicData.districtName || null,
-      districtId: basicData.districtId || null,
       status: basicData.status || 'info',
       message: basicData.message
     }
+    if (basicData.districtName) payload.districtName = basicData.districtName
+    if (basicData.districtId) payload.districtId = basicData.districtId
     
     const response = await fetch(`${BAN_API_URL}/alerts/revisions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Token ${BAN_API_TOKEN}` // Changé de "Bearer" vers "Token"
+        'Authorization': `Token ${BAN_API_TOKEN}` 
       },
       body: JSON.stringify(payload)
     })
