@@ -28,8 +28,6 @@ router.get(
     } catch (error) {
       const { message } = error as Error;
       const finalMessage = `Error computing cog \`${cog}\` :\n ${message}`;
-      logger.error(finalMessage);
-      await asyncSendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
         status: "error",

@@ -1,4 +1,5 @@
 import HandleHTTPResponse from '../utils/http-request-handler.js';
+import { MessageCatalog } from '../utils/status-catalog.js';
 
 const API_DEPOT_URL = process.env.API_DEPOT_URL || '';
 
@@ -15,18 +16,23 @@ const getRevisionFromDistrictCOG = async (cog: string) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Dump API - Get Revision From District COG - ${message} (${url})`);
+    throw new Error(MessageCatalog.ERROR.DUMP_API_ERROR.template('Get Revision From District COG', message, url));
   }
 };
 
 const getRevisionFileText = async (revisionId: string) => {
   const url = `${API_DEPOT_URL}/revisions/${revisionId}/files/bal/download`;
   try {
-    console.log(revisionId)
     const response = await fetch(url);
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Dump API - Get Revision File Text - ${message} (${url})`);
+    throw new Error(MessageCatalog.ERROR.DUMP_API_ERROR.template('Get Revision File Text', message, url));
   }
+};
+
+// Export de la fonction pour récupérer seulement l'ID de révision
+export const getRevisionId = async (cog: string) => {
+  const revision = await getRevisionFromDistrictCOG(cog);
+  return revision.id;
 };

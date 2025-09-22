@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import type { Bal } from '../types/bal-types.js';
 import type {
   BanIDWithHash,
@@ -19,6 +20,8 @@ import {
 } from '../ban-api/index.js';
 import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
+import { MessageCatalog } from '../utils/status-catalog.js';
+
 
 const CHUNK_SIZE = 1000;
 const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
@@ -105,24 +108,23 @@ if (shouldApplyThreshold)
       errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
     }
 
-    const errorMessage = [
-      `**Deletion threshold exceeded**`,
-      `BAL from district ID: \`${districtID}\``,
-      `Threshold: ${DELETION_THRESHOLD * 100}%`,
-      `Exceeded: ${errorDetails.join(', ')}`
-    ].join('\n');
+      const errorMessage = MessageCatalog.ERROR.DELETION_THRESHOLD_EXCEEDED.template(
+        districtID, 
+        DELETION_THRESHOLD * 100, 
+        `Exceeded: ${errorDetails.join(', ')}`
+      );
+      
       errors.push({
-      type: 'DELETION_THRESHOLD_EXCEEDED',
-      message: errorMessage
+        type: 'DELETION_THRESHOLD_EXCEEDED',
+        message: errorMessage
       });
+    }
   }
-}
-// Check for unauthorized items (existing code)
-if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
-  throw new Error(
-    `Unauthorized operation - BAL from district ID : \`${districtID}\` - Items are part of a different district : Unauthorized addresses : \`${unauthorizedAddresses.join(', ')}\` - Unauthorized toponyms : \`${unauthorizedToponyms.join(', ')}\``
-  );
-}
+  
+  // Check for unauthorized items
+  if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
+    throw new Error(MessageCatalog.ERROR.UNAUTHORIZED_OPERATION.template(districtID, unauthorizedAddresses, unauthorizedToponyms));
+  }
 
   // Sort Addresses (Add/Update/Delete)
   const banAddressesToAdd = [];
@@ -156,6 +158,20 @@ if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
     banToponymsToUpdate.push(commonToponyms[toponymId]);
   }
   const banToponymsIdsToDelete = toponymsIdsReport.idsToDelete;
+
+const toponymStats = {
+  toAdd: banToponymsToAdd.length,
+  toUpdate: banToponymsToUpdate.length,
+  toDelete: banToponymsIdsToDelete.length
+};
+const addressStats = {
+  toAdd: banAddressesToAdd.length,
+  toUpdate: banAddressesToUpdate.length,
+  toDelete: banAddressesIdsToDelete.length
+};
+
+  const totalChanges = addressStats.toAdd + addressStats.toUpdate + addressStats.toDelete + 
+                      toponymStats.toAdd + toponymStats.toUpdate + toponymStats.toDelete;
 
   // Split common toponyms arrays in chunks
   const banToponymsToAddChunks = formatToChunks(banToponymsToAdd, CHUNK_SIZE);
@@ -212,9 +228,15 @@ if (unauthorizedAddresses.length > 0 || unauthorizedToponyms.length > 0) {
   const allReponses = [responseAddresses, responseCommonToponyms];
   const result = formatResponse(allReponses);
   // Return data AND errors
-  return {
-    data: result,
-    errors: errors,
-    hasErrors: errors.length > 0
-  };
+return {
+  data: result,
+  errors: errors,
+  hasErrors: errors.length > 0,
+  statistics: {
+    totalChanges,
+    districtID,
+    addressStats,
+    toponymStats
+  }
+};
 };
