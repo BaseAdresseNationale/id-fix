@@ -47,6 +47,33 @@ export const computeFromCog = async (
 
   // Convert csv to json
   const bal = csvBalToJsonBal(balCsvData);
+  // 1. Récupérer toutes les dates valides
+const datesValides = bal
+  .filter(adresse => adresse.date_der_maj instanceof Date && !isNaN(adresse.date_der_maj.getTime()))
+  .map(adresse => adresse.date_der_maj.toISOString().split('T')[0]); // Format YYYY-MM-DD
+
+// 2. Compter les occurrences de chaque date - AVEC TYPAGE
+const compteurDates: { [key: string]: number } = {};
+datesValides.forEach(date => {
+  compteurDates[date] = (compteurDates[date] || 0) + 1;
+});
+
+// 3. Trouver la date la plus fréquente
+const dateLaPlusFrequente = Object.keys(compteurDates).reduce((a, b) => 
+  compteurDates[a] > compteurDates[b] ? a : b
+);
+
+console.log('Date la plus fréquente:', dateLaPlusFrequente, '(', compteurDates[dateLaPlusFrequente], 'occurrences)');
+
+// 4. CORRIGER LE BAL
+bal.forEach(adresse => {
+  if (!(adresse.date_der_maj instanceof Date) || isNaN(adresse.date_der_maj.getTime())) {
+    adresse.date_der_maj = new Date(dateLaPlusFrequente + 'T00:00:00.000Z');
+    console.log(`Corrigé: ${adresse.cle_interop} -> ${dateLaPlusFrequente}`);
+  }
+});
+
+console.log('BAL mis à jour avec les dates corrigées');
 
   // Detect BAL version
   const version = getBalVersion(bal);
