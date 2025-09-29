@@ -40,6 +40,16 @@ export const computeFromCog = async (
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
+  const getDistrictInfos = (districts: BanDistrict[]) => {
+    const districtsOnNewDB = districts.filter(d => d.meta?.bal?.idRevision);
+    const districtName = districtsOnNewDB[0]?.labels[0].value || districts[0]?.labels[0].value || null;
+    const districtId = districtsOnNewDB[0]?.id || districts[0]?.id || null;
+    
+    return { districtsOnNewDB, districtName, districtId };
+  };
+
+
+
   logger.info(MessageCatalog.INFO.WHITELISTED.template(cog));
 
   // Get BAL text data from dump-api
@@ -58,16 +68,13 @@ export const computeFromCog = async (
   }
 
   const districtIDsFromDB = districts.map((district) => district.id);
-
+  const { districtsOnNewDB, districtName, districtId } = getDistrictInfos(districts);
   // Check if bal is using BanID
   let useBanId = false;
   try {
     useBanId = await validator(districtIDsFromDB, bal, version, { cog });
   } catch (error: unknown) {
-    const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
     const errorMessage = (error instanceof Error) ? error.message : String(error);
-    const districtName = districtsOnNewDB[0]?.labels[0].value || districts[0]?.labels[0].value || null;
-    const districtId = districtsOnNewDB[0]?.id || districts[0]?.id || null;
     
     if (!districtsOnNewDB.length) {
       const message = MessageCatalog.WARNING.LEGACY_WITH_ERROR.template(cog, errorMessage);
@@ -88,13 +95,24 @@ export const computeFromCog = async (
     }
   }
 
-  if (!useBanId) {
+if (!useBanId) {
+  if (!districtsOnNewDB.length) {
     const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
     logger.info(message);
     
-    await sendWebhook(() => message, revision, cog, MessageCatalog.INFO.NO_BAN_ID.status);
+    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.INFO.NO_BAN_ID.status);
     
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
+  } else {
+    // District existe dans la nouvelle DB mais n'utilise pas de BAN ID -> bloquer
+    const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+    const message = MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.template(cog, districtInfo);
+    logger.error(message);
+    
+    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.status);
+    
+    throw new Error(message);
+  }
   } else {
     // Split BAL by district ID to handle multiple districts in a BAL
     const splitBalPerDistictID = bal.reduce(
@@ -171,7 +189,6 @@ export const computeFromCog = async (
           results.push(message);
         } else {
           const responseBody = JSON.stringify(result.data);
-          console.log(responseBody)
           logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
           
           await checkAllJobs(result.data, id);
