@@ -24,7 +24,8 @@ import { MessageCatalog } from '../utils/status-catalog.js';
 
 
 const CHUNK_SIZE = 1000;
-const DELETION_THRESHOLD  = Number(process.env.DELETION_THRESHOLD) || 0.25;
+const DELETION_THRESHOLD = Number(process.env.DELETION_THRESHOLD) || 0.25;
+const DELETION_CRITICAL_THRESHOLD = Number(process.env.DELETION_CRITICAL_THRESHOLD) || 0.80;
 export const sendBalToBan = async (bal: Bal) => {
 
   const errors = [];
@@ -98,6 +99,7 @@ if (shouldApplyThreshold)
   const toponymsExceedThreshold = toponymDeletionRate > DELETION_THRESHOLD;
 
   if (addressesExceedThreshold || toponymsExceedThreshold) {
+    const maxRate = Math.max(addressDeletionRate, toponymDeletionRate);
     const errorDetails = [];
     
     if (addressesExceedThreshold) {
@@ -108,12 +110,18 @@ if (shouldApplyThreshold)
       errorDetails.push(`Toponyms: ${(toponymDeletionRate * 100).toFixed(1)}% (${deletedToponyms.length}/${commonToponymCount})`);
     }
 
+      const thresholdToDisplay = maxRate > DELETION_CRITICAL_THRESHOLD ? DELETION_CRITICAL_THRESHOLD * 100 : DELETION_THRESHOLD * 100;
+      
       const errorMessage = MessageCatalog.ERROR.DELETION_THRESHOLD_EXCEEDED.template(
-        districtID, 
-        DELETION_THRESHOLD * 100, 
+        districtID,
+        thresholdToDisplay,
         `Exceeded: ${errorDetails.join(', ')}`
       );
-      
+
+      // Si > 80%, throw direct
+      if (maxRate > DELETION_CRITICAL_THRESHOLD) {
+        throw new Error(errorMessage);
+      }
       errors.push({
         type: 'DELETION_THRESHOLD_EXCEEDED',
         message: errorMessage
