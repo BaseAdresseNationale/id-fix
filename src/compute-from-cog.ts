@@ -97,7 +97,6 @@ export const computeFromCog = async (
 
 if (!useBanId) {
   if (!districtsOnNewDB.length) {
-    // Pas de district dans la nouvelle DB -> envoyer vers legacy
     const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
     logger.info(message);
     
@@ -107,10 +106,10 @@ if (!useBanId) {
   } else {
     // District existe dans la nouvelle DB mais n'utilise pas de BAN ID -> bloquer
     const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
-    const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, "");
+    const message = MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.template(cog, districtInfo);
     logger.error(message);
     
-    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_BLOCKED.status);
+    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.status);
     
     throw new Error(message);
   }
@@ -190,7 +189,6 @@ if (!useBanId) {
           results.push(message);
         } else {
           const responseBody = JSON.stringify(result.data);
-          console.log(responseBody)
           logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
           
           await checkAllJobs(result.data, id);

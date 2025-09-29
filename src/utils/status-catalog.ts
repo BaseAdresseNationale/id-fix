@@ -181,6 +181,13 @@ export const MessageCatalog = {
       template: (cog: string, districtInfo: string, errorMessage: string) => 
         `${districtInfo}\n${ICONS.BLOCKED} BAL ${cog} bloquée - **Le district est enregistré dans le nouveau système avec identifiants**\n${errorMessage}`
     },
+  
+    BAL_NO_BAN_ID_DISTRICT_EXISTS: {
+      type: ErrorType.INVALID_FORMAT,
+      status: Status.ERROR,
+      template: (cog: string, districtInfo: string) => 
+        `${districtInfo}\n${ICONS.BLOCKED} BAL ${cog} bloquée - **Le district est enregistré dans le nouveau système avec identifiants \n districtID manquant**`
+    },
 
     DELETION_THRESHOLD_EXCEEDED: {
       type: ErrorType.DELETION_THRESHOLD,
