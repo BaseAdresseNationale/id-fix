@@ -24,7 +24,8 @@ import checkAllJobs  from './utils/check-status-jobs.js'
 
 export const computeFromCog = async (
   cog: string,
-  forceLegacyCompose: string
+  forceLegacyCompose: string,
+  force_seuil?: boolean
 ) => {
   // Build isDepAccepted
   let numDep = cog.substring(0, 2);
@@ -147,7 +148,7 @@ if (!useBanId) {
       };
       
       try {
-        const result = (await sendBalToBan(bal)) || {};
+        const result = (await sendBalToBan(bal, force_seuil ?? false))  || {};
         
         // Gérer les erreurs avec distinction entre seuil et autres erreurs
         if (result.hasErrors) {

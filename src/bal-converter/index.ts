@@ -26,8 +26,7 @@ import { MessageCatalog } from '../utils/status-catalog.js';
 const CHUNK_SIZE = 1000;
 const DELETION_THRESHOLD = Number(process.env.DELETION_THRESHOLD) || 0.25;
 const DELETION_CRITICAL_THRESHOLD = Number(process.env.DELETION_CRITICAL_THRESHOLD) || 0.80;
-export const sendBalToBan = async (bal: Bal) => {
-
+export const sendBalToBan = async (bal: Bal,  force_seuil: Boolean= false) => {
   const errors = [];
   // Fetch District configurations
   const districtIDs = bal.map((address) => address.id_ban_commune as BanDistrictID);
@@ -119,7 +118,7 @@ if (shouldApplyThreshold)
       );
 
       // Si > 80%, throw direct
-      if (maxRate > DELETION_CRITICAL_THRESHOLD) {
+      if (!force_seuil && maxRate > DELETION_CRITICAL_THRESHOLD) {
         throw new Error(errorMessage);
       }
       errors.push({
