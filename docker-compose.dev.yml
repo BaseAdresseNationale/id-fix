@@ -1,0 +1,16 @@
+services:
+  api:
+    volumes:
+      - ../proxy:/usr/src/app/proxy
+    entrypoint: ["sh", "-c", "npm run dev $NODE_OPTIONS"]
+    build:
+      args:
+        http_proxy: http://proxy.ign.fr:3128
+        https_proxy: http://proxy.ign.fr:3128
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - HTTP_PROXY=${HTTP_PROXY}
+      - HTTPS_PROXY=${HTTPS_PROXY}
+      - NODE_OPTIONS=${NODE_OPTIONS}
+
