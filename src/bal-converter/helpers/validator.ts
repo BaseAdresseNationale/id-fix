@@ -30,7 +30,9 @@ const validator = async (
       if (balAdresse.numero !== Number(IS_TOPO_NB) && !addressID) {
         throw new Error(MessageCatalog.ERROR.MISSING_ADDRESS_ID.template(districtID, cog, balAdresse));
       }
-
+      if (balAdresse.numero == Number(IS_TOPO_NB) && addressID) {
+        throw new Error(MessageCatalog.ERROR.LIEU_DIT_WITH_ADDRESS_ID.template(districtID, cog, balAdresse));
+      }
       balAdresseUseBanId++
       if (!districtIDsExtracted.includes(districtID)) {
         districtIDsExtracted.push(districtID);
