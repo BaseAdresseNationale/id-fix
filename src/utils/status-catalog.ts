@@ -238,6 +238,13 @@ export const MessageCatalog = {
         `**IDs manquants** \nBAL du cog : \`${cog}\` \nCertaines lignes d'adresse BAL utilisent des BanIDs et d'autres non`
     },
 
+    LIEU_DIT_WITH_ADDRESS_ID: {
+      type: ErrorType.INVALID_FORMAT,
+      status: Status.ERROR,
+      template: (districtId: string, cog: string, balAdresse: any) => 
+        `**Lieu-dit avec addressID** \nBAL du district ID : \`${districtId}\` (cog : \`${cog}\`) \nLes lieux-dits (numero = 99999) ne doivent pas avoir d'addressID \nDétail de la ligne d'adresse BAL : \n\`\`\`JSON\n${JSON.stringify(balAdresse, null, 2)}\n\`\`\``
+    },
+
     JOB_FAILED: {
       type: ErrorType.JOB_FAILURE,
       status: Status.ERROR,
