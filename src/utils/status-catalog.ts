@@ -163,6 +163,20 @@ export const MessageCatalog = {
       status: Status.WARNING,
       template: (cog: string, districtInfo: string, errorMessage: string) => 
         `${districtInfo}\n${ICONS.WARNING} ** La BAL ${cog} sera bientôt bloquée -- Changements d'ID détectés **\n${errorMessage}`
+    },
+
+    LIEU_DIT_WITH_ADDRESS_ID: {
+      type: ErrorType.INVALID_FORMAT,
+      status: Status.WARNING,
+      template: (districtId: string, cog: string, balAdresse: any) => 
+        `${ICONS.WARNING} **Lieu-dit avec addressID** \nBAL du district ID : \`${districtId}\` (cog : \`${cog}\`) \nLes lieux-dits (numero = 99999) ne devraient pas avoir d'addressID \nDétail de la ligne d'adresse BAL : \n\`\`\`JSON\n${JSON.stringify(balAdresse, null, 2)}\n\`\`\``
+    },
+
+    LIEU_DIT_CONFLICT_MAIN_TOPO_ID: {
+      type: ErrorType.INVALID_FORMAT,
+      status: Status.WARNING,
+      template: (districtId: string, cog: string, mainTopoID: string, lieuDitAdresse: any, addressWithNumber: any) => 
+        `${ICONS.WARNING} **Conflit mainTopoID avec lieu-dit** \nBAL du district ID : \`${districtId}\` (cog : \`${cog}\`) \nLe mainTopoID \`${mainTopoID}\` est utilisé à la fois par un lieu-dit (numero = 99999) et une adresse avec numéro. Le lieu-dit sera exclu et seule l'adresse avec numéro sera conservée (considérée comme voie).\nLieu-dit : \n\`\`\`JSON\n${JSON.stringify(lieuDitAdresse, null, 2)}\n\`\`\`\nAdresse avec numéro conservée : \n\`\`\`JSON\n${JSON.stringify(addressWithNumber, null, 2)}\n\`\`\``
     }
   },
 

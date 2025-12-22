@@ -11,11 +11,13 @@ import {
   validator,
   csvBalToJsonBal,
   getBalVersion,
+  digestIDsFromBalAddr,
 } from './bal-converter/helpers/index.js';
+import { numberForTopo as IS_TOPO_NB } from './bal-converter/bal-converter.config.js';
 
 import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
-import { BalAdresse } from "./types/bal-types.js";
+import { BalAdresse, Bal } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
 import { sendWebhook } from './utils/send-message-to-hook.js';
 import { MessageCatalog, DistrictInfoBuilder } from './utils/status-catalog.js';
@@ -70,6 +72,70 @@ export const computeFromCog = async (
 
   const districtIDsFromDB = districts.map((district) => district.id);
   const { districtsOnNewDB, districtName, districtId } = getDistrictInfos(districts);
+  
+  // Fonction helper pour filtrer la BAL en excluant les lieux-dits en conflit de mainTopoID (une seule fois)
+  const filterConflictedLieuxDits = (balToFilter: Bal): { filteredBal: Bal; warnings: Array<{ districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' }> } => {
+    const mainTopoIDMap = new Map<string, { lieuDit?: BalAdresse; addresses: BalAdresse[] }>();
+    const warnings: Array<{ districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' }> = [];
+    
+    // Compter les lieux-dits avec addressID par district (pour regrouper les warnings)
+    const lieuxDitsWithAddressIDByDistrict = new Map<string, number>();
+    
+    // Construire la map des mainTopoID (le warning est déjà loggé dans validator)
+    for (const balAdresse of balToFilter) {
+      const { mainTopoID, districtID, addressID } = digestIDsFromBalAddr(balAdresse, version);
+      
+      // Compter les lieux-dits avec addressID par district (on ne les exclut pas, juste warning)
+      if (balAdresse.numero === Number(IS_TOPO_NB) && addressID) {
+        const distID = districtID || 'unknown';
+        lieuxDitsWithAddressIDByDistrict.set(distID, (lieuxDitsWithAddressIDByDistrict.get(distID) || 0) + 1);
+      }
+      
+      if (mainTopoID) {
+        if (!mainTopoIDMap.has(mainTopoID)) {
+          mainTopoIDMap.set(mainTopoID, { addresses: [] });
+        }
+        const entry = mainTopoIDMap.get(mainTopoID)!;
+        if (balAdresse.numero === Number(IS_TOPO_NB)) {
+          entry.lieuDit = balAdresse;
+        } else if (balAdresse.numero !== undefined && balAdresse.numero !== Number(IS_TOPO_NB)) {
+          entry.addresses.push(balAdresse);
+        }
+      }
+    }
+    
+    // Identifier les lieux-dits à exclure et compter les conflits par district
+    const lieuxDitsToExclude = new Set<BalAdresse>();
+    const conflitsByDistrict = new Map<string, number>();
+    
+    for (const [, entry] of mainTopoIDMap.entries()) {
+      if (entry.lieuDit && entry.addresses.length > 0) {
+        // Conflit détecté : exclure le lieu-dit
+        const districtID = digestIDsFromBalAddr(entry.lieuDit, version).districtID || 'unknown';
+        conflitsByDistrict.set(districtID, (conflitsByDistrict.get(districtID) || 0) + 1);
+        
+        lieuxDitsToExclude.add(entry.lieuDit);
+      }
+    }
+    
+    // Créer un warning regroupé par district pour les conflits
+    for (const [districtID, count] of conflitsByDistrict.entries()) {
+      const warningMessage = `⚠️ **Conflit mainTopoID avec lieu-dit** \nBAL du district ID : \`${districtID}\` (cog : \`${cog}\`) \n${count} conflit(s) de mainTopoID détecté(s). Les lieux-dits en conflit seront exclus et seules les adresses avec numéro seront conservées (considérées comme voies).`;
+      logger.warn(warningMessage);
+      warnings.push({ districtID, message: warningMessage, type: 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' });
+    }
+    
+    // Créer un warning regroupé par district pour les lieux-dits avec addressID
+    for (const [districtID, count] of lieuxDitsWithAddressIDByDistrict.entries()) {
+      const warningMessage = `${MessageCatalog.WARNING.LIEU_DIT_WITH_ADDRESS_ID.template(districtID, cog, {}).split('\n')[0]}\n${count} lieu(x)-dit(s) avec addressID détecté(s) dans le district \`${districtID}\` (cog : \`${cog}\`)`;
+      warnings.push({ districtID, message: warningMessage, type: 'LIEU_DIT_WITH_ADDRESS_ID' });
+    }
+    
+    // Filtrer la BAL : exclure uniquement les lieux-dits en conflit de mainTopoID
+    const filteredBal = balToFilter.filter((adresse: BalAdresse) => !lieuxDitsToExclude.has(adresse));
+    return { filteredBal, warnings };
+  };
+  
   // Check if bal is using BanID
   let useBanId = false;
   try {
@@ -115,8 +181,11 @@ if (!useBanId) {
     throw new Error(message);
   }
   } else {
-    // Split BAL by district ID to handle multiple districts in a BAL
-    const splitBalPerDistictID = bal.reduce(
+    // Filtrer la BAL pour exclure les lieux-dits en conflit (une seule fois)
+    const { filteredBal, warnings: filteredWarnings } = filterConflictedLieuxDits(bal);
+    
+    // Split BAL by district ID to handle multiple districts in a BAL (utiliser filteredBal)
+    const splitBalPerDistictID = filteredBal.reduce(
       (acc: { [key: string]: BalAdresse[] }, balAdresse) => {
         if (balAdresse.id_ban_commune) {
           if (!acc[balAdresse.id_ban_commune]) {
@@ -132,8 +201,18 @@ if (!useBanId) {
     logger.info(MessageCatalog.INFO.USES_BAN_ID.template(cog));
     const results = [];
     
+    // Envoyer les webhooks avec les bonnes infos de district
+    for (const warning of filteredWarnings) {
+      const district = districts.find(d => d.id === warning.districtID);
+      const districtNameForWebhook = district?.labels[0].value || null;
+      const status = warning.type === 'LIEU_DIT_WITH_ADDRESS_ID' 
+        ? MessageCatalog.WARNING.LIEU_DIT_WITH_ADDRESS_ID.status
+        : MessageCatalog.WARNING.LIEU_DIT_CONFLICT_MAIN_TOPO_ID.status;
+      await sendWebhook(() => warning.message, revision, cog, districtNameForWebhook || districtName, warning.districtID, status);
+    }
+    
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
-      const [id, bal] = Object.entries(splitBalPerDistictID)[i];
+      const [id, balForDistrict] = Object.entries(splitBalPerDistictID)[i];
       const district = districts.find(d => d.id === id);
       const districtName = district?.labels[0].value || null;
       
@@ -148,7 +227,7 @@ if (!useBanId) {
       };
       
       try {
-        const result = (await sendBalToBan(bal, force_seuil ?? false))  || {};
+        const result = (await sendBalToBan(balForDistrict, force_seuil ?? false))  || {};
         
         // Gérer les erreurs avec distinction entre seuil et autres erreurs
         if (result.hasErrors) {
