@@ -2,6 +2,7 @@ import { Bal, BalVersion } from '../../types/bal-types';
 import { digestIDsFromBalAddr } from './index.js';
 import { numberForTopo as IS_TOPO_NB } from '../bal-converter.config.js';
 import { MessageCatalog } from '../../utils/status-catalog.js';
+import { logger } from '../../utils/logger.js';
 const validator = async (
   districtIDsFromDB: string[],
   bal: Bal,
@@ -30,9 +31,7 @@ const validator = async (
       if (balAdresse.numero !== Number(IS_TOPO_NB) && !addressID) {
         throw new Error(MessageCatalog.ERROR.MISSING_ADDRESS_ID.template(districtID, cog, balAdresse));
       }
-      if (balAdresse.numero == Number(IS_TOPO_NB) && addressID) {
-        throw new Error(MessageCatalog.ERROR.LIEU_DIT_WITH_ADDRESS_ID.template(districtID, cog, balAdresse));
-      }
+      
       balAdresseUseBanId++
       if (!districtIDsExtracted.includes(districtID)) {
         districtIDsExtracted.push(districtID);
