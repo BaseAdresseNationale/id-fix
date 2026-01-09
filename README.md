@@ -41,6 +41,11 @@ Instructions on how to install the api (dev mode) :
 docker-compose up --build -d
 ```
 
+If you use a proxy, start the docker container with this command (also available in the dev.sh script)
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+
 ### Local
 
 #### Prerequisites
