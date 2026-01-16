@@ -10,6 +10,7 @@ import type {
 import HandleHTTPResponse from '../utils/http-request-handler.js';
 
 import type { BanAddresses, BanCommonToponyms } from '../types/ban-types.d.ts';
+import { MessageCatalog } from '../utils/status-catalog.js';
 
 const BAN_API_TOKEN = process.env.BAN_API_TOKEN || '';
 const BAN_API_URL = process.env.BAN_API_URL || '';
@@ -38,7 +39,7 @@ export const sendBalToLegacyCompose = async (
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban legacy API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_LEGACY_API_ERROR.template(message));
   }
 };
 
@@ -58,7 +59,7 @@ export const getAddressIdsReport = async (
     return responseJson?.response;
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -73,7 +74,7 @@ export const createAddresses = async (addresses: BanAddresses) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -88,7 +89,7 @@ export const updateAddresses = async (addresses: BanAddresses) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -103,7 +104,7 @@ export const deleteAddresses = async (ids: BanAddressID[]) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -123,7 +124,7 @@ export const getCommonToponymIdsReport = async (
     return responseJson?.response;
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -141,7 +142,7 @@ export const createCommonToponyms = async (
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -158,7 +159,7 @@ export const updateCommonToponyms = async (
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -173,7 +174,7 @@ export const deleteCommonToponyms = async (ids: BanCommonTopoID[]) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -195,7 +196,7 @@ export const getDistricts = async (ids: BanDistrictID[]) => {
     return remapedDistricts;
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -209,7 +210,7 @@ export const getDistrictFromCOG = async (cog: string) => {
     return responseJson?.response;
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
 
@@ -224,10 +225,9 @@ export const partialUpdateDistricts = async (partialDistricts: any) => {
     return await HandleHTTPResponse(response);
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };
-
 
 export const getDistrictCountsFromID = async (districtID: string) => {
   try {
@@ -238,6 +238,6 @@ export const getDistrictCountsFromID = async (districtID: string) => {
     return responseJson?.response;
   } catch (error) {
     const { message } = error as Error;
-    throw new Error(`Ban API - ${message}`);
+    throw new Error(MessageCatalog.ERROR.BAN_API_ERROR.template(message));
   }
 };

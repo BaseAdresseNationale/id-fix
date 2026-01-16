@@ -11,19 +11,24 @@ import {
   validator,
   csvBalToJsonBal,
   getBalVersion,
+  digestIDsFromBalAddr,
 } from './bal-converter/helpers/index.js';
+import { numberForTopo as IS_TOPO_NB } from './bal-converter/bal-converter.config.js';
 
 import acceptedCogList from "./accepted-cog-list.json" with { type: "json" };
 import acceptedDepList from "./accepted-dep-list.json" with { type: "json" };
-import { BalAdresse } from "./types/bal-types.js";
+import { BalAdresse, Bal } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
+import { sendWebhook } from './utils/send-message-to-hook.js';
+import { MessageCatalog, DistrictInfoBuilder } from './utils/status-catalog.js';
+import checkAllJobs  from './utils/check-status-jobs.js'
+
 
 export const computeFromCog = async (
   cog: string,
-  forceLegacyCompose: string
+  forceLegacyCompose: string,
+  force_seuil?: boolean
 ) => {
-  // Temporary check
-
   // Build isDepAccepted
   let numDep = cog.substring(0, 2);
   if ((numDep === "97") || (numDep === "98")) {
@@ -34,13 +39,21 @@ export const computeFromCog = async (
   // Check if dep or cog is part of the accepted dep or cog list
   const isCogAccepted = isDepAccepted || acceptedCogList.includes(cog);
   if (!isCogAccepted) {
-    logger.info(
-      `Dep or District cog ${cog} is not part of the whitelist: sending BAL to legacy compose...`
-    );
+    logger.info(MessageCatalog.INFO.NOT_WHITELISTED.template(cog));
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   }
 
-  logger.info(`District cog ${cog} is part of the whitelist.`);
+  const getDistrictInfos = (districts: BanDistrict[]) => {
+    const districtsOnNewDB = districts.filter(d => d.meta?.bal?.idRevision);
+    const districtName = districtsOnNewDB[0]?.labels[0].value || districts[0]?.labels[0].value || null;
+    const districtId = districtsOnNewDB[0]?.id || districts[0]?.id || null;
+    
+    return { districtsOnNewDB, districtName, districtId };
+  };
+
+
+
+  logger.info(MessageCatalog.INFO.WHITELISTED.template(cog));
 
   // Get BAL text data from dump-api
   const { revision, balTextData: balCsvData } = await getRevisionData(cog);
@@ -50,52 +63,129 @@ export const computeFromCog = async (
 
   // Detect BAL version
   const version = getBalVersion(bal);
-  logger.info(`District cog ${cog} is using BAL version ${version}`);
+  logger.info(MessageCatalog.INFO.BAL_VERSION.template(cog, version));
 
   const districts: BanDistrict[] = await getDistrictFromCOG(cog);
   if (!districts.length) {
-    throw new Error(`No district found with cog ${cog}`);
+    throw new Error(MessageCatalog.ERROR.NO_DISTRICT_FOUND.template(cog));
   }
 
   const districtIDsFromDB = districts.map((district) => district.id);
-
-  // If not, sending process to ban-plateforme legacy API
-  // If the use of IDs is partial, throwing an error
+  const { districtsOnNewDB, districtName, districtId } = getDistrictInfos(districts);
+  
+  // Fonction helper pour filtrer la BAL en excluant les lieux-dits en conflit de mainTopoID (une seule fois)
+  const filterConflictedLieuxDits = (balToFilter: Bal): { filteredBal: Bal; warnings: Array<{ districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' }> } => {
+    const mainTopoIDMap = new Map<string, { lieuDit?: BalAdresse; addresses: BalAdresse[] }>();
+    const warnings: Array<{ districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' }> = [];
+    
+    // Compter les lieux-dits avec addressID par district (pour regrouper les warnings)
+    const lieuxDitsWithAddressIDByDistrict = new Map<string, number>();
+    
+    // Construire la map des mainTopoID (le warning est déjà loggé dans validator)
+    for (const balAdresse of balToFilter) {
+      const { mainTopoID, districtID, addressID } = digestIDsFromBalAddr(balAdresse, version);
+      
+      // Compter les lieux-dits avec addressID par district (on ne les exclut pas, juste warning)
+      if (balAdresse.numero === Number(IS_TOPO_NB) && addressID) {
+        const distID = districtID || 'unknown';
+        lieuxDitsWithAddressIDByDistrict.set(distID, (lieuxDitsWithAddressIDByDistrict.get(distID) || 0) + 1);
+      }
+      
+      if (mainTopoID) {
+        if (!mainTopoIDMap.has(mainTopoID)) {
+          mainTopoIDMap.set(mainTopoID, { addresses: [] });
+        }
+        const entry = mainTopoIDMap.get(mainTopoID)!;
+        if (balAdresse.numero === Number(IS_TOPO_NB)) {
+          entry.lieuDit = balAdresse;
+        } else if (balAdresse.numero !== undefined && balAdresse.numero !== Number(IS_TOPO_NB)) {
+          entry.addresses.push(balAdresse);
+        }
+      }
+    }
+    
+    // Identifier les lieux-dits à exclure et compter les conflits par district
+    const lieuxDitsToExclude = new Set<BalAdresse>();
+    const conflitsByDistrict = new Map<string, number>();
+    
+    for (const [, entry] of mainTopoIDMap.entries()) {
+      if (entry.lieuDit && entry.addresses.length > 0) {
+        // Conflit détecté : exclure le lieu-dit
+        const districtID = digestIDsFromBalAddr(entry.lieuDit, version).districtID || 'unknown';
+        conflitsByDistrict.set(districtID, (conflitsByDistrict.get(districtID) || 0) + 1);
+        
+        lieuxDitsToExclude.add(entry.lieuDit);
+      }
+    }
+    
+    // Créer un warning regroupé par district pour les conflits
+    for (const [districtID, count] of conflitsByDistrict.entries()) {
+      const warningMessage = `⚠️ **Conflit mainTopoID avec lieu-dit** \nBAL du district ID : \`${districtID}\` (cog : \`${cog}\`) \n${count} conflit(s) de mainTopoID détecté(s). Les lieux-dits en conflit seront exclus et seules les adresses avec numéro seront conservées (considérées comme voies).`;
+      logger.warn(warningMessage);
+      warnings.push({ districtID, message: warningMessage, type: 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' });
+    }
+    
+    // Créer un warning regroupé par district pour les lieux-dits avec addressID
+    for (const [districtID, count] of lieuxDitsWithAddressIDByDistrict.entries()) {
+      const warningMessage = `${MessageCatalog.WARNING.LIEU_DIT_WITH_ADDRESS_ID.template(districtID, cog, {}).split('\n')[0]}\n${count} lieu(x)-dit(s) avec addressID détecté(s) dans le district \`${districtID}\` (cog : \`${cog}\`)`;
+      warnings.push({ districtID, message: warningMessage, type: 'LIEU_DIT_WITH_ADDRESS_ID' });
+    }
+    
+    // Filtrer la BAL : exclure uniquement les lieux-dits en conflit de mainTopoID
+    const filteredBal = balToFilter.filter((adresse: BalAdresse) => !lieuxDitsToExclude.has(adresse));
+    return { filteredBal, warnings };
+  };
+  
   // Check if bal is using BanID
   let useBanId = false;
   try {
     useBanId = await validator(districtIDsFromDB, bal, version, { cog });
   } catch (error: unknown) {
-    // Check if district is already on the new DB :
-    const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
-
-    const errorMessage = [
-      (error instanceof Error) ? error.message : error,
-    ] as string[];
-
+    const errorMessage = (error instanceof Error) ? error.message : String(error);
+    
     if (!districtsOnNewDB.length) {
-      const warningMessage = ["⚠️ sending BAL to legacy compose...", ...errorMessage].join("\n");
-      logger.error(warningMessage)
+      const message = MessageCatalog.WARNING.LEGACY_WITH_ERROR.template(cog, errorMessage);
+      logger.error(message);
+      
+      await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.WARNING.LEGACY_WITH_ERROR.status);
+      
       await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
-      throw new Error(warningMessage)
+      throw new Error(message);
     } else {
-      const warningMessage =[
-        `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-        `⛔️ BAL ${cog} blocked - District(s) already in new DB`,
-      ...errorMessage].join("\n")
-
-      logger.warn(warningMessage)
-      throw new Error(warningMessage)    }
+      const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+      const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
+      logger.error(message);
+      
+      await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_BLOCKED.status);
+      
+      throw new Error(message);
+    }
   }
 
-  if (!useBanId) {
-    logger.info(
-      `District cog: ${cog} does not use BanID: sending BAL to legacy compose...`
-    );
+if (!useBanId) {
+  if (!districtsOnNewDB.length) {
+    const message = MessageCatalog.INFO.NO_BAN_ID.template(cog);
+    logger.info(message);
+    
+    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.INFO.NO_BAN_ID.status);
+    
     return await sendBalToLegacyCompose(cog, forceLegacyCompose as string);
   } else {
-    // Split BAL by district ID to handle multiple districts in a BAL
-    const splitBalPerDistictID = bal.reduce(
+    // District existe dans la nouvelle DB mais n'utilise pas de BAN ID -> bloquer
+    const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+    const message = MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.template(cog, districtInfo);
+    logger.error(message);
+    
+    await sendWebhook(() => message, revision, cog, districtName, districtId, MessageCatalog.ERROR.BAL_NO_BAN_ID_DISTRICT_EXISTS.status);
+    
+    throw new Error(message);
+  }
+  } else {
+    // Filtrer la BAL pour exclure les lieux-dits en conflit (une seule fois)
+    const { filteredBal, warnings: filteredWarnings } = filterConflictedLieuxDits(bal);
+    
+    // Split BAL by district ID to handle multiple districts in a BAL (utiliser filteredBal)
+    const splitBalPerDistictID = filteredBal.reduce(
       (acc: { [key: string]: BalAdresse[] }, balAdresse) => {
         if (balAdresse.id_ban_commune) {
           if (!acc[balAdresse.id_ban_commune]) {
@@ -108,66 +198,120 @@ export const computeFromCog = async (
       {}
     );
 
-    logger.info(`District cog: ${cog} is using banID`);
+    logger.info(MessageCatalog.INFO.USES_BAN_ID.template(cog));
     const results = [];
+    
+    // Envoyer les webhooks avec les bonnes infos de district
+    for (const warning of filteredWarnings) {
+      const district = districts.find(d => d.id === warning.districtID);
+      const districtNameForWebhook = district?.labels[0].value || null;
+      const status = warning.type === 'LIEU_DIT_WITH_ADDRESS_ID' 
+        ? MessageCatalog.WARNING.LIEU_DIT_WITH_ADDRESS_ID.status
+        : MessageCatalog.WARNING.LIEU_DIT_CONFLICT_MAIN_TOPO_ID.status;
+      await sendWebhook(() => warning.message, revision, cog, districtNameForWebhook || districtName, warning.districtID, status);
+    }
+    
     for (let i = 0; i < Object.keys(splitBalPerDistictID).length; i++) {
-      const [id, bal] = Object.entries(splitBalPerDistictID)[i];
-        // Update District meta with revision data from dump-api (id and date)
-        const districtUpdate = {
-          id,
-          meta: {
-            bal: {
-              idRevision: revision.id,
-              dateRevision: revision.publishedAt,
-            },
+      const [id, balForDistrict] = Object.entries(splitBalPerDistictID)[i];
+      const district = districts.find(d => d.id === id);
+      const districtName = district?.labels[0].value || null;
+      
+      const districtUpdate = {
+        id,
+        meta: {
+          bal: {
+            idRevision: revision.id,
+            dateRevision: revision.publishedAt,
           },
-        };
+        },
+      };
+      
       try {
-        const result = (await sendBalToBan(bal)) || {};
-        // Check if there are errors and throw here
+        const result = (await sendBalToBan(balForDistrict, force_seuil ?? false))  || {};
+        
+        // Gérer les erreurs avec distinction entre seuil et autres erreurs
         if (result.hasErrors) {
-          // Log errors before throwing
-          result.errors.forEach(error => {
-            logger.error(`${error.type}: ${error.message}`);
-          });
+          const hasThresholdError = result.errors.some(error => 
+            error.type === 'DELETION_THRESHOLD_EXCEEDED'
+          );
           
-          // Throw the error here (your choice of message)
-          const errorMessages = result.errors.map(e => e.message).join('\n');
-          throw new Error(errorMessages);
+          if (hasThresholdError) {
+            // Traiter le seuil comme un warning mais continuer
+            const thresholdError = result.errors.find(e => e.type === 'DELETION_THRESHOLD_EXCEEDED');
+            if (thresholdError) {
+              const districtInfo = DistrictInfoBuilder.fromDistricts(districts.filter(d => d.meta?.bal?.idRevision));
+              const warningMessage = MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.template(cog, districtInfo, thresholdError.message);
+              
+              await sendWebhook(() => warningMessage, revision, cog, districtName, id, MessageCatalog.WARNING.DELETION_THRESHOLD_SOON.status);
+            }
+            
+            // Continuer le traitement normal malgré le warning
+          }
+          
+          // Vérifier s'il y a d'autres erreurs vraiment bloquantes
+          const otherErrors = result.errors.filter(error => error.type !== 'DELETION_THRESHOLD_EXCEEDED');
+          if (otherErrors.length > 0) {
+            otherErrors.forEach(error => {
+              logger.error(`${error.type}: ${error.message}`);
+            });
+            
+            const errorMessages = otherErrors.map(e => e.message).join('\n');
+            throw new Error(errorMessages);
+          }
         }
 
         if (!Object.keys(result.data).length) {
-          const response = `District id ${id} (cog: ${cog}) not updated in BAN BDD. No changes detected.`;
-          logger.info(response);
-          results.push(response);
+          const message = MessageCatalog.INFO.NO_CHANGES.template(id, cog);
+          logger.info(message);
+          
+          await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.INFO.NO_CHANGES.status);
+          
+          results.push(message);
         } else {
-          logger.info(
-            `District id ${id} (cog: ${cog}) updated in BAN BDD. Response body : ${JSON.stringify(
-              result.data
-            )}`
-          );
+          const responseBody = JSON.stringify(result.data);
+          logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
+          
+          await checkAllJobs(result.data, id);
           results.push(result.data);
         }
 
         await partialUpdateDistricts([districtUpdate]);
+        
+        // Envoyer les statistiques si disponibles
+        if (result.statistics && result.statistics.totalChanges > 0) {
+          const statisticsMessage = MessageCatalog.INFO.PROCESSING_STATISTICS.template(
+            result.statistics.districtID, 
+            result.statistics.addressStats, 
+            result.statistics.toponymStats
+          );
+          
+          await sendWebhook(
+            () => statisticsMessage,
+            revision,
+            cog,
+            districtName,
+            id,
+            MessageCatalog.INFO.PROCESSING_STATISTICS.status
+          );
+        }
+        
+        const message = MessageCatalog.SUCCESS.DISTRICT_PROCESSED.template(id, cog);
+        logger.info(message);
+        await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.SUCCESS.DISTRICT_PROCESSED.status);
 
       } catch (error) {
-        const { message } = error as Error;
+        const errorMessage = (error as Error).message;
         const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
-        logger.error(message);
-        results.push(`Error for district ${id} (cog: ${cog}) : ${message}`);
-        let warningMessage =[
-          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-          `⛔️ BAL ${cog} blocked`, message].join("\n")
-            
-        if (message.includes('Deletion threshold exceeded')){
-        warningMessage =[
-          `${districtsOnNewDB.map(({ id, labels, meta }) => `${labels[0].value} (${meta?.insee.cog} / ${id})`).join(", ")}`,
-          `⚠️ ** BAL ${cog} will be blocked soon -- Unexplained ID changes detected **`, message].join("\n")
-        }
-        await partialUpdateDistricts([districtUpdate]);
-        throw new Error(warningMessage)
-        }
+        logger.error(errorMessage);
+        results.push(MessageCatalog.ERROR.DISTRICT_ERROR.template(id, cog, errorMessage));
+        
+        // Autres erreurs vraiment bloquantes
+        const districtInfo = DistrictInfoBuilder.fromDistricts(districtsOnNewDB);
+        const message = MessageCatalog.ERROR.BAL_BLOCKED.template(cog, districtInfo, errorMessage);
+        await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.ERROR.BAL_BLOCKED.status);
+        
+        throw new Error(message);
+      }
     }
     return results;
   }

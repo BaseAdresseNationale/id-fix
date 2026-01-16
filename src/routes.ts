@@ -13,13 +13,14 @@ router.get(
   async (req: Request, res: Response) => {
     let response;
     const { cog } = req.params;
-    const { force: forceLegacyCompose } = req.query;
+    const { force: forceLegacyCompose, force_seuil } = req.query;
+    
     try {
       const responseBody = await computeFromCog(
         cog,
-        forceLegacyCompose as string
+        forceLegacyCompose as string,
+        force_seuil === 'true'
       );
-
       response = {
         date: new Date(),
         status: 'success',
@@ -28,8 +29,6 @@ router.get(
     } catch (error) {
       const { message } = error as Error;
       const finalMessage = `Error computing cog \`${cog}\` :\n ${message}`;
-      logger.error(finalMessage);
-      await asyncSendMessageToWebHook(finalMessage);
       response = {
         date: new Date(),
         status: "error",
@@ -37,7 +36,6 @@ router.get(
         response: {},
       };
     }
-
     res.send(response);
   }
 );
@@ -50,17 +48,20 @@ router.post(
     let response;
     const { cogs } = req.body;
     const forceLegacyCompose = req.query.force as string;
+    const force_seuil = req.query.force_seuil as string;
+    
     try {
       if (!cogs || !Array.isArray(cogs)) {
         throw new Error("Invalid or missing 'cogs' data in the request body");
       }
-
+      
       const responses = [];
       for (let i = 0; i < cogs.length; i++) {
         try {
           const response = await computeFromCog(
             cogs[i],
-            forceLegacyCompose as string
+            forceLegacyCompose as string,
+            force_seuil === 'true'
           );
           responses.push(response);
         } catch (error) {
@@ -71,7 +72,7 @@ router.post(
           responses.push(finalMessage);
         }
       }
-
+      
       response = {
         date: new Date(),
         status: 'success',
@@ -88,7 +89,6 @@ router.post(
         response: {},
       };
     }
-
     res.send(response);
   }
 );
