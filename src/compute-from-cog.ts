@@ -135,6 +135,31 @@ export const computeFromCog = async (
     const filteredBal = balToFilter.filter((adresse: BalAdresse) => !lieuxDitsToExclude.has(adresse));
     return { filteredBal, warnings };
   };
+
+  /** En BAL 1.5, compter les adresses avec numéro 0 par district et ajouter les warnings. */
+  type WarningItem = { districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' | 'NUMERO_ZERO' };
+  const addNumeroZeroWarningsIfNeeded = (
+    balToCheck: Bal,
+    existingWarnings: Array<{ districtID: string; message: string; type: 'LIEU_DIT_WITH_ADDRESS_ID' | 'LIEU_DIT_CONFLICT_MAIN_TOPO_ID' }>
+  ): WarningItem[] => {
+    if (version !== '1.5') return existingWarnings;
+    const numeroZeroByDistrict = new Map<string, number>();
+    for (const a of balToCheck) {
+      if (a.numero === 0) {
+        const did = digestIDsFromBalAddr(a, version).districtID;
+        if (did) numeroZeroByDistrict.set(did, (numeroZeroByDistrict.get(did) || 0) + 1);
+      }
+    }
+    const out: WarningItem[] = [...existingWarnings];
+    for (const [districtID, count] of numeroZeroByDistrict.entries()) {
+      out.push({
+        districtID,
+        message: MessageCatalog.WARNING.NUMERO_ZERO.template(districtID, cog, count),
+        type: 'NUMERO_ZERO',
+      });
+    }
+    return out;
+  };
   
   // Check if bal is using BanID
   let useBanId = false;
@@ -183,6 +208,7 @@ if (!useBanId) {
   } else {
     // Filtrer la BAL pour exclure les lieux-dits en conflit (une seule fois)
     const { filteredBal, warnings: filteredWarnings } = filterConflictedLieuxDits(bal);
+    const warningsToSend = addNumeroZeroWarningsIfNeeded(filteredBal, filteredWarnings);
     
     // Split BAL by district ID to handle multiple districts in a BAL (utiliser filteredBal)
     const splitBalPerDistictID = filteredBal.reduce(
@@ -202,12 +228,14 @@ if (!useBanId) {
     const results = [];
     
     // Envoyer les webhooks avec les bonnes infos de district
-    for (const warning of filteredWarnings) {
+    for (const warning of warningsToSend) {
       const district = districts.find(d => d.id === warning.districtID);
       const districtNameForWebhook = district?.labels[0].value || null;
-      const status = warning.type === 'LIEU_DIT_WITH_ADDRESS_ID' 
+      const status = warning.type === 'LIEU_DIT_WITH_ADDRESS_ID'
         ? MessageCatalog.WARNING.LIEU_DIT_WITH_ADDRESS_ID.status
-        : MessageCatalog.WARNING.LIEU_DIT_CONFLICT_MAIN_TOPO_ID.status;
+        : warning.type === 'NUMERO_ZERO'
+          ? MessageCatalog.WARNING.NUMERO_ZERO.status
+          : MessageCatalog.WARNING.LIEU_DIT_CONFLICT_MAIN_TOPO_ID.status;
       await sendWebhook(() => warning.message, revision, cog, districtNameForWebhook || districtName, warning.districtID, status);
     }
     

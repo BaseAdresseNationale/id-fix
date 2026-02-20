@@ -13,22 +13,24 @@ export type UIdAdresse = string;
 type CommuneNomIsoCodeKey = `commune_nom_${LangISO639v3}`;
 type CommuneDelegueeNomIsoCodeKey = `commune_deleguee_nom_${LangISO639v3}`;
 type VoieNomIsoCodeKey = `voie_nom_${LangISO639v3}`;
+type ToponymeNomIsoCodeKey = `toponyme_${LangISO639v3}`;
 type LieuditComplementNomIsoCodeKey = `lieudit_complement_nom_${LangISO639v3}`;
-export type MultilingualBalKey = VoieNomIsoCodeKey | LieuditComplementNomIsoCodeKey | CommuneNomIsoCodeKey | CommuneDelegueeNomIsoCodeKey
+export type MultilingualBalKey = VoieNomIsoCodeKey | ToponymeNomIsoCodeKey | LieuditComplementNomIsoCodeKey | CommuneNomIsoCodeKey | CommuneDelegueeNomIsoCodeKey
 
-export type BalVersion = '1.3' | '1.4';
+export type BalVersion = '1.3' | '1.4' | '1.5';
 
 export type BalAdresse = {
   uid_adresse?: UIdAdresse;
   id_ban_commune?: BanAddressID;
   id_ban_toponyme?: BanCommonTopoID;
   id_ban_adresse?: BanDistrictID;
-  cle_interop: string;
+  cle_interop?: string;
   commune_insee: DistrictInseeID;
   commune_nom: string;
   commune_deleguee_insee?: string;
   commune_deleguee_nom?: string;
   voie_nom: string;
+  toponyme?: string;
   lieudit_complement_nom?: string;
   numero?: number;
   suffixe?: string;
