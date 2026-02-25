@@ -10,6 +10,10 @@ const pathToMockBalJSON2 = './data-mock/adresses-21286_cocorico.1.4.json';
 const mockBalJSONstr2 = fs.readFileSync(pathToMockBalJSON2, 'utf8');
 const balJSON2 = JSON.parse(mockBalJSONstr2);
 
+const pathToMockBalJSON3 = './data-mock/adresses-21286_cocorico.1.5.json';
+const mockBalJSONstr3 = fs.readFileSync(pathToMockBalJSON3, 'utf8');
+const balJSON3 = JSON.parse(mockBalJSONstr3);
+
 describe('balTopoToBanTopo', () => {
   test('Should return version 1.3', async () => {
     expect(getBalVersion(balJSON1)).toMatchSnapshot();
@@ -17,5 +21,13 @@ describe('balTopoToBanTopo', () => {
 
   test('Should return version 1.4', async () => {
     expect(getBalVersion(balJSON2)).toMatchSnapshot();
+  });
+
+  test('Should return version 1.5 when toponyme is present', () => {
+    expect(getBalVersion(balJSON3)).toBe('1.5');
+  });
+
+  test('Should throw an error when BAL is empty', () => {
+    expect(() => getBalVersion([] as any)).toThrow(/BAL vide/);
   });
 });

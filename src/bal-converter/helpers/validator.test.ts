@@ -18,6 +18,10 @@ const pathToMockBalJSON_2 = './data-mock/adresses-21286_cocorico.1.4.json';
 const mockBalJSONStr_2 = fs.readFileSync(pathToMockBalJSON_2, 'utf8');
 const balJSON_2 = JSON.parse(mockBalJSONStr_2);
 
+const pathToMockBalJSON_3 = './data-mock/adresses-21286_cocorico.1.5.json';
+const mockBalJSONStr_3 = fs.readFileSync(pathToMockBalJSON_3, 'utf8');
+const balJSON_3 = JSON.parse(mockBalJSONStr_3);
+
 const banIDWhithoutDistrictID =
   '@v:787ca7cf-8072-47ae-a8c6-98a62a8dd90c @a:03fb190a-cf5b-4f48-a1ab-7caa4d10e157';
 const balJSONSimplifiedAndModified_1 = [
@@ -70,6 +74,8 @@ const balWithDifferentDistrictID = [
   },
 ];
 
+const balJSON_15 = balJSON_3;
+
 describe("balTopoToBanTopo", () => {
   test("Should return true as bal 1.3 uses ban IDs", async () => {
     expect(await validator([districtID], balJSON_1, '1.3', { cog })).toMatchSnapshot();
@@ -111,5 +117,50 @@ describe("balTopoToBanTopo", () => {
     await expect(
       validator([districtID], balWithDifferentDistrictID, '1.4', { cog })
     ).rejects.toThrowError(/Droits manquants/);
+  });
+
+  test('Should return true as BAL 1.5 has required IDs', async () => {
+    expect(await validator([districtID], balJSON_15, '1.5', { cog })).toBe(true);
+  });
+
+  test('Should throw an error as BAL 1.5 has missing required IDs', async () => {
+    const bal15MissingID = [
+      {
+        ...balJSON_15[0],
+        id_ban_toponyme: undefined,
+      },
+    ];
+
+    await expect(
+      validator([districtID], bal15MissingID, '1.5', { cog })
+    ).rejects.toThrowError(/BAL 1.5 : identifiants obligatoires/);
+  });
+
+  test('Should allow BAL 1.5 lieu-dit (numero 99999) without address ID', async () => {
+    const bal15LieuDitWithoutAddressID = [
+      {
+        ...balJSON_15[0],
+        numero: 99999,
+        id_ban_adresse: undefined,
+      },
+    ];
+
+    expect(await validator([districtID], bal15LieuDitWithoutAddressID, '1.5', { cog })).toBe(true);
+  });
+
+  test('Should throw an error for BAL 1.5 lieu-dit (numero 99999) without district or main toponym IDs', async () => {
+    const bal15LieuDitMissingMainIDs = [
+      {
+        ...balJSON_15[0],
+        numero: 99999,
+        id_ban_commune: undefined,
+        id_ban_toponyme: undefined,
+        id_ban_adresse: undefined,
+      },
+    ];
+
+    await expect(
+      validator([districtID], bal15LieuDitMissingMainIDs, '1.5', { cog })
+    ).rejects.toThrowError(/BAL 1.5 : identifiants obligatoires/);
   });
 });
