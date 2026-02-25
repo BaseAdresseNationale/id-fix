@@ -177,6 +177,13 @@ export const MessageCatalog = {
       status: Status.WARNING,
       template: (districtId: string, cog: string, mainTopoID: string, lieuDitAdresse: any, addressWithNumber: any) => 
         `${ICONS.WARNING} **Conflit mainTopoID avec lieu-dit** \nBAL du district ID : \`${districtId}\` (cog : \`${cog}\`) \nLe mainTopoID \`${mainTopoID}\` est utilisé à la fois par un lieu-dit (numero = 99999) et une adresse avec numéro. Le lieu-dit sera exclu et seule l'adresse avec numéro sera conservée (considérée comme voie).\nLieu-dit : \n\`\`\`JSON\n${JSON.stringify(lieuDitAdresse, null, 2)}\n\`\`\`\nAdresse avec numéro conservée : \n\`\`\`JSON\n${JSON.stringify(addressWithNumber, null, 2)}\n\`\`\``
+    },
+
+    NUMERO_ZERO: {
+      type: ErrorType.INVALID_FORMAT,
+      status: Status.WARNING,
+      template: (districtId: string, cog: string, count: number) =>
+        `${ICONS.WARNING} **BAL 1.5 : numéro 0 non autorisé** \nLe numéro 0 n'est plus autorisé en BAL 1.5. \n${count} adresse(s) avec numéro 0 dans le district \`${districtId}\` (cog : \`${cog}\`).`
     }
   },
 
@@ -250,6 +257,13 @@ export const MessageCatalog = {
       status: Status.ERROR,
       template: (cog: string) => 
         `**IDs manquants** \nBAL du cog : \`${cog}\` \nCertaines lignes d'adresse BAL utilisent des BanIDs et d'autres non`
+    },
+
+    BAL_1_5_MISSING_IDS: {
+      type: ErrorType.MISSING_DATA,
+      status: Status.ERROR,
+      template: (cog: string, balAdresse: any) =>
+        `**BAL 1.5 : identifiants obligatoires** \nLes identifiants id_ban_commune et id_ban_toponyme sont obligatoires en BAL 1.5. id_ban_adresse est obligatoire sauf pour les lieux-dits (numero = 99999). \nLigne rejetée (cog : \`${cog}\`) : \n\`\`\`JSON\n${JSON.stringify(balAdresse, null, 2)}\n\`\`\``
     },
 
     LIEU_DIT_WITH_ADDRESS_ID: {

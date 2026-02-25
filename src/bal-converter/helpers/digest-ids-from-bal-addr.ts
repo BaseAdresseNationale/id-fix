@@ -12,6 +12,7 @@ const digestIDsFromBalAddr = (
       return digestIDsFromBalUIDs(ids);
     }
     case '1.4':
+    case '1.5':
       return {
         addressID: balAdresse.id_ban_adresse,
         mainTopoID: balAdresse.id_ban_toponyme,

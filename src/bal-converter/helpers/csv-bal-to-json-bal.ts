@@ -1,9 +1,32 @@
-import type { Bal } from '../../types/bal-types.js';
+import type { Bal, BalAdresse } from '../../types/bal-types.js';
 
 import Papa from 'papaparse';
 
+const TOPONYME_LANG_PREFIX = 'toponyme_';
+const VOIE_NOM_PREFIX = 'voie_nom_';
+const LANG_SUFFIX_LENGTH = 3;
+
+/** Normalise les champs 1.5 toponyme → voie_nom pour réutiliser le pipeline 1.4 (sans modifier 1.3/1.4). */
+const normalizeToponymeToVoie = (row: BalAdresse): void => {
+  if (row.toponyme !== undefined) {
+    // En 1.5, toponyme est prioritaire: on ignore voie_nom même si présent.
+    row.voie_nom = row.toponyme;
+  }
+  Object.keys(row).forEach((key) => {
+    if (key.startsWith(TOPONYME_LANG_PREFIX) && key.length === TOPONYME_LANG_PREFIX.length + LANG_SUFFIX_LENGTH) {
+      const lang = key.slice(TOPONYME_LANG_PREFIX.length);
+      const voieKey = `${VOIE_NOM_PREFIX}${lang}` as keyof BalAdresse;
+      const value = row[key as keyof BalAdresse];
+      if (typeof value === 'string') {
+        // En 1.5, toponyme_<lang> est prioritaire sur voie_nom_<lang>.
+        (row as unknown as Record<string, string>)[voieKey as string] = value;
+      }
+    }
+  });
+};
+
 const csvBalToJsonBal = (csv: string): Bal => {
-  return Papa.parse(csv, {
+  const bal = Papa.parse(csv, {
     delimiter: ';',
     header: true,
     skipEmptyLines: true,
@@ -38,6 +61,9 @@ const csvBalToJsonBal = (csv: string): Bal => {
       }
     },
   }).data as Bal;
+
+  bal.forEach(normalizeToponymeToVoie);
+  return bal;
 };
 
 export default csvBalToJsonBal;
