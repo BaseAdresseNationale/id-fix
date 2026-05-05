@@ -182,13 +182,15 @@ export const getDistricts = async (ids: BanDistrictID[]) => {
   try {
     const districts = await Promise.all(
       [...new Set(ids)].map(
-        (id) => fetch(
-          `${BAN_API_URL}/district/${id}`,
-          { headers: defaultHeader },
-        )
-          .then(res => HandleHTTPResponse(res))
-          .then(responseJson => responseJson?.response)
-          .then(district => ([district.id, district] as const))
+        (id) => Promise.all([
+          fetch(`${BAN_API_URL}/district/${id}`, { headers: defaultHeader })
+            .then(res => HandleHTTPResponse(res))
+            .then(responseJson => responseJson?.response),
+          fetch(`${BAN_API_URL}/district-config/${id}`, { headers: defaultHeader })
+            .then(res => HandleHTTPResponse(res))
+            .then(responseJson => responseJson?.response?.config)
+            .catch(() => undefined),
+        ]).then(([district, config]) => ([district.id, { ...district, config }] as const))
       )
     );
     const indexedDistricts = Object.fromEntries(districts);
