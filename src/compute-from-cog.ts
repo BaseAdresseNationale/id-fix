@@ -1,5 +1,6 @@
 // Get revision from dump-api (api de dépôt)
 import { logger } from "./utils/logger.js";
+import { acquireCogLock, releaseCogLock } from "./utils/cog-lock.js";
 import { getRevisionData } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import {
@@ -25,6 +26,24 @@ import checkAllJobs  from './utils/check-status-jobs.js'
 
 
 export const computeFromCog = async (
+  cog: string,
+  forceLegacyCompose: string,
+  force_seuil?: boolean
+) => {
+  const locked = await acquireCogLock(cog)
+  if (!locked) {
+    logger.info(`[cog-lock] COG ${cog} déjà en cours de traitement sur un autre pod, skip`)
+    return {skipped: true, cog}
+  }
+
+  try {
+    return await computeFromCogInner(cog, forceLegacyCompose, force_seuil)
+  } finally {
+    await releaseCogLock(cog)
+  }
+}
+
+const computeFromCogInner = async (
   cog: string,
   forceLegacyCompose: string,
   force_seuil?: boolean
