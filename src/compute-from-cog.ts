@@ -1,6 +1,7 @@
 // Get revision from dump-api (api de dépôt)
 import { logger } from "./utils/logger.js";
 import { acquireCogLock, releaseCogLock } from "./utils/cog-lock.js";
+import { acquirePipelineDistrictLock, releasePipelineDistrictLock } from "./utils/pipeline-lock.js";
 import { getRevisionData } from "./dump-api/index.js";
 import { sendBalToBan } from "./bal-converter/index.js";
 import {
@@ -22,7 +23,7 @@ import { BalAdresse, Bal } from "./types/bal-types.js";
 import { BanDistrict } from "./types/ban-types.js";
 import { sendWebhook } from './utils/send-message-to-hook.js';
 import { MessageCatalog, DistrictInfoBuilder } from './utils/status-catalog.js';
-import checkAllJobs  from './utils/check-status-jobs.js'
+import checkAllJobs from './utils/check-status-jobs.js'
 
 
 export const computeFromCog = async (
@@ -274,7 +275,13 @@ if (!useBanId) {
       };
       
       try {
-        const result = (await sendBalToBan(balForDistrict, force_seuil ?? false))  || {};
+        const pipelineLocked = await acquirePipelineDistrictLock(id);
+        if (!pipelineLocked) {
+          logger.info(`[pipeline-lock] District ${id} déjà en cours de traitement, skip`);
+          continue;
+        }
+
+        const result = (await sendBalToBan(balForDistrict, force_seuil ?? false, {pipeline: true}))  || {};
         
         // Gérer les erreurs avec distinction entre seuil et autres erreurs
         if (result.hasErrors) {
@@ -317,7 +324,7 @@ if (!useBanId) {
         } else {
           const responseBody = JSON.stringify(result.data);
           logger.info(MessageCatalog.INFO.DISTRICT_UPDATED.template(id, cog, responseBody));
-          
+
           await checkAllJobs(result.data, id);
           results.push(result.data);
         }
@@ -347,6 +354,7 @@ if (!useBanId) {
         await sendWebhook(() => message, revision, cog, districtName, id, MessageCatalog.SUCCESS.DISTRICT_PROCESSED.status);
 
       } catch (error) {
+        await releasePipelineDistrictLock(id);
         const errorMessage = (error as Error).message;
         const districtsOnNewDB = districts.filter((district) => district.meta?.bal?.idRevision);
         logger.error(errorMessage);
