@@ -51,12 +51,32 @@ async function checkSingleJob(statusID: string, maxWaitMinutes: number = 100): P
   throw new Error(MessageCatalog.ERROR.JOB_TIMEOUT.template(statusID, maxWaitMinutes));
 }
 
+export async function checkToponymJobs(responseData: any): Promise<void> {
+  const statusIDs: string[] = [];
+  const ACTION_TYPES = ['add', 'update'];
+
+  ACTION_TYPES.forEach(actionType => {
+    if (responseData.commonToponyms?.[actionType]) {
+      responseData.commonToponyms[actionType].forEach((item: any) => {
+        if (item.response?.statusID) {
+          statusIDs.push(item.response.statusID);
+        }
+      });
+    }
+  });
+
+  if (statusIDs.length === 0) {
+    return;
+  }
+
+  await Promise.all(statusIDs.map(statusID => checkSingleJob(statusID)));
+}
+
 async function checkAllJobs(responseData: any, id: string): Promise<void> {
   const statusIDs: string[] = [];
   const DATA_TYPES = ['addresses', 'commonToponyms'];
   const ACTION_TYPES = ['add', 'update', 'delete'];
 
-  // Parcourir tous les types de données et toutes les actions
   DATA_TYPES.forEach(dataType => {
     ACTION_TYPES.forEach(actionType => {
       if (responseData[dataType]?.[actionType]) {
