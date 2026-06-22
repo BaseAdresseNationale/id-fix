@@ -45,6 +45,8 @@
     "express": "^4.21.2",
     "minimist": "^1.2.8",
     "object-hash": "^3.0.0",
+    "ioredis": "^5.11.1",
+    "p-limit": "^7.3.0",
     "papaparse": "^5.5.2",
     "uuid": "^11.0.5",
     "winston": "^3.17.0",
