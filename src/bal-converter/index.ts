@@ -21,13 +21,17 @@ import {
 import { balToBan } from './helpers/index.js';
 import { formatToChunks, formatResponse } from './helpers/format.js';
 import { MessageCatalog } from '../utils/status-catalog.js';
+import { checkToponymJobs } from '../utils/check-status-jobs.js';
+import { releasePipelineDistrictLock, setPipelinePendingCount } from '../utils/pipeline-lock.js';
 
 
 const CHUNK_SIZE = 1000;
 const DELETION_THRESHOLD = Number(process.env.DELETION_THRESHOLD) || 0.25;
 const DELETION_CRITICAL_THRESHOLD = Number(process.env.DELETION_CRITICAL_THRESHOLD) || 0.80;
-export const sendBalToBan = async (bal: Bal,  force_seuil: Boolean= false) => {
+export const sendBalToBan = async (bal: Bal, force_seuil: Boolean= false, {pipeline = false} = {}) => {
   const errors = [];
+  let districtID: string | undefined;
+  try {
   // Fetch District configurations
   const districtIDs = bal.map((address) => address.id_ban_commune as BanDistrictID);
   const districts: BanDistrict[] = await getDistricts([...new Set(districtIDs)]);
@@ -36,7 +40,9 @@ export const sendBalToBan = async (bal: Bal,  force_seuil: Boolean= false) => {
   );
 
   // Extract data from BAL
-  const { districtID, addresses, commonToponyms } = balToBan(bal, districtsConfigs);
+  const banData = balToBan(bal, districtsConfigs);
+  districtID = banData.districtID;
+  const { addresses, commonToponyms } = banData;
 
   // Get addresses and toponyms reports
   const dataForAddressReport: BanIDWithHash[] = Object.values(
@@ -191,6 +197,34 @@ const addressStats = {
     CHUNK_SIZE
   );
 
+  const apiJobCount = [
+    banToponymsToAddChunks,
+    banToponymsToUpdateChunks,
+    banAddressesToAddChunks,
+    banAddressesToUpdateChunks,
+    banAddressesIdsToDeleteChunks,
+    banToponymsIdsToDeleteChunks,
+  ].reduce((sum, chunks) => sum + chunks.length, 0);
+
+  if (pipeline) {
+    await setPipelinePendingCount(districtID, apiJobCount);
+
+    if (apiJobCount === 0) {
+      await releasePipelineDistrictLock(districtID);
+      return {
+        data: {},
+        errors,
+        hasErrors: errors.length > 0,
+        statistics: {
+          totalChanges,
+          districtID,
+          addressStats,
+          toponymStats
+        }
+      };
+    }
+  }
+
   // Order is important here.
   // Need to handle common toponyms first (except delete), then adresses
   // We want to avoid creating addresses with a common toponym that does not exist yet
@@ -207,6 +241,11 @@ const addressStats = {
     responseCommonToponymsToAdd,
     responseCommonToponymsToUpdate,
   ];
+
+  const toponymResponseForCheck = formatResponse([[], responseCommonToponyms]);
+  if (pipeline) {
+    await checkToponymJobs(toponymResponseForCheck);
+  }
 
   // Addresses
   const responseAddressesToAdd = await Promise.all(
@@ -246,4 +285,10 @@ return {
     toponymStats
   }
 };
+  } catch (error) {
+    if (pipeline && districtID) {
+      await releasePipelineDistrictLock(districtID);
+    }
+    throw error;
+  }
 };

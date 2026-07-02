@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import pLimit from 'p-limit';
 import { logger } from './utils/logger.js';
 import authMiddleware from './middleware/auth.js';
 import { computeFromCog } from './compute-from-cog.js';
@@ -55,23 +56,22 @@ router.post(
         throw new Error("Invalid or missing 'cogs' data in the request body");
       }
       
-      const responses = [];
-      for (let i = 0; i < cogs.length; i++) {
-        try {
-          const response = await computeFromCog(
-            cogs[i],
-            forceLegacyCompose as string,
-            force_seuil === 'true'
-          );
-          responses.push(response);
-        } catch (error) {
-          const { message } = error as Error;
-          const finalMessage = `Error computing cog \`${cogs[i]}\` :\n ${message}`;
-          logger.error(finalMessage);
-          await asyncSendMessageToWebHook(finalMessage);
-          responses.push(finalMessage);
-        }
-      }
+      const limit = pLimit(Number(process.env.COG_CONCURRENCY) || 3);
+      const responses = await Promise.all(
+        cogs.map((cog: string) =>
+          limit(async () => {
+            try {
+              return await computeFromCog(cog, forceLegacyCompose as string, force_seuil === 'true');
+            } catch (error) {
+              const { message } = error as Error;
+              const finalMessage = `Error computing cog \`${cog}\` :\n ${message}`;
+              logger.error(finalMessage);
+              await asyncSendMessageToWebHook(finalMessage);
+              return finalMessage;
+            }
+          })
+        )
+      );
       
       response = {
         date: new Date(),
@@ -92,5 +92,13 @@ router.post(
     res.send(response);
   }
 );
+
+// Health check route for liveness probe
+router.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString()
+  });
+});
 
 export default router;
