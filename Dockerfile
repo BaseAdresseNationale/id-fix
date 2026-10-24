@@ -1,5 +1,5 @@
 # Stage 1: Build TypeScript
-FROM node:22-alpine AS builder
+FROM node:22.23.4-alpine AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Create production image
-FROM node:22-alpine AS runner
+FROM node:22.23.4-alpine AS runner
 
 # Set the working directory inside the container
 WORKDIR /app
