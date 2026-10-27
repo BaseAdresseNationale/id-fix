@@ -4,20 +4,24 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 const { NODE_ENV } = process.env;
 const isDevMode = () => NODE_ENV !== 'production';
 
-const transport = isDevMode()
-  ? new winston.transports.Console()
-  : new DailyRotateFile({
-      dirname: 'logs',
-      filename: 'id-fix-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
-    });
-
-transport.on('error', (error) => {
-  console.error('Logger transport error:', error);
+const fileTransport = new DailyRotateFile({
+  dirname: 'logs',
+  filename: 'id-fix-%DATE%.log',
+  datePattern: 'YYYY-MM-DD',
+  zippedArchive: true,
+  maxSize: '20m',
+  maxFiles: '14d',
 });
+
+const transports: winston.transport[] = isDevMode()
+  ? [new winston.transports.Console()]
+  : [new winston.transports.Console(), fileTransport];
+
+for (const transport of transports) {
+  transport.on('error', (error) => {
+    console.error('Logger transport error:', error);
+  });
+}
 
 export const logger = winston.createLogger({
   level: 'info',
@@ -28,5 +32,5 @@ export const logger = winston.createLogger({
       (info) => `${info.timestamp} ${info.level}: ${info.message}`
     )
   ),
-  transports: [transport],
+  transports,
 });
